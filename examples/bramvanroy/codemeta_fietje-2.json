@@ -1,0 +1,133 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "fietje-2",
+  "description": "An open and efficient LLM for Dutch. Fietje is an adapted version of microsoft/phi-2, tailored to Dutch text generation by training on 28B tokens. It is small and efficient with a size of 2.7 billion parameters while performing almost on par with more powerful Dutch LLMs of twice its size like GEITje 7B Ultra.",
+  "url": "https://github.com/BramVanroy/fietje-2",
+  "codeRepository": "https://github.com/BramVanroy/fietje-2",
+  "dateCreated": "2024-01-01",
+  "dateModified": "2025-07-18",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python",
+    "Shell"
+  ],
+  "keywords": [
+    "dutch language model",
+    "large language model",
+    "llm",
+    "natural language processing",
+    "machine learning",
+    "transformers",
+    "phi-2",
+    "continued pretraining",
+    "instruction following",
+    "chat model",
+    "efficient ai",
+    "dutch nlp"
+  ],
+  "softwareRequirements": [
+    {
+      "@id": "https://github.com/huggingface/transformers",
+      "@type": "SoftwareApplication",
+      "identifier": "transformers",
+      "name": "transformers",
+      "version": ">=4.36.0"
+    },
+    {
+      "@id": "https://github.com/pytorch/pytorch",
+      "@type": "SoftwareApplication",
+      "identifier": "torch",
+      "name": "torch",
+      "version": ">=2.1.0"
+    },
+    {
+      "@id": "https://github.com/huggingface/alignment-handbook",
+      "@type": "SoftwareApplication",
+      "identifier": "alignment-handbook",
+      "name": "alignment-handbook",
+      "version": ">=0.1.0"
+    },
+    {
+      "@id": "https://github.com/huggingface/datasets",
+      "@type": "SoftwareApplication",
+      "identifier": "datasets",
+      "name": "datasets",
+      "version": ">=2.14.0"
+    },
+    {
+      "@id": "https://github.com/huggingface/accelerate",
+      "@type": "SoftwareApplication",
+      "identifier": "accelerate",
+      "name": "accelerate",
+      "version": ">=0.24.0"
+    },
+    {
+      "@id": "https://github.com/microsoft/DeepSpeed",
+      "@type": "SoftwareApplication",
+      "identifier": "deepspeed",
+      "name": "deepspeed",
+      "version": ">=0.12.0"
+    },
+    {
+      "@id": "https://github.com/wandb/wandb",
+      "@type": "SoftwareApplication",
+      "identifier": "wandb",
+      "name": "wandb",
+      "version": ">=0.16.0"
+    },
+    {
+      "@id": "https://github.com/TimDettmers/bitsandbytes",
+      "@type": "SoftwareApplication",
+      "identifier": "bitsandbytes",
+      "name": "bitsandbytes",
+      "version": ">=0.41.0"
+    }
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy"
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Natural Language Processing",
+  "applicationSubCategory": "Text Processing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/fietje-2/blob/main/README.md"
+  },
+  "readme": "https://github.com/BramVanroy/fietje-2/blob/main/README.md",
+  "issueTracker": "https://github.com/BramVanroy/fietje-2/issues",
+  "downloadUrl": "https://github.com/BramVanroy/fietje-2/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/fietje-2/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/BramVanroy/fietje-2/actions",
+  "hasSourceCode": "https://github.com/BramVanroy/fietje-2",
+  "embargoDate": null,
+  "funding": null,
+  "referencePublication": null,
+  "isPartOf": null,
+  "relatedLink": [],
+  "targetProduct": "fietje-2 software package"
+}

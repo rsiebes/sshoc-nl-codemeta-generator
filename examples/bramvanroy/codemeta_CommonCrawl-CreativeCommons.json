@@ -1,0 +1,152 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "CommonCrawl-CreativeCommons",
+  "description": "Software to create C5, Common Crawl crawls, annotated with potential Creative Commons license information. This tool processes Common Crawl data to extract and annotate web pages with Creative Commons licensing information, creating a corpus for research and analysis.",
+  "url": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons",
+  "codeRepository": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons",
+  "dateCreated": "2024-01-01",
+  "dateModified": "2025-07-17",
+  "softwareVersion": "1.1.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/Apache-2.0",
+    "name": "Apache License 2.0"
+  },
+  "programmingLanguage": [
+    "Python"
+  ],
+  "keywords": [
+    "data creation",
+    "creative commons",
+    "data annotation",
+    "common crawl",
+    "web scraping",
+    "license detection",
+    "corpus creation",
+    "text processing"
+  ],
+  "softwareRequirements": [
+    {
+      "@id": "https://github.com/wention/BeautifulSoup4",
+      "@type": "SoftwareApplication",
+      "identifier": "beautifulsoup4",
+      "name": "beautifulsoup4",
+      "version": ">=4.7.0,<5"
+    },
+    {
+      "@id": "https://github.com/huggingface/datasets",
+      "@type": "SoftwareApplication",
+      "identifier": "datasets",
+      "name": "datasets",
+      "version": ">3,<4"
+    },
+    {
+      "@id": "https://github.com/huggingface/datatrove",
+      "@type": "SoftwareApplication",
+      "identifier": "datatrove",
+      "name": "datatrove"
+    },
+    {
+      "@id": "https://github.com/duckdb/duckdb",
+      "@type": "SoftwareApplication",
+      "identifier": "duckdb",
+      "name": "duckdb",
+      "version": ">1,<2"
+    },
+    {
+      "@id": "https://github.com/huggingface/huggingface_hub",
+      "@type": "SoftwareApplication",
+      "identifier": "huggingface_hub",
+      "name": "huggingface_hub"
+    },
+    {
+      "@id": "https://github.com/html5lib/html5lib-python",
+      "@type": "SoftwareApplication",
+      "identifier": "html5lib",
+      "name": "html5lib",
+      "version": ">1,<2"
+    },
+    {
+      "@id": "https://github.com/kpu/kenlm",
+      "@type": "SoftwareApplication",
+      "identifier": "kenlm",
+      "name": "kenlm"
+    },
+    {
+      "@id": "https://github.com/lxml/lxml",
+      "@type": "SoftwareApplication",
+      "identifier": "lxml",
+      "name": "lxml",
+      "version": ">5,<6"
+    },
+    {
+      "@id": "https://github.com/pypa/pip",
+      "@type": "SoftwareApplication",
+      "identifier": "pip",
+      "name": "pip"
+    },
+    {
+      "@id": "https://github.com/pydantic/pydantic",
+      "@type": "SoftwareApplication",
+      "identifier": "pydantic",
+      "name": "pydantic",
+      "version": ">=2.7,<3"
+    },
+    {
+      "@id": "https://github.com/adbar/trafilatura",
+      "@type": "SoftwareApplication",
+      "identifier": "trafilatura",
+      "name": "trafilatura"
+    },
+    {
+      "@id": "https://github.com/python/typing_extensions",
+      "@type": "SoftwareApplication",
+      "identifier": "typing_extensions",
+      "name": "typing_extensions"
+    }
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy",
+      "email": "bram.vanroy@lvdnt.org"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy",
+      "email": "bram.vanroy@lvdnt.org"
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Natural Language Processing",
+  "applicationSubCategory": "Text Processing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons/blob/main/README.md"
+  },
+  "readme": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons/blob/main/README.md",
+  "issueTracker": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons/issues",
+  "downloadUrl": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons/actions",
+  "hasSourceCode": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons",
+  "embargoDate": null,
+  "funding": null,
+  "referencePublication": null,
+  "isPartOf": null,
+  "relatedLink": [],
+  "targetProduct": "CommonCrawl-CreativeCommons software package"
+}

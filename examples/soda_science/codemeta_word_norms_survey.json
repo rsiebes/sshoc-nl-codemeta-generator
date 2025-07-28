@@ -1,0 +1,123 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "word_norms_survey",
+  "description": "Survey to derive word norms in Dutch for various associations. Survey to derive word norms in Dutch for various associations relating to real first names, fake company names, and nonwords.",
+  "url": "https://github.com/sodascience/word_norms_survey",
+  "codeRepository": "https://github.com/sodascience/word_norms_survey",
+  "dateCreated": "2023-07-27",
+  "dateModified": "2023-07-27",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python"
+  ],
+  "keywords": [
+    "word-embeddings",
+    "survey",
+    "dutch-language",
+    "word-associations"
+  ],
+  "softwareRequirements": [
+    "https://github.com/python/cpython",
+    "https://github.com/psychopy/psychopy",
+    "https://github.com/pandas-dev/pandas",
+    "https://github.com/numpy/numpy",
+    "https://github.com/openpyxl/openpyxl"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0008-9976-5586",
+      "givenName": "Aron",
+      "familyName": "Joosse"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-3917-3315",
+      "givenName": "Giovanni",
+      "familyName": "Cassani",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Tilburg University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0008-9976-5586",
+      "givenName": "Aron",
+      "familyName": "Joosse"
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/word_norms_survey/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/word_norms_survey/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/word_norms_survey/issues",
+  "downloadUrl": "https://github.com/sodascience/word_norms_survey/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/word_norms_survey/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/word_norms_survey/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/word_norms_survey",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "word_norms_survey software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "LeCoNTra",
+  "description": "LeCoNTra is a learner corpus consisting of English-to-Dutch news translations enriched with translation process data. The corpus contains translations by three Master's students in Translation of 50 English journalistic texts (~250 tokens each), with keystroke logging data for translation process research. The dataset includes manually segmented, tokenized, and aligned data at both segment and word level, providing high-quality token-level process data for research in translation process studies, learner corpus research, and corpus-based translation studies.",
+  "url": "https://github.com/BramVanroy/LeCoNTra",
+  "codeRepository": "https://github.com/BramVanroy/LeCoNTra",
+  "dateCreated": "2022-04-28",
+  "dateModified": "2023-03-08",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International"
+  },
+  "programmingLanguage": [
+    "Smalltalk"
+  ],
+  "keywords": [
+    "learner corpus",
+    "translation process research",
+    "english to dutch translation",
+    "news translation",
+    "keystroke logging",
+    "translation process data",
+    "corpus linguistics",
+    "learner corpus research",
+    "corpus-based translation studies",
+    "manual alignment",
+    "token-level data",
+    "translation studies",
+    "process data",
+    "reference translations"
+  ],
+  "softwareRequirements": [
+    {
+      "@id": "https://github.com/BramVanroy/mantis",
+      "@type": "SoftwareApplication",
+      "identifier": "mantis",
+      "name": "Mantis",
+      "version": ">=1.0.0",
+      "description": "Open-source tool for manual sentence segmentation and tokenization"
+    },
+    {
+      "@id": "https://github.com/example/ticq",
+      "@type": "SoftwareApplication",
+      "identifier": "ticq",
+      "name": "TICQ",
+      "version": ">=1.0.0",
+      "description": "Tool for metadata collection"
+    }
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-7516-7487",
+      "givenName": "Lieve",
+      "familyName": "Macken"
+    }
+  ],
+  "citation": {
+    "@type": "ScholarlyArticle",
+    "name": "LeConTra: A Learner Corpus of English-to-Dutch News Translation",
+    "author": [
+      {
+        "@type": "Person",
+        "@id": "https://orcid.org/0000-0002-4622-8364",
+        "givenName": "Bram",
+        "familyName": "Vanroy"
+      },
+      {
+        "@type": "Person",
+        "@id": "https://orcid.org/0000-0001-7516-7487",
+        "givenName": "Lieve",
+        "familyName": "Macken"
+      }
+    ],
+    "datePublished": "2022-06",
+    "isPartOf": {
+      "@type": "PublicationIssue",
+      "isPartOf": {
+        "@type": "Periodical",
+        "name": "Proceedings of the Language Resources and Evaluation Conference",
+        "publisher": {
+          "@type": "Organization",
+          "name": "European Language Resources Association"
+        }
+      }
+    },
+    "pagination": "1807-1816",
+    "url": "https://aclanthology.org/2022.lrec-1.192",
+    "abstract": "We present LeConTra, a learner corpus consisting of English-to-Dutch news translations enriched with translation process data. Three students of a Master's programme in Translation were asked to translate 50 different English journalistic texts of approximately 250 tokens each. Because we also collected translation process data in the form of keystroke logging, our dataset can be used as part of different research strands such as translation process research, learner corpus research, and corpus-based translation studies. Reference translations, without process data, are also included. The data has been manually segmented and tokenized, and manually aligned at both segment and word level, leading to a high-quality corpus with token-level process data."
+  },
+  "funding": [
+    {
+      "@type": "Grant",
+      "name": "Translation Process Research DataBase",
+      "description": "Data distribution platform for translation process research"
+    }
+  ],
+  "applicationCategory": "Research Data",
+  "applicationSubCategory": "Corpus Linguistics",
+  "operatingSystem": "Cross-platform",
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/LeCoNTra/blob/main/README.md"
+  },
+  "readme": "https://github.com/BramVanroy/LeCoNTra/blob/main/README.md",
+  "issueTracker": "https://github.com/BramVanroy/LeCoNTra/issues",
+  "downloadUrl": "https://github.com/BramVanroy/LeCoNTra/archive/refs/heads/main.zip",
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-7516-7487",
+      "givenName": "Lieve",
+      "familyName": "Macken"
+    }
+  ],
+  "developmentStatus": "active",
+  "runtimePlatform": [
+    "Cross-platform"
+  ],
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/LeCoNTra/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/BramVanroy/LeCoNTra/actions",
+  "hasSourceCode": "https://github.com/BramVanroy/LeCoNTra",
+  "embargoDate": null,
+  "referencePublication": null,
+  "isPartOf": null,
+  "relatedLink": [],
+  "targetProduct": "LeCoNTra software package"
+}

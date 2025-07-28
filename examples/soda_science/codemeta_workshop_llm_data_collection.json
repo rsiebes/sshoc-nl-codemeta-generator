@@ -1,0 +1,133 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "workshop_llm_data_collection",
+  "description": "This repository contains the code and slides for our workshop on data collection and inference with Large Language Models.",
+  "url": "https://github.com/sodascience/workshop_llm_data_collection",
+  "codeRepository": "https://github.com/sodascience/workshop_llm_data_collection",
+  "dateCreated": "2025-03-19",
+  "dateModified": "2025-05-01",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/CC-BY-4.0",
+    "name": "Creative Commons Attribution 4.0 International"
+  },
+  "programmingLanguage": [
+    "Python",
+    "R"
+  ],
+  "keywords": [
+    "LLM",
+    "data collection",
+    "inference",
+    "workshop",
+    "social sciences",
+    "Python",
+    "R"
+  ],
+  "softwareRequirements": [
+    "https://github.com/python/cpython",
+    "https://github.com/wch/r-source",
+    "https://github.com/jupyter/notebook",
+    "https://github.com/langchain-ai/langchain",
+    "https://github.com/openai/openai-python",
+    "https://github.com/tqdm/tqdm",
+    "https://github.com/pydantic/pydantic",
+    "https://github.com/cran/krippendorff",
+    "getpass",
+    "https://github.com/python/cpython",
+    "https://github.com/pandas-dev/pandas",
+    "https://github.com/numpy/numpy",
+    "https://github.com/ellmer/ellmer"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-2689-6653",
+      "givenName": "Qixiang",
+      "familyName": "Fang",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-2689-6653",
+      "givenName": "Qixiang",
+      "familyName": "Fang",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Data Science",
+  "applicationSubCategory": "Research Tools",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/workshop_llm_data_collection/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/workshop_llm_data_collection/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/workshop_llm_data_collection/issues",
+  "downloadUrl": "https://github.com/sodascience/workshop_llm_data_collection/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/workshop_llm_data_collection/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/workshop_llm_data_collection/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/workshop_llm_data_collection",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "workshop_llm_data_collection software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

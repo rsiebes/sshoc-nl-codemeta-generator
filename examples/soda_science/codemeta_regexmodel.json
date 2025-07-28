@@ -1,0 +1,117 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "regexmodel",
+  "description": "Using regex to learn the structure of strings. A python package that uses a graph model to fit and synthesize structured strings.",
+  "url": "https://github.com/sodascience/regexmodel",
+  "codeRepository": "https://github.com/sodascience/regexmodel",
+  "dateCreated": "2023-08-31",
+  "dateModified": "2024-09-17",
+  "softwareVersion": "0.3.5",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python"
+  ],
+  "keywords": [
+    "python",
+    "regex",
+    "strings",
+    "graph-model"
+  ],
+  "softwareRequirements": [
+    "https://github.com/pola-rs/polars",
+    "https://github.com/numpy/numpy",
+    "https://github.com/pytest-dev/pytest",
+    "https://github.com/pylint-dev/pylint",
+    "https://github.com/PyCQA/pydocstyle",
+    "https://github.com/python/mypy",
+    "https://github.com/astral-sh/ruff",
+    "https://github.com/computationalmodelling/nbval",
+    "https://github.com/WestHealth/pyvis",
+    "https://github.com/networkx/networkx",
+    "https://github.com/joke2k/faker"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-6616-230X",
+      "givenName": "Raoul",
+      "familyName": "Schram",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-6616-230X",
+      "givenName": "Raoul",
+      "familyName": "Schram",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/regexmodel/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/regexmodel/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/regexmodel/issues",
+  "downloadUrl": "https://github.com/sodascience/regexmodel/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/regexmodel/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/regexmodel/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/regexmodel",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "regexmodel software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

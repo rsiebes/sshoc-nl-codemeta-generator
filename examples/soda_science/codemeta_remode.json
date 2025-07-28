@@ -1,0 +1,129 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "remode",
+  "description": "Finding modes in discrete distributions. A Python library for efficient mode detection in ordinal data distributions.",
+  "url": "https://github.com/sodascience/remode",
+  "codeRepository": "https://github.com/sodascience/remode",
+  "dateCreated": "2024-04-25",
+  "dateModified": "2025-05-08",
+  "softwareVersion": "0.1.1",
+  "license": {
+    "@id": "http://spdx.org/licenses/GPL-3.0-only",
+    "name": "GNU General Public License v3.0"
+  },
+  "programmingLanguage": [
+    "Python",
+    "Jupyter Notebook"
+  ],
+  "keywords": [
+    "modality",
+    "ordinal-data",
+    "mode-detection"
+  ],
+  "softwareRequirements": [
+    "https://github.com/numpy/numpy",
+    "https://github.com/matplotlib/matplotlib",
+    "https://github.com/pandas-dev/pandas",
+    "https://github.com/scipy/scipy",
+    "https://github.com/astral-sh/ruff",
+    "https://github.com/pytest-dev/pytest",
+    "https://github.com/python/mypy"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-8886-0640",
+      "givenName": "Javier",
+      "familyName": "Garcia-Bernardo",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0001-3534-4335",
+      "givenName": "Madlen",
+      "familyName": "Hoffstadt"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8278-319X",
+      "givenName": "Han",
+      "familyName": "van der Maas",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Amsterdam"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-8886-0640",
+      "givenName": "Javier",
+      "familyName": "Garcia-Bernardo",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/remode/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/remode/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/remode/issues",
+  "downloadUrl": "https://github.com/sodascience/remode/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/remode/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/remode/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/remode",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "remode software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

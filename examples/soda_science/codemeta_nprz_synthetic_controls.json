@@ -1,0 +1,137 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "nprz_synthetic_controls",
+  "description": "Code Archive for Synthetic Control Analysis of the NPRZ Education Intervention. Reproducible code archive accompanying the manuscript \"The limited impact of extending the school week on educational outcomes in Dutch primary education: a quasi-experimental study using penalized synthetic control analysis\".",
+  "url": "https://github.com/sodascience/nprz_synthetic_controls",
+  "codeRepository": "https://github.com/sodascience/nprz_synthetic_controls",
+  "dateCreated": "2024-07-12",
+  "dateModified": "2024-11-01",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "R"
+  ],
+  "keywords": [
+    "causal-inference",
+    "education",
+    "policy-interventions",
+    "synthetic-control-method"
+  ],
+  "softwareRequirements": [
+    "https://github.com/wch/r-source",
+    "https://github.com/rstudio/rstudio",
+    "https://github.com/tidyverse/haven",
+    "https://github.com/tidyverse/tidyverse",
+    "https://github.com/amices/mice",
+    "https://github.com/tidyverse/purrr",
+    "https://github.com/DavisVaughan/furrr",
+    "https://github.com/sodascience/pensynth",
+    "https://github.com/synth-inference/Synth",
+    "https://github.com/thomasp85/patchwork",
+    "https://github.com/ropensci/writexl"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2716-3104",
+      "givenName": "Gijs",
+      "familyName": "Custers",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Erasmus University Rotterdam"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Education",
+  "applicationSubCategory": "Training Materials",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "R 4.0+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/nprz_synthetic_controls/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/nprz_synthetic_controls/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/nprz_synthetic_controls/issues",
+  "downloadUrl": "https://github.com/sodascience/nprz_synthetic_controls/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/nprz_synthetic_controls/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/nprz_synthetic_controls/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/nprz_synthetic_controls",
+  "referencePublication": {
+    "@type": "ScholarlyArticle",
+    "@id": "https://doi.org/10.1177/08959048241309345",
+    "name": "Synthetic Controls for Causal Inference in Non-Randomized Studies",
+    "url": "https://doi.org/10.1177/08959048241309345",
+    "datePublished": "2024",
+    "publisher": {
+      "@type": "Organization",
+      "name": "SAGE Publications"
+    }
+  },
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "nprz_synthetic_controls software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

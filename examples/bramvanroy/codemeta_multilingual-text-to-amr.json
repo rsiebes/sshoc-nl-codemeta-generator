@@ -1,0 +1,230 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "multilingual-text-to-amr",
+  "description": "Generating AMR (Abstract Meaning Representation) from text in multiple languages using MBART finetuned models. This comprehensive toolkit provides multilingual text-to-AMR parsing capabilities for English, Spanish, and Dutch, with advanced evaluation metrics including SMATCH and SMATCH++. The system includes configuration files for reproducing CLIN conference models, evaluation scripts, and support for distributed training with DeepSpeed.",
+  "url": "https://github.com/BramVanroy/multilingual-text-to-amr",
+  "codeRepository": "https://github.com/BramVanroy/multilingual-text-to-amr",
+  "dateCreated": "2022-09-12",
+  "dateModified": "2024-04-02",
+  "softwareVersion": "1.0.0-alpha",
+  "license": {
+    "@id": "http://spdx.org/licenses/GPL-3.0-only",
+    "name": "GNU General Public License v3.0"
+  },
+  "programmingLanguage": [
+    "Python"
+  ],
+  "keywords": [
+    "nlp",
+    "amr",
+    "abstract-meaning-representation",
+    "semantic-parsing",
+    "multilingual",
+    "mbart",
+    "transformers",
+    "text-to-amr",
+    "english",
+    "spanish",
+    "dutch",
+    "smatch",
+    "smatchpp",
+    "evaluation",
+    "deepspeed",
+    "distributed training",
+    "fine-tuning",
+    "natural language processing",
+    "machine learning"
+  ],
+  "softwareRequirements": [
+    {
+      "@id": "https://github.com/huggingface/accelerate",
+      "@type": "SoftwareApplication",
+      "identifier": "accelerate",
+      "name": "accelerate",
+      "version": "=0.22.0"
+    },
+    {
+      "@id": "https://github.com/ethanfurman/aenum",
+      "@type": "SoftwareApplication",
+      "identifier": "aenum",
+      "name": "aenum",
+      "version": "=3.1.15"
+    },
+    {
+      "@id": "https://github.com/huggingface/evaluate",
+      "@type": "SoftwareApplication",
+      "identifier": "evaluate",
+      "name": "evaluate",
+      "version": "=0.4.0"
+    },
+    {
+      "@id": "https://github.com/rspeer/python-ftfy",
+      "@type": "SoftwareApplication",
+      "identifier": "ftfy",
+      "name": "ftfy",
+      "version": "=6.1.1"
+    },
+    {
+      "@id": "https://github.com/networkx/networkx",
+      "@type": "SoftwareApplication",
+      "identifier": "networkx",
+      "name": "networkx",
+      "version": "=3.0"
+    },
+    {
+      "@id": "https://github.com/huggingface/optimum",
+      "@type": "SoftwareApplication",
+      "identifier": "optimum",
+      "name": "optimum",
+      "version": "=1.10.1"
+    },
+    {
+      "@id": "https://github.com/huggingface/peft",
+      "@type": "SoftwareApplication",
+      "identifier": "peft",
+      "name": "peft",
+      "version": "=0.5.0"
+    },
+    {
+      "@id": "https://github.com/goodmami/penman",
+      "@type": "SoftwareApplication",
+      "identifier": "penman",
+      "name": "penman",
+      "version": "=1.2.2"
+    },
+    {
+      "@id": "https://github.com/sacrebleu/sacrebleu",
+      "@type": "SoftwareApplication",
+      "identifier": "sacrebleu",
+      "name": "sacrebleu",
+      "version": "=2.3.1"
+    },
+    {
+      "@id": "https://github.com/alvations/sacremoses",
+      "@type": "SoftwareApplication",
+      "identifier": "sacremoses",
+      "name": "sacremoses",
+      "version": "=0.0.53"
+    },
+    {
+      "@id": "https://github.com/scikit-learn/scikit-learn",
+      "@type": "SoftwareApplication",
+      "identifier": "scikit-learn",
+      "name": "scikit-learn",
+      "version": "=1.3.0"
+    },
+    {
+      "@id": "https://github.com/google/sentencepiece",
+      "@type": "SoftwareApplication",
+      "identifier": "sentencepiece",
+      "name": "sentencepiece",
+      "version": "=0.1.99"
+    },
+    {
+      "@id": "https://github.com/pytorch/pytorch",
+      "@type": "SoftwareApplication",
+      "identifier": "torch",
+      "name": "torch",
+      "version": "=2.0.1"
+    },
+    {
+      "@id": "https://github.com/tqdm/tqdm",
+      "@type": "SoftwareApplication",
+      "identifier": "tqdm",
+      "name": "tqdm",
+      "version": "=4.65.0"
+    },
+    {
+      "@id": "https://github.com/huggingface/transformers",
+      "@type": "SoftwareApplication",
+      "identifier": "transformers",
+      "name": "transformers",
+      "version": "=4.33.1"
+    },
+    {
+      "@id": "https://github.com/flipz357/smatchpp",
+      "@type": "SoftwareApplication",
+      "identifier": "smatchpp",
+      "name": "smatchpp",
+      "version": "=1.1.3"
+    },
+    {
+      "@id": "https://github.com/coin-or/python-mip",
+      "@type": "SoftwareApplication",
+      "identifier": "mip",
+      "name": "mip",
+      "version": "=1.15.0"
+    },
+    {
+      "@id": "https://github.com/avian2/unidecode",
+      "@type": "SoftwareApplication",
+      "identifier": "unidecode",
+      "name": "unidecode",
+      "version": "=1.3.6"
+    },
+    {
+      "@id": "https://github.com/yaml/pyyaml",
+      "@type": "SoftwareApplication",
+      "identifier": "pyyaml",
+      "name": "pyyaml",
+      "version": ">=6.0"
+    },
+    {
+      "@id": "https://github.com/wandb/wandb",
+      "@type": "SoftwareApplication",
+      "identifier": "wandb",
+      "name": "wandb",
+      "version": ">=0.15.0"
+    }
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy",
+      "email": "bramvanroy@hotmail.com"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy",
+      "email": "bramvanroy@hotmail.com"
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Natural Language Processing",
+  "applicationSubCategory": "Semantic Parsing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.11"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/multilingual-text-to-amr/blob/main/README.md"
+  },
+  "readme": "https://github.com/BramVanroy/multilingual-text-to-amr/blob/main/README.md",
+  "issueTracker": "https://github.com/BramVanroy/multilingual-text-to-amr/issues",
+  "downloadUrl": "https://github.com/BramVanroy/multilingual-text-to-amr/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/multilingual-text-to-amr/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/BramVanroy/multilingual-text-to-amr/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/BramVanroy/multilingual-text-to-amr",
+  "isPartOf": null,
+  "referencePublication": null,
+  "relatedLink": [
+    "https://huggingface.co/models",
+    "https://github.com/BramVanroy/multilingual-text-to-amr/blob/master/CHANGELOG.md",
+    "https://amr.isi.edu/",
+    "https://github.com/flipz357/smatchpp"
+  ],
+  "targetProduct": "Multilingual AMR parsing models"
+}

@@ -1,0 +1,65 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "sshoc-nl-zotero",
+  "description": "a pipeline to generate Linked Data representations and enrichments for papers from the zotero database",
+  "url": "https://github.com/rsiebes/sshoc-nl-zotero",
+  "codeRepository": "https://github.com/rsiebes/sshoc-nl-zotero",
+  "dateCreated": "2025-07-24",
+  "dateModified": "2025-07-24",
+  "license": null,
+  "programmingLanguage": [
+    "Python"
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/rsiebes/sshoc-nl-zotero/blob/main/README.md"
+  },
+  "readme": "https://github.com/rsiebes/sshoc-nl-zotero/blob/main/README.md",
+  "issueTracker": "https://github.com/rsiebes/sshoc-nl-zotero/issues",
+  "downloadUrl": "https://github.com/rsiebes/sshoc-nl-zotero/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/rsiebes/sshoc-nl-zotero/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/rsiebes/sshoc-nl-zotero/actions",
+  "hasSourceCode": "https://github.com/rsiebes/sshoc-nl-zotero",
+  "embargoDate": null,
+  "funding": null,
+  "referencePublication": null,
+  "isPartOf": null,
+  "targetProduct": "sshoc-nl-zotero software package",
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8772-7904",
+      "givenName": "Ronald",
+      "familyName": "Siebes",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "VU Amsterdam",
+        "url": "https://www.vu.nl/"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8772-7904",
+      "givenName": "Ronald",
+      "familyName": "Siebes",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "VU Amsterdam",
+        "url": "https://www.vu.nl/"
+      }
+    }
+  ]
+}

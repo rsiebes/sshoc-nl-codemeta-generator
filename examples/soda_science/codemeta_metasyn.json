@@ -1,0 +1,152 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "metasyn",
+  "description": "Transparent and privacy-friendly synthetic data generation. Metasyn makes it possible for owners of sensitive data to create test data, do open science, improve code reproducibility, encourage data reuse, and enhance accessibility of their datasets, without worrying about leaking private information.",
+  "url": "https://github.com/sodascience/metasyn",
+  "codeRepository": "https://github.com/sodascience/metasyn",
+  "dateCreated": "2022-04-28",
+  "dateModified": "2025-07-10",
+  "softwareVersion": "1.1.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python",
+    "Dockerfile"
+  ],
+  "keywords": [
+    "metadata",
+    "privacy",
+    "open-data",
+    "synthetic-data"
+  ],
+  "softwareRequirements": [
+    "https://github.com/pola-rs/polars",
+    "https://github.com/tqdm/tqdm",
+    "https://github.com/numpy/numpy",
+    "https://github.com/apache/arrow",
+    "https://github.com/scipy/scipy",
+    "https://github.com/joke2k/faker",
+    "https://github.com/pemistahl/lingua-py",
+    "regex",
+    "https://github.com/python-jsonschema/jsonschema",
+    "https://github.com/python/importlib_metadata",
+    "https://github.com/python/importlib_resources",
+    "https://github.com/hukkin/tomli"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-6616-230X",
+      "givenName": "Raoul",
+      "familyName": "Schram",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/metasyn/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/metasyn/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/metasyn/issues",
+  "downloadUrl": "https://github.com/sodascience/metasyn/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/metasyn/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/metasyn/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/metasyn",
+  "referencePublication": [
+    {
+      "@type": "ScholarlyArticle",
+      "@id": "https://doi.org/10.21105/joss.07099",
+      "name": "Metasyn: A Python package for synthetic data generation",
+      "url": "https://doi.org/10.21105/joss.07099",
+      "datePublished": "2024",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Journal of Open Source Software"
+      }
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://doi.org/10.5281/zenodo.7696031",
+      "name": "Metasyn Software Package",
+      "url": "https://doi.org/10.5281/zenodo.7696031",
+      "datePublished": "2023",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Zenodo"
+      }
+    }
+  ],
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "metasyn software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

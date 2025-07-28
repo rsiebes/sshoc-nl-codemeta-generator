@@ -1,0 +1,145 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "open_supply_hub",
+  "description": "Processing supply chain data obtained from Open Supply Hub. This repository contains python scripts to download and process supply chain data from Open Supply Hub.",
+  "url": "https://github.com/sodascience/open_supply_hub",
+  "codeRepository": "https://github.com/sodascience/open_supply_hub",
+  "dateCreated": "2023-02-28",
+  "dateModified": "2023-08-30",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python",
+    "Jupyter Notebook"
+  ],
+  "keywords": [
+    "python",
+    "data",
+    "global-supply-chain",
+    "open-supply-hub"
+  ],
+  "softwareRequirements": [
+    "https://github.com/psf/requests",
+    "https://github.com/pandas-dev/pandas",
+    "https://github.com/numpy/numpy"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-9846-8386",
+      "givenName": "Luc",
+      "familyName": "Fransen",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-2777-8635",
+      "givenName": "Diliara",
+      "familyName": "Valeeva",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-3985-7530",
+      "givenName": "Modhurita",
+      "familyName": "Mitra",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-8886-0640",
+      "givenName": "Javier",
+      "familyName": "Garcia Bernardo",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Parisa Zahedi",
+      "affiliation": "Utrecht University"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-9846-8386",
+      "givenName": "Luc",
+      "familyName": "Fransen",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Data Science",
+  "applicationSubCategory": "Research Tools",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/open_supply_hub/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/open_supply_hub/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/open_supply_hub/issues",
+  "downloadUrl": "https://github.com/sodascience/open_supply_hub/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/open_supply_hub/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/open_supply_hub/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/open_supply_hub",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "open_supply_hub software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

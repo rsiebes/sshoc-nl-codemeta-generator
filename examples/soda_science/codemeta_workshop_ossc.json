@@ -1,0 +1,110 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "workshop_ossc",
+  "description": "This repository contains the code and presentation of the workshop on parallel computing & cluster computing using R in collaboration with SURF.",
+  "url": "https://github.com/sodascience/workshop_ossc",
+  "codeRepository": "https://github.com/sodascience/workshop_ossc",
+  "dateCreated": "2022-03-22",
+  "dateModified": "2024-09-27",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "R",
+    "C++",
+    "Shell"
+  ],
+  "keywords": [
+    "r",
+    "simulation",
+    "parallel-computing",
+    "surf",
+    "high-performance-computing",
+    "agent-based-modeling",
+    "cluster-computing",
+    "odissei"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Education",
+  "applicationSubCategory": "Training Materials",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "R 4.0+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/workshop_ossc/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/workshop_ossc/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/workshop_ossc/issues",
+  "downloadUrl": "https://github.com/sodascience/workshop_ossc/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/workshop_ossc/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/workshop_ossc/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/workshop_ossc",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "workshop_ossc software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

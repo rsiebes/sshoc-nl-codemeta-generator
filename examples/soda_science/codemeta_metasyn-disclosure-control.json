@@ -1,0 +1,121 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "metasyn-disclosure-control",
+  "description": "Plugin for metasyn that prevents data from leaking. A privacy plugin for metasyn, based on statistical disclosure control (SDC) rules of thumb.",
+  "url": "https://github.com/sodascience/metasyn-disclosure-control",
+  "codeRepository": "https://github.com/sodascience/metasyn-disclosure-control",
+  "dateCreated": "2022-07-29",
+  "dateModified": "2025-03-24",
+  "softwareVersion": "0.1.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python"
+  ],
+  "keywords": [
+    "plugin",
+    "privacy-protection",
+    "synthetic-data",
+    "disclosure-control",
+    "metasyn"
+  ],
+  "softwareRequirements": [
+    "https://github.com/sodascience/metasyn",
+    "https://github.com/pola-rs/polars",
+    "https://github.com/numpy/numpy",
+    "https://github.com/numpy/numpy"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-6616-230X",
+      "givenName": "Raoul",
+      "familyName": "Schram",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-6616-230X",
+      "givenName": "Raoul",
+      "familyName": "Schram",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/metasyn-disclosure-control/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/metasyn-disclosure-control/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/metasyn-disclosure-control/issues",
+  "downloadUrl": "https://github.com/sodascience/metasyn-disclosure-control/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/metasyn-disclosure-control/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/metasyn-disclosure-control/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/metasyn-disclosure-control",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "metasyn-disclosure-control software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}
