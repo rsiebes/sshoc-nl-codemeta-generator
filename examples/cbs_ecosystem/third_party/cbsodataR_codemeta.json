@@ -1,0 +1,130 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "cbsodataR",
+  "description": "Statistics Netherlands (CBS) OpenData API Client for R. R package to access CBS open data API.",
+  "url": "https://github.com/edwindj/cbsodataR",
+  "codeRepository": "https://github.com/edwindj/cbsodataR",
+  "identifier": "https://github.com/edwindj/cbsodataR",
+  "programmingLanguage": [
+    {
+      "@type": "ComputerLanguage",
+      "name": "R",
+      "version": "3.5+"
+    }
+  ],
+  "keywords": [
+    "CBS",
+    "R",
+    "API",
+    "client",
+    "statistics",
+    "open-data",
+    "Netherlands"
+  ],
+  "runtimePlatform": [
+    "R 3.5+"
+  ],
+  "operatingSystem": "Cross-platform",
+  "license": {
+    "name": "Unknown"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Edwin",
+      "familyName": "de Jonge",
+      "email": "edwindjonge@gmail.com",
+      "@id": "https://orcid.org/0000-0002-6580-4718",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "alternateName": "Statistics Netherlands",
+        "url": "https://www.cbs.nl",
+        "email": "infoservice@cbs.nl",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "Netherlands",
+          "addressLocality": "The Hague"
+        }
+      }
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Edwin",
+      "familyName": "de Jonge",
+      "email": "edwindjonge@gmail.com",
+      "@id": "https://orcid.org/0000-0002-6580-4718",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "alternateName": "Statistics Netherlands",
+        "url": "https://www.cbs.nl",
+        "email": "infoservice@cbs.nl",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "Netherlands",
+          "addressLocality": "The Hague"
+        }
+      }
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "httr",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "jsonlite",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "R",
+      "version": "3.5+",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "Cross-platform"
+    }
+  ],
+  "applicationCategory": "Third-party Tool",
+  "developmentStatus": "unknown",
+  "interactionStatistic": [
+    {
+      "@type": "InteractionCounter",
+      "interactionType": "https://schema.org/LikeAction",
+      "userInteractionCount": 34
+    }
+  ],
+  "applicationSubCategory": "Statistical Software",
+  "readme": "https://github.com/edwindj/cbsodataR/blob/main/README.md",
+  "issueTracker": "https://github.com/edwindj/cbsodataR/issues",
+  "downloadUrl": "https://github.com/edwindj/cbsodataR/archive/refs/heads/main.zip",
+  "hasSourceCode": "https://github.com/edwindj/cbsodataR",
+  "dateCreated": "2018-01-01",
+  "dateModified": "2025-08-19",
+  "conformsTo": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "isPartOf": {
+    "@type": "SoftwareSourceCode",
+    "name": "CBS Software Ecosystem",
+    "description": "Software tools and libraries related to Statistics Netherlands (CBS)",
+    "url": "https://github.com/statistiekcbs"
+  }
+}

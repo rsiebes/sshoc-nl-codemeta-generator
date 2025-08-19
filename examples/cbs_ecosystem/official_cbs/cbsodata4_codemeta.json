@@ -1,0 +1,157 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "cbsodata4",
+  "description": "R package to access the OData4 interface of data and metadata of Statistics Netherlands (CBS). Provides convenient functions to retrieve statistical data and metadata from the CBS OData4 API.",
+  "url": "https://github.com/statistiekcbs/cbsodata4",
+  "codeRepository": "https://github.com/statistiekcbs/cbsodata4",
+  "identifier": "https://github.com/statistiekcbs/cbsodata4",
+  "programmingLanguage": [
+    {
+      "@type": "ComputerLanguage",
+      "name": "R",
+      "version": "4.0+"
+    }
+  ],
+  "keywords": [
+    "CBS",
+    "OData4",
+    "R",
+    "statistics",
+    "API",
+    "data-access",
+    "Netherlands"
+  ],
+  "runtimePlatform": [
+    "R 4.0+"
+  ],
+  "operatingSystem": "Cross-platform",
+  "license": {
+    "@id": "http://spdx.org/licenses/GPL-3.0",
+    "name": "GNU General Public License v3.0"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "CBS",
+      "familyName": "Team",
+      "email": "infoservice@cbs.nl",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "alternateName": "Statistics Netherlands",
+        "url": "https://www.cbs.nl",
+        "email": "infoservice@cbs.nl",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "Netherlands",
+          "addressLocality": "The Hague"
+        }
+      }
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Edwin",
+      "familyName": "de Jonge",
+      "email": "edwindjonge@gmail.com",
+      "@id": "https://orcid.org/0000-0002-6580-4718",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "alternateName": "Statistics Netherlands",
+        "url": "https://www.cbs.nl",
+        "email": "infoservice@cbs.nl",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "Netherlands",
+          "addressLocality": "The Hague"
+        }
+      }
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "httr",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "jsonlite",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "dplyr",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "R",
+      "version": "4.0+",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "Cross-platform"
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "alternateName": "Statistics Netherlands",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "Netherlands",
+      "addressLocality": "The Hague"
+    }
+  },
+  "funding": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "alternateName": "Statistics Netherlands",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "Netherlands",
+      "addressLocality": "The Hague"
+    }
+  },
+  "applicationCategory": "Research Software",
+  "developmentStatus": "active",
+  "applicationSubCategory": "Statistical Software",
+  "readme": "https://github.com/statistiekcbs/cbsodata4/blob/main/README.md",
+  "issueTracker": "https://github.com/statistiekcbs/cbsodata4/issues",
+  "downloadUrl": "https://github.com/statistiekcbs/cbsodata4/archive/refs/heads/main.zip",
+  "hasSourceCode": "https://github.com/statistiekcbs/cbsodata4",
+  "dateCreated": "2018-01-01",
+  "dateModified": "2025-08-19",
+  "conformsTo": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "isPartOf": {
+    "@type": "SoftwareSourceCode",
+    "name": "CBS Software Ecosystem",
+    "description": "Software tools and libraries related to Statistics Netherlands (CBS)",
+    "url": "https://github.com/statistiekcbs"
+  }
+}

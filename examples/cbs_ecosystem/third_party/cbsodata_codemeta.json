@@ -1,0 +1,138 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "cbsodata",
+  "description": "Unofficial Statistics Netherlands (CBS) open data API client for Python. Retrieve data from the open data interface of Statistics Netherlands with Python.",
+  "url": "https://github.com/J535D165/cbsodata",
+  "codeRepository": "https://github.com/J535D165/cbsodata",
+  "identifier": "https://github.com/J535D165/cbsodata",
+  "programmingLanguage": [
+    {
+      "@type": "ComputerLanguage",
+      "name": "Python",
+      "version": "3.6+"
+    }
+  ],
+  "keywords": [
+    "CBS",
+    "Python",
+    "API",
+    "client",
+    "statistics",
+    "open-data",
+    "Netherlands"
+  ],
+  "runtimePlatform": [
+    "Python 3.6+"
+  ],
+  "operatingSystem": "Cross-platform",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Jonathan",
+      "familyName": "de Bruin",
+      "@id": "https://orcid.org/0000-0002-4297-8502"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Jonathan",
+      "familyName": "de Bruin",
+      "@id": "https://orcid.org/0000-0002-4297-8502"
+    },
+    {
+      "@type": "Person",
+      "givenName": "EwoutH",
+      "familyName": ""
+    },
+    {
+      "@type": "Person",
+      "givenName": "nieuwenhoven",
+      "familyName": ""
+    },
+    {
+      "@type": "Person",
+      "givenName": "ncvanegmond",
+      "familyName": ""
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "requests",
+      "version": ">=2.20.0",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "urllib3",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Python",
+      "version": "3.6+",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Cross-platform"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "pandas",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Python"
+    }
+  ],
+  "applicationCategory": "Third-party Tool",
+  "developmentStatus": "unknown",
+  "interactionStatistic": [
+    {
+      "@type": "InteractionCounter",
+      "interactionType": "https://schema.org/LikeAction",
+      "userInteractionCount": 46
+    },
+    {
+      "@type": "InteractionCounter",
+      "interactionType": "https://schema.org/UseAction",
+      "userInteractionCount": 117
+    }
+  ],
+  "applicationSubCategory": "Statistical Software",
+  "readme": "https://github.com/J535D165/cbsodata/blob/main/README.md",
+  "issueTracker": "https://github.com/J535D165/cbsodata/issues",
+  "downloadUrl": "https://github.com/J535D165/cbsodata/archive/refs/heads/main.zip",
+  "hasSourceCode": "https://github.com/J535D165/cbsodata",
+  "dateCreated": "2018-01-01",
+  "dateModified": "2025-08-19",
+  "conformsTo": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "isPartOf": {
+    "@type": "SoftwareSourceCode",
+    "name": "CBS Software Ecosystem",
+    "description": "Software tools and libraries related to Statistics Netherlands (CBS)",
+    "url": "https://github.com/statistiekcbs"
+  }
+}

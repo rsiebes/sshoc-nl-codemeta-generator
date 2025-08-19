@@ -1,0 +1,183 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "CBS-Open-Data-v3",
+  "description": "Codevoorbeelden van het gebruik van CBS Open Data v3 in R, Python, JavaScript en C#. Code examples for using CBS Open Data v3 API in multiple programming languages.",
+  "url": "https://github.com/statistiekcbs/CBS-Open-Data-v3",
+  "codeRepository": "https://github.com/statistiekcbs/CBS-Open-Data-v3",
+  "identifier": "https://github.com/statistiekcbs/CBS-Open-Data-v3",
+  "programmingLanguage": [
+    {
+      "@type": "ComputerLanguage",
+      "name": "C#",
+      "version": ".NET Framework 4.5+"
+    },
+    {
+      "@type": "ComputerLanguage",
+      "name": "R",
+      "version": "3.5+"
+    },
+    {
+      "@type": "ComputerLanguage",
+      "name": "Python",
+      "version": "3.6+"
+    },
+    {
+      "@type": "ComputerLanguage",
+      "name": "JavaScript",
+      "version": "ES5+"
+    }
+  ],
+  "keywords": [
+    "CBS",
+    "open-data",
+    "R",
+    "Python",
+    "JavaScript",
+    "C#",
+    "examples",
+    "statistics",
+    "API",
+    "OData3"
+  ],
+  "runtimePlatform": [
+    "R 3.5+",
+    "Python 3.6+",
+    ".NET Framework 4.5+",
+    "Web Browser"
+  ],
+  "operatingSystem": "Cross-platform",
+  "license": {
+    "name": "Unknown"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "CBS",
+      "familyName": "Team",
+      "email": "infoservice@cbs.nl",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "alternateName": "Statistics Netherlands",
+        "url": "https://www.cbs.nl",
+        "email": "infoservice@cbs.nl",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "Netherlands",
+          "addressLocality": "The Hague"
+        }
+      }
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Edwin",
+      "familyName": "de Jonge",
+      "email": "edwindjonge@gmail.com",
+      "@id": "https://orcid.org/0000-0002-6580-4718",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "alternateName": "Statistics Netherlands",
+        "url": "https://www.cbs.nl",
+        "email": "infoservice@cbs.nl",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "Netherlands",
+          "addressLocality": "The Hague"
+        }
+      }
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "System.Net.Http",
+      "provider": {
+        "@type": "Organization",
+        "name": "Microsoft NuGet"
+      },
+      "runtimePlatform": "C#"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Newtonsoft.Json",
+      "provider": {
+        "@type": "Organization",
+        "name": "Microsoft NuGet"
+      },
+      "runtimePlatform": "C#"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "httr",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "requests",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "fetch API",
+      "provider": {
+        "@type": "Organization",
+        "name": "Web Standards"
+      },
+      "runtimePlatform": "JavaScript"
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "alternateName": "Statistics Netherlands",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "Netherlands",
+      "addressLocality": "The Hague"
+    }
+  },
+  "funding": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "alternateName": "Statistics Netherlands",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "Netherlands",
+      "addressLocality": "The Hague"
+    }
+  },
+  "applicationCategory": "Research Software",
+  "developmentStatus": "active",
+  "applicationSubCategory": "Statistical Software",
+  "readme": "https://github.com/statistiekcbs/CBS-Open-Data-v3/blob/main/README.md",
+  "issueTracker": "https://github.com/statistiekcbs/CBS-Open-Data-v3/issues",
+  "downloadUrl": "https://github.com/statistiekcbs/CBS-Open-Data-v3/archive/refs/heads/main.zip",
+  "hasSourceCode": "https://github.com/statistiekcbs/CBS-Open-Data-v3",
+  "dateCreated": "2018-01-01",
+  "dateModified": "2025-08-19",
+  "conformsTo": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "isPartOf": {
+    "@type": "SoftwareSourceCode",
+    "name": "CBS Software Ecosystem",
+    "description": "Software tools and libraries related to Statistics Netherlands (CBS)",
+    "url": "https://github.com/statistiekcbs"
+  }
+}
