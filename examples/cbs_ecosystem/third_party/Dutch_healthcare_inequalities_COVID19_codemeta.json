@@ -1,0 +1,120 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "Dutch_healthcare_inequalities_COVID19",
+  "description": "Research on inequalities in healthcare use during the COVID-19 pandemic using CBS registry data. Academic research project analyzing healthcare disparities.",
+  "url": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
+  "codeRepository": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
+  "identifier": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
+  "programmingLanguage": [
+    {
+      "@type": "ComputerLanguage",
+      "name": "R",
+      "version": "4.0+"
+    }
+  ],
+  "keywords": [
+    "CBS",
+    "COVID-19",
+    "healthcare",
+    "inequalities",
+    "research",
+    "R",
+    "epidemiology"
+  ],
+  "runtimePlatform": [
+    "R 4.0+"
+  ],
+  "operatingSystem": "Cross-platform",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Mark D.",
+      "familyName": "Verhagen"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Mark D.",
+      "familyName": "Verhagen"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "dplyr",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "ggplot2",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "tidyr",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "cbsodataR",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "R",
+      "version": "4.0+",
+      "provider": {
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "Cross-platform"
+    }
+  ],
+  "applicationCategory": "Third-party Tool",
+  "developmentStatus": "unknown",
+  "referencePublication": {
+    "@type": "ScholarlyArticle",
+    "name": "Inequalities in Healthcare Use during the COVID-19 Pandemic"
+  },
+  "applicationSubCategory": "Statistical Software",
+  "readme": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19/blob/main/README.md",
+  "issueTracker": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19/issues",
+  "downloadUrl": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19/archive/refs/heads/main.zip",
+  "hasSourceCode": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
+  "dateCreated": "2018-01-01",
+  "dateModified": "2025-08-19",
+  "conformsTo": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "isPartOf": {
+    "@type": "SoftwareSourceCode",
+    "name": "CBS Software Ecosystem",
+    "description": "Software tools and libraries related to Statistics Netherlands (CBS)",
+    "url": "https://github.com/statistiekcbs"
+  }
+}
