@@ -1,0 +1,78 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/statistiekcbs/cbs-opendata-sdmx",
+  "name": "cbs-opendata-sdmx",
+  "description": "SDMX interface for CBS open data (work in progress). Python implementation for accessing CBS statistical data using SDMX REST v2.1 protocol.",
+  "url": "https://github.com/statistiekcbs/cbs-opendata-sdmx",
+  "codeRepository": "https://github.com/statistiekcbs/cbs-opendata-sdmx.git",
+  "programmingLanguage": [
+    "Python"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Edwin",
+      "familyName": "de Jonge",
+      "@id": "https://orcid.org/0000-0002-6580-4718",
+      "email": "edwindjonge@gmail.com",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/edwindj"
+    }
+  ],
+  "contributor": [],
+  "maintainer": [],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "version": "1.0.0",
+  "dateCreated": "2025-06-06",
+  "dateModified": "2025-06-06",
+  "keywords": [
+    "sdmx",
+    "cbs",
+    "open-data",
+    "statistics",
+    "netherlands",
+    "rest-api",
+    "work-in-progress"
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Python",
+      "version": ">=3.8",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Software Foundation",
+        "url": "https://www.python.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "uv",
+      "version": "latest",
+      "provider": {
+        "@type": "Organization",
+        "name": "Astral",
+        "url": "https://docs.astral.sh/uv"
+      },
+      "runtimePlatform": "Python"
+    }
+  ],
+  "runtimePlatform": [
+    "Python"
+  ],
+  "developmentStatus": "wip",
+  "issueTracker": "https://github.com/statistiekcbs/cbs-opendata-sdmx/issues",
+  "readme": "https://github.com/statistiekcbs/cbs-opendata-sdmx/blob/main/README.md"
+}

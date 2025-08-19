@@ -1,0 +1,101 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/statistiekcbs/iv3_definities",
+  "name": "iv3_definities",
+  "description": "JSON definition files for iv3 deliveries (government financial reporting). Contains templates, control files and schemas for Dutch government entities to submit financial data to CBS.",
+  "url": "https://github.com/statistiekcbs/iv3_definities",
+  "codeRepository": "https://github.com/statistiekcbs/iv3_definities.git",
+  "programmingLanguage": [
+    "JSON"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Vincent",
+      "familyName": "Ohm",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/vincentohmcbs"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Theo",
+      "familyName": "Grivel",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/tgrivel"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Jaap",
+      "familyName": "Gelderblom",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/JaapGelderblom"
+    }
+  ],
+  "maintainer": [],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "version": "1.0.0",
+  "dateCreated": "2019-04-09",
+  "dateModified": "2025-06-18",
+  "keywords": [
+    "iv3",
+    "financial-reporting",
+    "json-schema",
+    "government",
+    "netherlands",
+    "cbs",
+    "definitions",
+    "templates"
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "JSON Schema",
+      "version": "draft-07",
+      "provider": {
+        "@type": "Organization",
+        "name": "JSON Schema",
+        "url": "https://json-schema.org"
+      },
+      "runtimePlatform": "JSON"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "JSON",
+      "version": "RFC 7159",
+      "provider": {
+        "@type": "Organization",
+        "name": "IETF",
+        "url": "https://tools.ietf.org/html/rfc7159"
+      },
+      "runtimePlatform": "Data Format"
+    }
+  ],
+  "runtimePlatform": [
+    "JSON",
+    "Cross-platform"
+  ],
+  "developmentStatus": "active",
+  "issueTracker": "https://github.com/statistiekcbs/iv3_definities/issues",
+  "readme": "https://github.com/statistiekcbs/iv3_definities/blob/master/README.md"
+}

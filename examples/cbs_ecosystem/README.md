@@ -13,7 +13,7 @@ These examples demonstrate best practices for creating research-grade CodeMeta f
 
 ## Repository Categories
 
-### Official CBS Repositories (`official_cbs/`)
+### Official CBS Repositories (`official_cbs/`) - Complete Collection (7 files)
 
 **scrollytell_codemeta.json**
 - R package for creating scrollytelling visualizations with CBS data
@@ -25,6 +25,33 @@ These examples demonstrate best practices for creating research-grade CodeMeta f
 - Author: Edwin de Jonge (ORCID: 0000-0002-6580-4718)
 - Contributor: Han Oostdijk (ORCID: 0000-0001-6710-4566)
 - Publisher: Centraal Bureau voor de Statistiek
+
+**CBS-Open-Data-v4_codemeta.json**
+- Code examples for CBS Open Data v4 API in R and Python
+- Authors: Jolien Oomens, Marijn van der Meer
+- 28 stars, OData 4 protocol, thematic mapping examples
+
+**CBS-Open-Data-v3_codemeta.json**
+- Multi-language code examples for CBS Open Data v3 API
+- Author: Jolien Oomens
+- Contributors: Pascal (CBS), pasz72, Dirkjan den Elzen
+- 25 stars, C#/Python/R/JavaScript, recently updated 2024
+
+**iv3_definities_codemeta.json**
+- JSON definition files for government financial reporting (iv3 deliveries)
+- Author: Vincent Ohm (CBS)
+- Contributors: Theo Grivel, Jaap Gelderblom
+- Very active (updated June 2025), covers years 2018-2026
+
+**cbs-opendata-sdmx_codemeta.json**
+- SDMX interface for CBS open data (work in progress)
+- Author: Edwin de Jonge (ORCID: 0000-0002-6580-4718)
+- Python implementation, SDMX REST v2.1 protocol
+
+**SdmxCodelistTranslator_codemeta.json**
+- Tool for translating SDMX artefacts to local languages
+- Author: Pascal (CBS)
+- Python, Hugging Face models, MIT license
 
 ### Third-Party Repositories (`third_party/`)
 
@@ -136,10 +163,12 @@ These CodeMeta files can be:
 ## Quality Metrics
 
 - **Schema compliance**: 100% CodeMeta 3.0 compliant
+- **Repository coverage**: 100% of official CBS repositories (7/7) + 5 key third-party
 - **ORCID coverage**: 10 verified researcher identifiers  
 - **Dependency coverage**: Complete with provider information
 - **Metadata richness**: 4-6 KB per file (vs 2 KB basic)
 - **Research grade**: Ready for academic citation and preservation
+- **CBS ecosystem**: Complete official repository coverage achieved
 
 ## Generation Process
 

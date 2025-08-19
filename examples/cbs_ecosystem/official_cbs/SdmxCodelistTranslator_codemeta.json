@@ -1,0 +1,87 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/statistiekcbs/SdmxCodelistTranslator",
+  "name": "SdmxCodelistTranslator",
+  "description": "Translate SDMX artefacts for use in your local language. Python tool supporting both online translation services and local Hugging Face models for SDMX codelist translation.",
+  "url": "https://github.com/statistiekcbs/SdmxCodelistTranslator",
+  "codeRepository": "https://github.com/statistiekcbs/SdmxCodelistTranslator.git",
+  "programmingLanguage": [
+    "Python"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Pascal",
+      "familyName": "",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/pascal-cbs"
+    }
+  ],
+  "contributor": [],
+  "maintainer": [],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl"
+  },
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "1.0.0",
+  "dateCreated": "2024-03-08",
+  "dateModified": "2024-03-08",
+  "keywords": [
+    "sdmx",
+    "translation",
+    "codelist",
+    "hugging-face",
+    "nlp",
+    "localization",
+    "statistics"
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Python",
+      "version": "<=3.11",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Software Foundation",
+        "url": "https://www.python.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "transformers",
+      "version": "latest",
+      "provider": {
+        "@type": "Organization",
+        "name": "Hugging Face",
+        "url": "https://huggingface.co"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "torch",
+      "version": "latest",
+      "provider": {
+        "@type": "Organization",
+        "name": "PyTorch",
+        "url": "https://pytorch.org"
+      },
+      "runtimePlatform": "Python"
+    }
+  ],
+  "runtimePlatform": [
+    "Python"
+  ],
+  "developmentStatus": "active",
+  "issueTracker": "https://github.com/statistiekcbs/SdmxCodelistTranslator/issues",
+  "readme": "https://github.com/statistiekcbs/SdmxCodelistTranslator/blob/main/README.md"
+}
