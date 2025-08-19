@@ -1,0 +1,173 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/A-Practical-Agent-Programming-Language/Synthetic-Population-The-Hague-South-West",
+  "name": "Synthetic-Population-The-Hague-South-West",
+  "description": "A Synthetic Population for the South-West District of The Hague, The Netherlands, constructed using GenSynthPop-Python",
+  "version": "1.0.0",
+  "identifier": "Synthetic-Population-The-Hague-South-West",
+  "url": "https://github.com/A-Practical-Agent-Programming-Language/Synthetic-Population-The-Hague-South-West",
+  "codeRepository": "https://github.com/A-Practical-Agent-Programming-Language/Synthetic-Population-The-Hague-South-West",
+  "license": "https://spdx.org/licenses/GPL-3.0",
+  "programmingLanguage": [
+    "Python",
+    "Jupyter Notebook"
+  ],
+  "runtimePlatform": "Python",
+  "operatingSystem": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "applicationCategory": "Research Software",
+  "keywords": [
+    "synthetic-population",
+    "agent-based-modeling",
+    "cbs-data",
+    "demographics",
+    "spatial-analysis"
+  ],
+  "dateCreated": "2024-01-01",
+  "dateModified": "2024-06-21",
+  "datePublished": "2024-06-21",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Jan",
+      "familyName": "de Mooij",
+      "email": "A.J.deMooij@uu.nl",
+      "@id": "https://orcid.org/0000-0003-4129-6074",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University",
+        "url": "https://www.uu.nl"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Tabea",
+      "familyName": "Sonnenschein",
+      "email": "T.S.Sonnenschein@uu.nl",
+      "@id": "https://orcid.org/0000-0001-6592-9548",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University",
+        "url": "https://www.uu.nl"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Dick",
+      "familyName": "Ettema",
+      "@id": "https://orcid.org/0000-0003-0648-7107",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University",
+        "url": "https://www.uu.nl"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Judith A.",
+      "familyName": "Verstegen",
+      "@id": "https://orcid.org/0000-0002-9082-4323",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University",
+        "url": "https://www.uu.nl"
+      }
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Marco",
+      "familyName": "Pellegrino",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University",
+        "url": "https://www.uu.nl"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Destani",
+      "familyName": "Mehul",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University",
+        "url": "https://www.uu.nl"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Brian",
+      "familyName": "Logan",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University",
+        "url": "https://www.uu.nl"
+      }
+    }
+  ],
+  "maintainer": {
+    "@type": "Person",
+    "givenName": "Jan",
+    "familyName": "de Mooij",
+    "email": "A.J.deMooij@uu.nl",
+    "@id": "https://orcid.org/0000-0003-4129-6074"
+  },
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "name": "GenSynthPop: Generating a Spatially Explicit Synthetic Population of Agents and Households from Aggregated Data",
+      "identifier": "10.21203/rs.3.rs-3405645/v1",
+      "url": "https://doi.org/10.21203/rs.3.rs-3405645/v1"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Python",
+      "version": ">=3.8",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Software Foundation",
+        "url": "https://www.python.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "pandas",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "numpy",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "geopandas",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Python"
+    }
+  ],
+  "readme": "https://github.com/A-Practical-Agent-Programming-Language/Synthetic-Population-The-Hague-South-West/blob/main/README.md",
+  "developmentStatus": "active"
+}

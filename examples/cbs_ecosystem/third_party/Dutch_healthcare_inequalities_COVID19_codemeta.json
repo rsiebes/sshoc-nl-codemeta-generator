@@ -1,120 +1,149 @@
 {
   "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
   "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
   "name": "Dutch_healthcare_inequalities_COVID19",
-  "description": "Research on inequalities in healthcare use during the COVID-19 pandemic using CBS registry data. Academic research project analyzing healthcare disparities.",
+  "description": "Analysis of healthcare inequalities during COVID-19 pandemic using CBS registry data",
+  "version": "1.0.0",
+  "identifier": "Dutch_healthcare_inequalities_COVID19",
   "url": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
   "codeRepository": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
-  "identifier": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
+  "license": "https://spdx.org/licenses/MIT",
   "programmingLanguage": [
-    {
-      "@type": "ComputerLanguage",
-      "name": "R",
-      "version": "4.0+"
-    }
-  ],
-  "keywords": [
-    "CBS",
-    "COVID-19",
-    "healthcare",
-    "inequalities",
-    "research",
     "R",
-    "epidemiology"
+    "Python"
   ],
-  "runtimePlatform": [
-    "R 4.0+"
+  "runtimePlatform": "Cross-platform",
+  "operatingSystem": [
+    "Windows",
+    "macOS",
+    "Linux"
   ],
-  "operatingSystem": "Cross-platform",
-  "license": {
-    "@id": "http://spdx.org/licenses/MIT",
-    "name": "MIT License"
-  },
+  "applicationCategory": "Research Software",
+  "keywords": [
+    "covid19",
+    "healthcare-inequalities",
+    "cbs-data",
+    "epidemiology",
+    "public-health"
+  ],
+  "dateCreated": "2023-01-01",
+  "dateModified": "2024-01-01",
+  "datePublished": "2023-04-28",
   "author": [
     {
       "@type": "Person",
-      "givenName": "Mark D.",
-      "familyName": "Verhagen"
-    }
-  ],
-  "contributor": [
+      "givenName": "Arun",
+      "familyName": "Frey",
+      "@id": "https://orcid.org/0000-0002-5044-1432",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Stanford University",
+        "url": "https://www.stanford.edu"
+      }
+    },
+    {
+      "@type": "Person",
+      "givenName": "Andrea M.",
+      "familyName": "Tilstra",
+      "@id": "https://orcid.org/0000-0001-7622-9088",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Oxford",
+        "url": "https://www.ox.ac.uk"
+      }
+    },
     {
       "@type": "Person",
       "givenName": "Mark D.",
-      "familyName": "Verhagen"
+      "familyName": "Verhagen",
+      "@id": "https://orcid.org/0000-0003-2746-0309",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Oxford",
+        "url": "https://www.ox.ac.uk"
+      }
+    }
+  ],
+  "maintainer": {
+    "@type": "Person",
+    "givenName": "Mark D.",
+    "familyName": "Verhagen",
+    "@id": "https://orcid.org/0000-0003-2746-0309"
+  },
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Inequalities in Healthcare Use during the COVID-19 Pandemic",
+      "author": [
+        "Arun Frey",
+        "Andrea M. Tilstra",
+        "Mark D. Verhagen"
+      ],
+      "datePublished": "2024-02-29",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "isPartOf": {
+          "@type": "PublicationVolume",
+          "isPartOf": {
+            "@type": "Periodical",
+            "name": "Nature Communications"
+          }
+        }
+      },
+      "url": "https://doi.org/10.1038/s41467-024-45720-2"
+    }
+  ],
+  "funding": [
+    {
+      "@type": "MonetaryGrant",
+      "name": "Leverhulme Trust Large Centre Grant",
+      "funder": {
+        "@type": "Organization",
+        "name": "Leverhulme Trust"
+      }
+    },
+    {
+      "@type": "MonetaryGrant",
+      "name": "ZonMW grant 10430252210004",
+      "funder": {
+        "@type": "Organization",
+        "name": "ZonMW"
+      }
+    },
+    {
+      "@type": "MonetaryGrant",
+      "name": "European Research Council grant ERC-2021-CoG-101002587",
+      "funder": {
+        "@type": "Organization",
+        "name": "European Research Council"
+      }
     }
   ],
   "softwareRequirements": [
     {
       "@type": "SoftwareApplication",
-      "name": "dplyr",
-      "provider": {
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "runtimePlatform": "R"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "ggplot2",
-      "provider": {
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "runtimePlatform": "R"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "tidyr",
-      "provider": {
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "runtimePlatform": "R"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "cbsodataR",
-      "provider": {
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "runtimePlatform": "R"
-    },
-    {
-      "@type": "SoftwareApplication",
       "name": "R",
-      "version": "4.0+",
+      "version": ">=4.0.0",
       "provider": {
         "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
+        "name": "The R Foundation",
+        "url": "https://www.r-project.org"
       },
-      "runtimePlatform": "Cross-platform"
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Python",
+      "version": ">=3.8",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Software Foundation",
+        "url": "https://www.python.org"
+      },
+      "runtimePlatform": "Python"
     }
   ],
-  "applicationCategory": "Third-party Tool",
-  "developmentStatus": "unknown",
-  "referencePublication": {
-    "@type": "ScholarlyArticle",
-    "name": "Inequalities in Healthcare Use during the COVID-19 Pandemic"
-  },
-  "applicationSubCategory": "Statistical Software",
   "readme": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19/blob/main/README.md",
-  "issueTracker": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19/issues",
-  "downloadUrl": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19/archive/refs/heads/main.zip",
-  "hasSourceCode": "https://github.com/MarkDVerhagen/Dutch_healthcare_inequalities_COVID19",
-  "dateCreated": "2018-01-01",
-  "dateModified": "2025-08-19",
-  "conformsTo": "https://doi.org/10.5063/schema/codemeta-3.0",
-  "isPartOf": {
-    "@type": "SoftwareSourceCode",
-    "name": "CBS Software Ecosystem",
-    "description": "Software tools and libraries related to Statistics Netherlands (CBS)",
-    "url": "https://github.com/statistiekcbs"
-  }
+  "developmentStatus": "active"
 }
