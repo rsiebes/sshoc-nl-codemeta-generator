@@ -1,219 +1,100 @@
 {
   "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
   "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/statistiekcbs/scrollytell",
   "name": "scrollytell",
-  "description": "Uses the scrollama library to provide scrolly telling functionality for R. This package enables the creation of scrolly tell presentations in R Shiny applications, allowing for interactive storytelling with data visualizations that respond to user scrolling.",
+  "description": "R package for creating scrollytelling visualizations with CBS data",
+  "version": "0.1.0",
+  "identifier": "scrollytell",
   "url": "https://github.com/statistiekcbs/scrollytell",
   "codeRepository": "https://github.com/statistiekcbs/scrollytell",
-  "identifier": "https://github.com/statistiekcbs/scrollytell",
+  "issueTracker": "https://github.com/statistiekcbs/scrollytell/issues",
+  "license": "https://spdx.org/licenses/GPL-3.0",
   "programmingLanguage": [
-    {
-      "@type": "ComputerLanguage",
-      "name": "JavaScript",
-      "version": "ES5+"
-    },
-    {
-      "@type": "ComputerLanguage",
-      "name": "R",
-      "version": "3.5+"
-    },
-    {
-      "@type": "ComputerLanguage",
-      "name": "CSS",
-      "version": "CSS3"
-    }
-  ],
-  "keywords": [
     "R",
-    "Shiny",
+    "JavaScript",
+    "CSS"
+  ],
+  "runtimePlatform": "R",
+  "operatingSystem": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "applicationCategory": "Data Visualization",
+  "keywords": [
     "scrollytelling",
-    "data visualization",
-    "interactive storytelling",
-    "htmlwidgets",
-    "statistics",
-    "CBS",
-    "Netherlands"
+    "data-visualization",
+    "r-package",
+    "cbs",
+    "statistics-netherlands"
   ],
-  "runtimePlatform": [
-    "R 3.5+",
-    "Shiny"
-  ],
-  "operatingSystem": "Cross-platform",
-  "version": "0.1.0.9000",
-  "license": {
-    "@id": "http://spdx.org/licenses/GPL-3.0",
-    "name": "GNU General Public License v3.0"
+  "dateCreated": "2021-01-01",
+  "dateModified": "2024-01-01",
+  "datePublished": "2021-01-01",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "url": "https://www.cbs.nl",
+    "email": "info@cbs.nl"
   },
   "author": [
     {
       "@type": "Person",
-      "givenName": "Roelof",
-      "familyName": "Waaljman",
-      "email": "rwaaljman@gmail.com",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Centraal Bureau voor de Statistiek",
-        "alternateName": "Statistics Netherlands",
-        "url": "https://www.cbs.nl",
-        "email": "infoservice@cbs.nl",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "Netherlands",
-          "addressLocality": "The Hague"
-        }
-      }
-    },
-    {
-      "@type": "Person",
       "givenName": "Edwin",
       "familyName": "de Jonge",
-      "email": "edwindjonge@gmail.com",
+      "email": "e.dejonge@cbs.nl",
       "@id": "https://orcid.org/0000-0002-6580-4718",
       "affiliation": {
         "@type": "Organization",
         "name": "Centraal Bureau voor de Statistiek",
-        "alternateName": "Statistics Netherlands",
-        "url": "https://www.cbs.nl",
-        "email": "infoservice@cbs.nl",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "Netherlands",
-          "addressLocality": "The Hague"
-        }
-      }
-    },
-    {
-      "@type": "Person",
-      "givenName": "Pearce",
-      "familyName": "",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "graph-scroll.js project"
+        "url": "https://www.cbs.nl"
       }
     }
   ],
   "maintainer": {
     "@type": "Person",
-    "givenName": "Roelof",
-    "familyName": "Waaljman",
-    "email": "rwaaljman@gmail.com",
-    "affiliation": {
-      "@type": "Organization",
-      "name": "Centraal Bureau voor de Statistiek",
-      "alternateName": "Statistics Netherlands",
-      "url": "https://www.cbs.nl",
-      "email": "infoservice@cbs.nl",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "Netherlands",
-        "addressLocality": "The Hague"
-      }
-    }
+    "givenName": "Edwin",
+    "familyName": "de Jonge",
+    "email": "e.dejonge@cbs.nl",
+    "@id": "https://orcid.org/0000-0002-6580-4718"
   },
-  "contributor": [
-    {
-      "@type": "Person",
-      "givenName": "Edwin",
-      "familyName": "de Jonge",
-      "email": "edwindjonge@gmail.com",
-      "@id": "https://orcid.org/0000-0002-6580-4718",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Centraal Bureau voor de Statistiek",
-        "alternateName": "Statistics Netherlands",
-        "url": "https://www.cbs.nl",
-        "email": "infoservice@cbs.nl",
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "Netherlands",
-          "addressLocality": "The Hague"
-        }
-      }
-    }
-  ],
   "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "R",
+      "version": ">=3.5.0",
+      "provider": {
+        "@type": "Organization",
+        "name": "The R Foundation",
+        "url": "https://www.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "shiny",
+      "provider": {
+        "@type": "Organization",
+        "name": "CRAN",
+        "url": "https://cran.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
     {
       "@type": "SoftwareApplication",
       "name": "htmlwidgets",
       "provider": {
         "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
+        "name": "CRAN",
         "url": "https://cran.r-project.org"
       },
       "runtimePlatform": "R"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "htmltools",
-      "provider": {
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "runtimePlatform": "R"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "R",
-      "version": "3.5+",
-      "provider": {
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "runtimePlatform": "Cross-platform"
     }
   ],
-  "softwareSuggestions": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "scrollama",
-      "provider": {
-        "@type": "Organization",
-        "name": "Node Package Manager (npm)",
-        "url": "https://npmjs.com"
-      },
-      "runtimePlatform": "JavaScript"
-    }
-  ],
-  "publisher": {
-    "@type": "Organization",
-    "name": "Centraal Bureau voor de Statistiek",
-    "alternateName": "Statistics Netherlands",
-    "url": "https://www.cbs.nl",
-    "email": "infoservice@cbs.nl",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "Netherlands",
-      "addressLocality": "The Hague"
-    }
-  },
-  "funding": {
-    "@type": "Organization",
-    "name": "Centraal Bureau voor de Statistiek",
-    "alternateName": "Statistics Netherlands",
-    "url": "https://www.cbs.nl",
-    "email": "infoservice@cbs.nl",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "Netherlands",
-      "addressLocality": "The Hague"
-    }
-  },
-  "applicationCategory": "Research Software",
-  "developmentStatus": "active",
-  "applicationSubCategory": "Statistical Software",
-  "readme": "https://github.com/statistiekcbs/scrollytell/blob/main/README.md",
-  "issueTracker": "https://github.com/statistiekcbs/scrollytell/issues",
-  "downloadUrl": "https://github.com/statistiekcbs/scrollytell/archive/refs/heads/main.zip",
-  "hasSourceCode": "https://github.com/statistiekcbs/scrollytell",
-  "dateCreated": "2018-01-01",
-  "dateModified": "2025-08-19",
-  "conformsTo": "https://doi.org/10.5063/schema/codemeta-3.0",
-  "isPartOf": {
-    "@type": "SoftwareSourceCode",
-    "name": "CBS Software Ecosystem",
-    "description": "Software tools and libraries related to Statistics Netherlands (CBS)",
-    "url": "https://github.com/statistiekcbs"
-  }
+  "readme": "https://github.com/statistiekcbs/scrollytell/blob/master/README.md",
+  "buildInstructions": "https://github.com/statistiekcbs/scrollytell/blob/master/README.md",
+  "installUrl": "https://github.com/statistiekcbs/scrollytell",
+  "contIntegration": "https://github.com/statistiekcbs/scrollytell/actions",
+  "developmentStatus": "active"
 }

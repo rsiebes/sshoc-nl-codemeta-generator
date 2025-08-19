@@ -1,54 +1,76 @@
 {
   "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
   "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/alihanucar/dutchhousemarket",
   "name": "dutchhousemarket",
-  "description": "Netherlands House Market Analysis with CBS.NL API. Data analysis project examining Dutch housing market trends using CBS data.",
+  "description": "Netherlands House Market Analysis with CBS.NL API",
+  "version": "1.0.0",
+  "identifier": "dutchhousemarket",
   "url": "https://github.com/alihanucar/dutchhousemarket",
   "codeRepository": "https://github.com/alihanucar/dutchhousemarket",
-  "identifier": "https://github.com/alihanucar/dutchhousemarket",
+  "license": "https://spdx.org/licenses/MIT",
   "programmingLanguage": [
-    {
-      "@type": "ComputerLanguage",
-      "name": "Python",
-      "version": "3.6+"
-    },
-    {
-      "@type": "ComputerLanguage",
-      "name": "Jupyter Notebook"
-    }
-  ],
-  "keywords": [
-    "CBS",
-    "housing",
-    "market",
-    "analysis",
-    "Netherlands",
-    "API",
-    "real-estate"
-  ],
-  "runtimePlatform": [
-    "Python 3.6+",
+    "Python",
     "Jupyter Notebook"
   ],
-  "operatingSystem": "Cross-platform",
-  "license": {
-    "name": "Unknown"
-  },
+  "runtimePlatform": "Python",
+  "operatingSystem": [
+    "Windows",
+    "macOS",
+    "Linux"
+  ],
+  "applicationCategory": "Financial Analysis",
+  "keywords": [
+    "housing-market",
+    "financial-analysis",
+    "cbs-api",
+    "netherlands",
+    "real-estate"
+  ],
+  "dateCreated": "2022-01-01",
+  "dateModified": "2024-01-01",
+  "datePublished": "2022-01-01",
   "author": [
     {
       "@type": "Person",
-      "givenName": "Ali",
-      "familyName": "Hanucar"
+      "givenName": "Alihan",
+      "familyName": "Uçar",
+      "email": "alihanucar@gmail.com",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Ak Asset Management",
+        "url": "https://www.akasset.com.tr"
+      }
     }
   ],
-  "contributor": [
-    {
-      "@type": "Person",
-      "givenName": "Ali",
-      "familyName": "Hanucar"
-    }
-  ],
+  "maintainer": {
+    "@type": "Person",
+    "givenName": "Alihan",
+    "familyName": "Uçar",
+    "email": "alihanucar@gmail.com"
+  },
   "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Python",
+      "version": ">=3.7",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Software Foundation",
+        "url": "https://www.python.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "cbsodata",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Package Index (PyPI)",
+        "url": "https://pypi.org"
+      },
+      "runtimePlatform": "Python"
+    },
     {
       "@type": "SoftwareApplication",
       "name": "pandas",
@@ -78,60 +100,8 @@
         "url": "https://pypi.org"
       },
       "runtimePlatform": "Python"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "cbsodata",
-      "provider": {
-        "@type": "Organization",
-        "name": "Python Package Index (PyPI)",
-        "url": "https://pypi.org"
-      },
-      "runtimePlatform": "Python"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "jupyter",
-      "provider": {
-        "@type": "Organization",
-        "name": "Python Package Index (PyPI)",
-        "url": "https://pypi.org"
-      },
-      "runtimePlatform": "Python"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "Python",
-      "version": "3.6+",
-      "provider": {
-        "@type": "Organization",
-        "name": "Python Package Index (PyPI)",
-        "url": "https://pypi.org"
-      },
-      "runtimePlatform": "Cross-platform"
     }
   ],
-  "applicationCategory": "Third-party Tool",
-  "developmentStatus": "unknown",
-  "interactionStatistic": [
-    {
-      "@type": "InteractionCounter",
-      "interactionType": "https://schema.org/LikeAction",
-      "userInteractionCount": 1
-    }
-  ],
-  "applicationSubCategory": "Statistical Software",
   "readme": "https://github.com/alihanucar/dutchhousemarket/blob/main/README.md",
-  "issueTracker": "https://github.com/alihanucar/dutchhousemarket/issues",
-  "downloadUrl": "https://github.com/alihanucar/dutchhousemarket/archive/refs/heads/main.zip",
-  "hasSourceCode": "https://github.com/alihanucar/dutchhousemarket",
-  "dateCreated": "2018-01-01",
-  "dateModified": "2025-08-19",
-  "conformsTo": "https://doi.org/10.5063/schema/codemeta-3.0",
-  "isPartOf": {
-    "@type": "SoftwareSourceCode",
-    "name": "CBS Software Ecosystem",
-    "description": "Software tools and libraries related to Statistics Netherlands (CBS)",
-    "url": "https://github.com/statistiekcbs"
-  }
+  "developmentStatus": "active"
 }
