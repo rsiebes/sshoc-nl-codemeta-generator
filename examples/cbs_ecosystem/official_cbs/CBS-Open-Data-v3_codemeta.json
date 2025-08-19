@@ -1,0 +1,156 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/statistiekcbs/CBS-Open-Data-v3",
+  "name": "CBS-Open-Data-v3",
+  "description": "Code examples for using CBS Open Data v3 API in R, Python, JavaScript and C#. Multi-language implementation demonstrating data access, filtering, and visualization using OData 3 protocol.",
+  "url": "https://github.com/statistiekcbs/CBS-Open-Data-v3",
+  "codeRepository": "https://github.com/statistiekcbs/CBS-Open-Data-v3.git",
+  "programmingLanguage": [
+    "C#",
+    "Python",
+    "R",
+    "JavaScript"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Jolien",
+      "familyName": "Oomens",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/jolienoomens"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Pascal",
+      "familyName": "",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/pascal-cbs"
+    },
+    {
+      "@type": "Person",
+      "givenName": "",
+      "familyName": "",
+      "url": "https://github.com/pasz72"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Dirkjan",
+      "familyName": "den Elzen",
+      "url": "https://github.com/dirkjandenelzen"
+    }
+  ],
+  "maintainer": [],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "version": "1.0.0",
+  "dateCreated": "2019-01-01",
+  "dateModified": "2024-10-23",
+  "keywords": [
+    "cbs",
+    "open-data",
+    "odata3",
+    "statistics",
+    "netherlands",
+    "api",
+    "examples",
+    "multi-language",
+    "csharp",
+    "python",
+    "r",
+    "javascript"
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "R",
+      "version": ">=3.5.0",
+      "provider": {
+        "@type": "Organization",
+        "name": "R Foundation for Statistical Computing",
+        "url": "https://www.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Python",
+      "version": ">=3.6.0",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Software Foundation",
+        "url": "https://www.python.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": ".NET Framework",
+      "version": ">=4.5",
+      "provider": {
+        "@type": "Organization",
+        "name": "Microsoft",
+        "url": "https://dotnet.microsoft.com"
+      },
+      "runtimePlatform": "C#"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "JavaScript",
+      "version": "ES5+",
+      "provider": {
+        "@type": "Organization",
+        "name": "Ecma International",
+        "url": "https://www.ecma-international.org"
+      },
+      "runtimePlatform": "JavaScript"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "OData",
+      "version": "3.0",
+      "provider": {
+        "@type": "Organization",
+        "name": "OASIS",
+        "url": "https://www.odata.org"
+      },
+      "runtimePlatform": "Web API"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Newtonsoft.Json",
+      "version": ">=13.0.1",
+      "provider": {
+        "@type": "Organization",
+        "name": "NuGet",
+        "url": "https://www.nuget.org"
+      },
+      "runtimePlatform": "C#"
+    }
+  ],
+  "runtimePlatform": [
+    "R",
+    "Python",
+    "C#",
+    "JavaScript",
+    "Cross-platform"
+  ],
+  "developmentStatus": "active",
+  "issueTracker": "https://github.com/statistiekcbs/CBS-Open-Data-v3/issues",
+  "readme": "https://github.com/statistiekcbs/CBS-Open-Data-v3/blob/master/README.md"
+}
