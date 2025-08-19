@@ -187,7 +187,7 @@ If you use this toolkit in your research, please cite:
 **Ronald Siebes**  
 UCDS Group, VU Amsterdam  
 ORCID: [0000-0001-8772-7904](https://orcid.org/0000-0001-8772-7904)  
-Email: [r.siebes@vu.nl](mailto:r.siebes@vu.nl)
+Email: [r.m.siebes@vu.nl](mailto:r.m.siebes@vu.nl)
 
 ## Acknowledgments
 
