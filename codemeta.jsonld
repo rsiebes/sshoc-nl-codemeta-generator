@@ -1,0 +1,5 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "name": "sshoc-nl-codemeta-generator"
+}
