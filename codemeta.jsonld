@@ -1,5 +1,6 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
+  "description": "A script that visits a provided github repository and creates a Codemeta description for it, including doing its best to find as much information online to enrich it.",
   "name": "codemeta-generator"
 }

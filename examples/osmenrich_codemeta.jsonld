@@ -1,0 +1,6 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "description": "Enrich sf data with geographic features from OpenStreetMaps.",
+  "name": "osmenrich: enrich geocoded data using OpenStreetMap"
+}
