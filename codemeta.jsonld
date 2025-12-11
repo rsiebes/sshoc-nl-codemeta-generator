@@ -1,6 +1,6 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "description": "A script that visits a provided github repository and creates a Codemeta description for it, including doing its best to find as much information online to enrich it.",
+  "description": "A comprehensive toolkit for generating, enhancing, and managing CodeMeta files for research software projects. This repository provides tools to create standardized metadata for software repositories, with a focus on research software discoverability and citation.",
   "name": "codemeta-generator"
 }

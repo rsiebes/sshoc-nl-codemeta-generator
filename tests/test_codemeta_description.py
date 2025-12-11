@@ -160,28 +160,9 @@ description = "This is a test package"
     @patch('src.modules.codemeta_description.extract_description_from_setup_cfg')
     @patch('src.modules.codemeta_description.extract_description_from_pyproject_toml')
     @patch('src.modules.codemeta_description.extract_description_from_package_json')
-    def test_get_priority_repository_info(self, mock_pkg, mock_toml, mock_cfg, mock_setup, mock_readme, mock_info):
-        """Test that repository info has highest priority."""
-        mock_info.return_value = "info-description"
-        mock_readme.return_value = "readme-description"
-        mock_setup.return_value = "setup-description"
-        mock_cfg.return_value = "cfg-description"
-        mock_toml.return_value = "toml-description"
-        mock_pkg.return_value = "pkg-description"
-
-        result = get("https://github.com/owner/repo")
-        assert result == {"description": "info-description"}, f"Expected info description, got {result}"
-        print("✓ test_get_priority_repository_info passed")
-
-    @patch('src.modules.codemeta_description.extract_description_from_repository_info')
-    @patch('src.modules.codemeta_description.extract_description_from_readme')
-    @patch('src.modules.codemeta_description.extract_description_from_setup_py')
-    @patch('src.modules.codemeta_description.extract_description_from_setup_cfg')
-    @patch('src.modules.codemeta_description.extract_description_from_pyproject_toml')
-    @patch('src.modules.codemeta_description.extract_description_from_package_json')
     def test_get_priority_readme(self, mock_pkg, mock_toml, mock_cfg, mock_setup, mock_readme, mock_info):
-        """Test that README has second priority."""
-        mock_info.return_value = None
+        """Test that README has highest priority."""
+        mock_info.return_value = "info-description"
         mock_readme.return_value = "readme-description"
         mock_setup.return_value = "setup-description"
         mock_cfg.return_value = "cfg-description"
@@ -191,6 +172,25 @@ description = "This is a test package"
         result = get("https://github.com/owner/repo")
         assert result == {"description": "readme-description"}, f"Expected readme description, got {result}"
         print("✓ test_get_priority_readme passed")
+
+    @patch('src.modules.codemeta_description.extract_description_from_repository_info')
+    @patch('src.modules.codemeta_description.extract_description_from_readme')
+    @patch('src.modules.codemeta_description.extract_description_from_setup_py')
+    @patch('src.modules.codemeta_description.extract_description_from_setup_cfg')
+    @patch('src.modules.codemeta_description.extract_description_from_pyproject_toml')
+    @patch('src.modules.codemeta_description.extract_description_from_package_json')
+    def test_get_priority_repository_info(self, mock_pkg, mock_toml, mock_cfg, mock_setup, mock_readme, mock_info):
+        """Test that repository info has second priority."""
+        mock_info.return_value = "info-description"
+        mock_readme.return_value = None
+        mock_setup.return_value = "setup-description"
+        mock_cfg.return_value = "cfg-description"
+        mock_toml.return_value = "toml-description"
+        mock_pkg.return_value = "pkg-description"
+
+        result = get("https://github.com/owner/repo")
+        assert result == {"description": "info-description"}, f"Expected info description, got {result}"
+        print("✓ test_get_priority_repository_info passed")
 
     @patch('src.modules.codemeta_description.extract_description_from_repository_info')
     @patch('src.modules.codemeta_description.extract_description_from_readme')
