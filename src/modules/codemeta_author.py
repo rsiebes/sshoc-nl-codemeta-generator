@@ -24,7 +24,7 @@ import requests
 # Add the project root to the Python path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from src.github_api import parse_repository_url, fetch_repository_info, fetch_file_content
+from src.github_api import parse_repository_url, fetch_repository_info, fetch_file_content, get_github_token
 from src.utils import normalize_url
 
 
@@ -45,7 +45,14 @@ def extract_authors_from_github_api(owner: str, repo: str, max_authors: int = 5)
     """
     try:
         url = f"https://api.github.com/repos/{owner}/{repo}/contributors"
-        response = requests.get(url, timeout=10)
+        headers = {}
+        
+        # Use GitHub token if available
+        token = get_github_token()
+        if token:
+            headers["Authorization"] = f"token {token}"
+        
+        response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         contributors = response.json()
 
@@ -64,7 +71,11 @@ def extract_authors_from_github_api(owner: str, repo: str, max_authors: int = 5)
             user_url = contributor.get("url")
             if user_url:
                 try:
-                    user_response = requests.get(user_url, timeout=10)
+                    user_headers = {}
+                    if token:
+                        user_headers["Authorization"] = f"token {token}"
+                    
+                    user_response = requests.get(user_url, headers=user_headers, timeout=10)
                     user_response.raise_for_status()
                     user_data = user_response.json()
 

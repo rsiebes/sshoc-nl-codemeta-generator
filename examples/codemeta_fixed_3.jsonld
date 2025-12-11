@@ -1,0 +1,46 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "Kubernetes Prow Robot",
+      "@type": "Person",
+      "url": "https://github.com/k8s-ci-robot"
+    },
+    {
+      "name": "Jordan Liggitt",
+      "@type": "Person",
+      "url": "https://github.com/liggitt",
+      "email": "jordan@liggitt.net",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Tim Hockin",
+      "@type": "Person",
+      "url": "https://github.com/thockin",
+      "email": "thockin@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Wojciech Tyczynski",
+      "@type": "Person",
+      "url": "https://github.com/wojtek-t",
+      "email": "wojtekt@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Brendan Burns",
+      "@type": "Person",
+      "url": "https://github.com/brendandburns",
+      "affiliation": "Microsoft",
+      "@id": "https://orcid.org/0000-0002-2962-2597"
+    }
+  ],
+  "description": "Production-Grade Container Scheduling and Management",
+  "license": {
+    "@type": "CreativeWork",
+    "name": "Apache License 2.0",
+    "@id": "https://spdx.org/licenses/Apache-2.0"
+  },
+  "name": "kubernetes/kubernetes"
+}

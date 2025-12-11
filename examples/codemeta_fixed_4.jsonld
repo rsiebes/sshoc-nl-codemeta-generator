@@ -1,0 +1,10 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "description": "Linux kernel source tree",
+  "license": {
+    "@type": "CreativeWork",
+    "name": "Other"
+  },
+  "name": "torvalds/linux"
+}
