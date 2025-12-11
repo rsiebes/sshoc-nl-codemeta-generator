@@ -1,0 +1,43 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "Evan You",
+      "@type": "Person",
+      "url": "https://github.com/yyx990803",
+      "affiliation": "VoidZero"
+    },
+    {
+      "name": "vue-bot",
+      "@type": "Person",
+      "url": "https://github.com/vue-bot",
+      "affiliation": "@vuejs "
+    },
+    {
+      "name": "Hanks",
+      "@type": "Person",
+      "url": "https://github.com/Hanks10100",
+      "@id": "https://orcid.org/0009-0009-8885-4345"
+    },
+    {
+      "name": "Eduardo San Martin Morote",
+      "@type": "Person",
+      "url": "https://github.com/posva",
+      "affiliation": "Freelance",
+      "@id": "https://orcid.org/0009-0003-8422-0042"
+    },
+    {
+      "name": "chengchao",
+      "@type": "Person",
+      "url": "https://github.com/defcc"
+    }
+  ],
+  "description": "This is the repo for Vue 2. For Vue 3, go to https://github.com/vuejs/core",
+  "license": {
+    "@type": "CreativeWork",
+    "name": "MIT License",
+    "@id": "https://spdx.org/licenses/MIT"
+  },
+  "name": "vue"
+}

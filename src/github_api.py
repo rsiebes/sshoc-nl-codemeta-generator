@@ -65,8 +65,8 @@ def fetch_repository_info(owner: str, repo: str) -> Optional[Dict]:
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         return response.json()
-    except requests.RequestException as e:
-        print(f"Error fetching repository info: {e}")
+    except requests.RequestException:
+        # Silently fail
         return None
 
 def fetch_repository_languages(owner: str, repo: str) -> Optional[Dict]:
@@ -91,8 +91,8 @@ def fetch_repository_languages(owner: str, repo: str) -> Optional[Dict]:
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         return response.json()
-    except requests.RequestException as e:
-        print(f"Error fetching repository languages: {e}")
+    except requests.RequestException:
+        # Silently fail
         return None
 
 def fetch_repository_contributors(owner: str, repo: str, per_page: int = 100) -> Optional[list]:
@@ -118,8 +118,8 @@ def fetch_repository_contributors(owner: str, repo: str, per_page: int = 100) ->
         response = requests.get(url, headers=headers, params={"per_page": per_page}, timeout=10)
         response.raise_for_status()
         return response.json()
-    except requests.RequestException as e:
-        print(f"Error fetching repository contributors: {e}")
+    except requests.RequestException:
+        # Silently fail
         return None
 
 def fetch_repository_releases(owner: str, repo: str, per_page: int = 100) -> Optional[list]:
@@ -145,8 +145,8 @@ def fetch_repository_releases(owner: str, repo: str, per_page: int = 100) -> Opt
         response = requests.get(url, headers=headers, params={"per_page": per_page}, timeout=10)
         response.raise_for_status()
         return response.json()
-    except requests.RequestException as e:
-        print(f"Error fetching repository releases: {e}")
+    except requests.RequestException:
+        # Silently fail
         return None
 
 def fetch_file_content(owner: str, repo: str, file_path: str, branch: str = "main") -> Optional[str]:
@@ -177,6 +177,11 @@ def fetch_file_content(owner: str, repo: str, file_path: str, branch: str = "mai
             import base64
             return base64.b64decode(data["content"]).decode("utf-8")
         return None
-    except requests.RequestException as e:
-        print(f"Error fetching file content: {e}")
+    except requests.exceptions.HTTPError as e:
+        # Silently handle 404 errors (file not found) - don't print error message
+        if e.response.status_code != 404:
+            pass  # Silently fail for other errors too
+        return None
+    except requests.RequestException:
+        # Silently fail for network errors
         return None
