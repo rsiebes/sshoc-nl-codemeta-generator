@@ -1,0 +1,20 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "Jasen2009",
+      "@type": "Person",
+      "url": "https://github.com/Jasen2009"
+    },
+    {
+      "name": "Ronald Siebes",
+      "@type": "Person",
+      "url": "https://github.com/rsiebes",
+      "affiliation": "UCDS group,  VU Amsterdam",
+      "@id": "https://orcid.org/0000-0001-8772-7904"
+    }
+  ],
+  "description": "A comprehensive toolkit for generating, enhancing, and managing CodeMeta files for research software projects. This repository provides tools to create standardized metadata for software repositories, with a focus on research software discoverability and citation.",
+  "name": "codemeta-generator"
+}

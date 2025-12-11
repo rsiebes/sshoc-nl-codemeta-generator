@@ -1,6 +1,29 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "Leonardo Vida",
+      "@type": "Person",
+      "url": "https://github.com/leonardovida",
+      "affiliation": "@motherduckdb",
+      "@id": "https://orcid.org/0000-0002-0461-016X"
+    },
+    {
+      "name": "Jonathan de Bruin",
+      "@type": "Person",
+      "url": "https://github.com/J535D165",
+      "affiliation": "Utrecht University",
+      "@id": "https://orcid.org/0000-0002-4297-0502"
+    },
+    {
+      "name": "Erik-Jan van Kesteren",
+      "@type": "Person",
+      "url": "https://github.com/vankesteren",
+      "affiliation": "Assistant professor @UtrechtUniversity",
+      "@id": "https://orcid.org/0000-0003-1548-1663"
+    }
+  ],
   "description": "The goal of osmenrich is to easily enrich geocoded data (latitude/longitude) with geographic features from OpenStreetMap (OSM). The main language of the package is R and this package is designed to work with the sf and osmdata packages for collecting and manipulating geodata.",
   "name": "osmenrich: enrich geocoded data using OpenStreetMap"
 }
