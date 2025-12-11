@@ -25,5 +25,10 @@
     }
   ],
   "description": "The goal of osmenrich is to easily enrich geocoded data (latitude/longitude) with geographic features from OpenStreetMap (OSM). The main language of the package is R and this package is designed to work with the sf and osmdata packages for collecting and manipulating geodata.",
+  "license": {
+    "@type": "CreativeWork",
+    "name": "MIT License",
+    "@id": "https://spdx.org/licenses/MIT"
+  },
   "name": "osmenrich: enrich geocoded data using OpenStreetMap"
 }
