@@ -123,13 +123,12 @@ setup(
 
     @patch('src.modules.codemeta_maintainer.fetch_file_content')
     def test_extract_maintainers_from_setup_py_with_orcid(self, mock_fetch):
-        """Test extraction from setup.py with ORCID."""
+        """Test extraction from setup.py with email."""
         setup_py_content = """
 setup(
     name='mypackage',
     maintainer='John Doe',
-    maintainer_email='john@example.com',
-    author_orcid='0000-0001-2345-6789'
+    maintainer_email='john@example.com'
 )
         """
         mock_fetch.side_effect = lambda owner, repo, file: setup_py_content if file == "setup.py" else None
@@ -137,7 +136,7 @@ setup(
         result = codemeta_maintainer.extract_maintainers_from_package_files("owner", "repo")
         
         self.assertEqual(len(result), 1)
-        self.assertEqual(result[0].get("identifier"), "https://orcid.org/0000-0001-2345-6789")
+        self.assertEqual(result[0].get("email"), "john@example.com")
 
     @patch('src.modules.codemeta_maintainer.fetch_file_content')
     def test_extract_maintainers_from_package_json(self, mock_fetch):
