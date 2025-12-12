@@ -1,0 +1,76 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "TensorFlower Gardener",
+      "@type": "Person",
+      "url": "https://github.com/tensorflower-gardener"
+    },
+    {
+      "name": "Eugene Zhulenev",
+      "@type": "Person",
+      "url": "https://github.com/ezhulenev",
+      "email": "ezhulenev@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Adrian Kuegel",
+      "@type": "Person",
+      "url": "https://github.com/akuegel",
+      "affiliation": "Google Germany GmbH"
+    },
+    {
+      "name": "Peter Hawkins",
+      "@type": "Person",
+      "url": "https://github.com/hawkinsp",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0001-5912-409X"
+    },
+    {
+      "name": "Mihai Maruseac",
+      "@type": "Person",
+      "url": "https://github.com/mihaimaruseac",
+      "email": "mihaimaruseac@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0002-6225-1206"
+    }
+  ],
+  "description": "An Open Source Machine Learning Framework for Everyone",
+  "keywords": [
+    "android",
+    "api",
+    "c++",
+    "community",
+    "container",
+    "course",
+    "deep learning",
+    "deep neural networks",
+    "distributed",
+    "docker",
+    "documentation",
+    "example",
+    "framework",
+    "guide",
+    "language",
+    "learning",
+    "machine learning",
+    "neural network",
+    "open source",
+    "optimization",
+    "python",
+    "security",
+    "shell",
+    "tensorflow",
+    "testing",
+    "toolkit",
+    "tutorial",
+    "visualization"
+  ],
+  "license": {
+    "@type": "CreativeWork",
+    "name": "Apache License 2.0",
+    "@id": "https://spdx.org/licenses/Apache-2.0"
+  },
+  "name": "tensorflow/tensorflow"
+}
