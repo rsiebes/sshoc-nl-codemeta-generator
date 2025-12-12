@@ -30,7 +30,10 @@ test:
         result = codemeta_build_instructions.extract_from_makefile("owner", "repo")
         
         self.assertIsNotNone(result)
-        self.assertIn("make", result)
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        self.assertEqual(result[0]["type"], "build")
+        self.assertIn("make", result[0]["command"])
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_makefile_no_file(self, mock_fetch):
@@ -61,7 +64,11 @@ setup(
         
         result = codemeta_build_instructions.extract_from_setup_py("owner", "repo")
         
-        self.assertEqual(result, "python setup.py build")
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        self.assertEqual(result[0]["command"], "python setup.py build")
+        self.assertEqual(result[0]["type"], "build")
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_setup_py_no_file(self, mock_fetch):
@@ -92,7 +99,13 @@ version = "1.0.0"
         
         result = codemeta_build_instructions.extract_from_pyproject_toml("owner", "repo")
         
-        self.assertEqual(result, "poetry build")
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        # Should have poetry install and build steps
+        commands = [step["command"] for step in result]
+        self.assertIn("poetry install", commands)
+        self.assertIn("poetry build", commands)
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_pyproject_hatchling(self, mock_fetch):
@@ -106,7 +119,10 @@ build-backend = "hatchling.build"
         
         result = codemeta_build_instructions.extract_from_pyproject_toml("owner", "repo")
         
-        self.assertEqual(result, "hatch build")
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        commands = [step["command"] for step in result]
+        self.assertIn("hatch build", commands)
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_pyproject_no_file(self, mock_fetch):
@@ -139,7 +155,12 @@ class TestPackageJsonExtraction(unittest.TestCase):
         result = codemeta_build_instructions.extract_from_package_json("owner", "repo")
         
         self.assertIsNotNone(result)
-        self.assertIn("npm run build", result)
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        # Should have npm install and build steps
+        commands = [step["command"] for step in result]
+        self.assertIn("npm install", commands)
+        self.assertIn("npm run build", commands)
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_package_json_no_file(self, mock_fetch):
@@ -167,7 +188,13 @@ edition = "2021"
         
         result = codemeta_build_instructions.extract_from_cargo_toml("owner", "repo")
         
-        self.assertEqual(result, "cargo build --release")
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        # Should have cargo build steps
+        commands = [step["command"] for step in result]
+        self.assertIn("cargo build", commands)
+        self.assertIn("cargo build --release", commands)
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_cargo_toml_no_file(self, mock_fetch):
@@ -197,7 +224,13 @@ version = '1.0.0'
         
         result = codemeta_build_instructions.extract_from_build_gradle("owner", "repo")
         
-        self.assertEqual(result, "./gradlew build")
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        # Should have gradle build steps
+        commands = [step["command"] for step in result]
+        self.assertIn("./gradlew clean", commands)
+        self.assertIn("./gradlew build", commands)
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_build_gradle_no_file(self, mock_fetch):
@@ -228,7 +261,13 @@ class TestPomXmlExtraction(unittest.TestCase):
         
         result = codemeta_build_instructions.extract_from_pom_xml("owner", "repo")
         
-        self.assertEqual(result, "mvn clean install")
+        self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        # Should have maven build steps
+        commands = [step["command"] for step in result]
+        self.assertIn("mvn clean", commands)
+        self.assertIn("mvn install", commands)
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_pom_xml_no_file(self, mock_fetch):
@@ -268,6 +307,8 @@ make install
         result = codemeta_build_instructions.extract_from_readme("owner", "repo")
         
         self.assertIsNotNone(result)
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
 
     @patch('src.modules.codemeta_build_instructions.fetch_file_content')
     def test_extract_from_readme_no_file(self, mock_fetch):
@@ -287,12 +328,21 @@ class TestMainBuildInstructionsFunction(unittest.TestCase):
     def test_get_build_instructions_from_makefile(self, mock_parse, mock_makefile):
         """Test get() function with Makefile."""
         mock_parse.return_value = ("owner", "repo")
-        mock_makefile.return_value = "make build"
+        mock_makefile.return_value = [
+            {
+                "step": 1,
+                "command": "make build",
+                "description": "Build the project",
+                "annotation": "Makefile",
+                "type": "build"
+            }
+        ]
         
         result = codemeta_build_instructions.get("https://github.com/owner/repo")
         
         self.assertIn("buildInstructions", result)
-        self.assertEqual(result["buildInstructions"], "make build")
+        self.assertIsInstance(result["buildInstructions"], list)
+        self.assertEqual(len(result["buildInstructions"]), 1)
 
     @patch('src.modules.codemeta_build_instructions.extract_from_setup_py')
     @patch('src.modules.codemeta_build_instructions.extract_from_makefile')
@@ -301,12 +351,20 @@ class TestMainBuildInstructionsFunction(unittest.TestCase):
         """Test get() function with setup.py."""
         mock_parse.return_value = ("owner", "repo")
         mock_makefile.return_value = None
-        mock_setup.return_value = "python setup.py build"
+        mock_setup.return_value = [
+            {
+                "step": 1,
+                "command": "python setup.py build",
+                "description": "Build the Python package",
+                "annotation": "setuptools",
+                "type": "build"
+            }
+        ]
         
         result = codemeta_build_instructions.get("https://github.com/owner/repo")
         
         self.assertIn("buildInstructions", result)
-        self.assertEqual(result["buildInstructions"], "python setup.py build")
+        self.assertIsInstance(result["buildInstructions"], list)
 
     @patch('src.modules.codemeta_build_instructions.parse_repository_url')
     def test_get_invalid_url(self, mock_parse):
@@ -351,25 +409,46 @@ class TestBuildInstructionsDataValidation(unittest.TestCase):
 
     @patch('src.modules.codemeta_build_instructions.extract_from_makefile')
     @patch('src.modules.codemeta_build_instructions.parse_repository_url')
-    def test_build_instructions_is_string(self, mock_parse, mock_makefile):
-        """Test that build instructions is a string."""
+    def test_build_instructions_is_list(self, mock_parse, mock_makefile):
+        """Test that build instructions is a list."""
         mock_parse.return_value = ("owner", "repo")
-        mock_makefile.return_value = "make build"
+        mock_makefile.return_value = [
+            {
+                "step": 1,
+                "command": "make build",
+                "description": "Build",
+                "annotation": "Makefile",
+                "type": "build"
+            }
+        ]
         
         result = codemeta_build_instructions.get("https://github.com/owner/repo")
         
-        self.assertIsInstance(result.get("buildInstructions"), str)
+        self.assertIsInstance(result.get("buildInstructions"), list)
 
     @patch('src.modules.codemeta_build_instructions.extract_from_makefile')
     @patch('src.modules.codemeta_build_instructions.parse_repository_url')
-    def test_build_instructions_not_empty(self, mock_parse, mock_makefile):
-        """Test that build instructions is not empty."""
+    def test_build_instructions_has_required_fields(self, mock_parse, mock_makefile):
+        """Test that each build instruction has required fields."""
         mock_parse.return_value = ("owner", "repo")
-        mock_makefile.return_value = "make build"
+        mock_makefile.return_value = [
+            {
+                "step": 1,
+                "command": "make build",
+                "description": "Build the project",
+                "annotation": "Makefile",
+                "type": "build"
+            }
+        ]
         
         result = codemeta_build_instructions.get("https://github.com/owner/repo")
         
-        self.assertTrue(len(result.get("buildInstructions", "")) > 0)
+        for instruction in result.get("buildInstructions", []):
+            self.assertIn("step", instruction)
+            self.assertIn("command", instruction)
+            self.assertIn("description", instruction)
+            self.assertIn("annotation", instruction)
+            self.assertIn("type", instruction)
 
 
 if __name__ == '__main__':
