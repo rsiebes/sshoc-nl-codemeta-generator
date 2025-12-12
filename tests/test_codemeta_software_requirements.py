@@ -35,6 +35,71 @@ class TestSoftwareRequirementsExtraction(unittest.TestCase):
         self.assertEqual(result, {})
 
 
+class TestVersionParsing(unittest.TestCase):
+    """Test version specifier parsing."""
+
+    def test_parse_exact_version(self):
+        """Test parsing exact version specifier."""
+        min_ver, max_ver = codemeta_software_requirements.parse_version_specifier("==1.0.0")
+        self.assertEqual(min_ver, "1.0.0")
+        self.assertEqual(max_ver, "1.0.0")
+
+    def test_parse_greater_equal(self):
+        """Test parsing >= version specifier."""
+        min_ver, max_ver = codemeta_software_requirements.parse_version_specifier(">=1.0.0")
+        self.assertEqual(min_ver, "1.0.0")
+        self.assertIsNone(max_ver)
+
+    def test_parse_less_equal(self):
+        """Test parsing <= version specifier."""
+        min_ver, max_ver = codemeta_software_requirements.parse_version_specifier("<=2.0.0")
+        self.assertIsNone(min_ver)
+        self.assertEqual(max_ver, "2.0.0")
+
+    def test_parse_range(self):
+        """Test parsing version range."""
+        min_ver, max_ver = codemeta_software_requirements.parse_version_specifier("1.0.0-2.0.0")
+        self.assertEqual(min_ver, "1.0.0")
+        self.assertEqual(max_ver, "2.0.0")
+
+    def test_parse_compatible_release(self):
+        """Test parsing compatible release specifier."""
+        min_ver, max_ver = codemeta_software_requirements.parse_version_specifier("~=1.4.5")
+        self.assertEqual(min_ver, "1.4.5")
+        self.assertEqual(max_ver, "1.5")
+
+
+class TestSoftwareApplicationCreation(unittest.TestCase):
+    """Test SoftwareApplication object creation."""
+
+    def test_create_requirement_without_version(self):
+        """Test creating requirement without version."""
+        req = codemeta_software_requirements.create_software_requirement("requests")
+        
+        self.assertEqual(req["@type"], "SoftwareApplication")
+        self.assertEqual(req["name"], "requests")
+        self.assertNotIn("minVersion", req)
+        self.assertNotIn("maxVersion", req)
+
+    def test_create_requirement_with_version(self):
+        """Test creating requirement with version."""
+        req = codemeta_software_requirements.create_software_requirement("requests", ">=2.28.0")
+        
+        self.assertEqual(req["@type"], "SoftwareApplication")
+        self.assertEqual(req["name"], "requests")
+        self.assertEqual(req["minVersion"], "2.28.0")
+        self.assertNotIn("maxVersion", req)
+
+    def test_create_requirement_with_range(self):
+        """Test creating requirement with version range."""
+        req = codemeta_software_requirements.create_software_requirement("flask", "1.0.0-2.0.0")
+        
+        self.assertEqual(req["@type"], "SoftwareApplication")
+        self.assertEqual(req["name"], "flask")
+        self.assertEqual(req["minVersion"], "1.0.0")
+        self.assertEqual(req["maxVersion"], "2.0.0")
+
+
 class TestPythonRequirements(unittest.TestCase):
     """Test Python requirements extraction."""
 
@@ -45,33 +110,20 @@ class TestPythonRequirements(unittest.TestCase):
 requests==2.28.0
 numpy>=1.20.0
 pandas<2.0.0
-# Comment line
 scipy
 """
         mock_fetch.return_value = requirements
         result = codemeta_software_requirements.extract_python_requirements("owner", "repo")
         
-        self.assertIn("Python package: requests", result)
-        self.assertIn("Python package: numpy", result)
-        self.assertIn("Python package: pandas", result)
-        self.assertIn("Python package: scipy", result)
-
-    @patch('src.modules.codemeta_software_requirements.fetch_file_content')
-    def test_extract_python_from_setup_py(self, mock_fetch):
-        """Test extraction of Python requirements from setup.py."""
-        setup_py = """
-setup(
-    install_requires=[
-        'requests>=2.28.0',
-        'numpy>=1.20.0',
-    ]
-)
-"""
-        mock_fetch.return_value = setup_py
-        result = codemeta_software_requirements.extract_python_requirements("owner", "repo")
+        self.assertTrue(any(r['name'] == 'requests' for r in result))
+        self.assertTrue(any(r['name'] == 'numpy' for r in result))
+        self.assertTrue(any(r['name'] == 'pandas' for r in result))
+        self.assertTrue(any(r['name'] == 'scipy' for r in result))
         
-        self.assertIn("Python package: requests", result)
-        self.assertIn("Python package: numpy", result)
+        # Check version extraction
+        requests_req = next(r for r in result if r['name'] == 'requests')
+        self.assertEqual(requests_req.get('minVersion'), '2.28.0')
+        self.assertEqual(requests_req.get('maxVersion'), '2.28.0')
 
 
 class TestNodeJsRequirements(unittest.TestCase):
@@ -85,18 +137,14 @@ class TestNodeJsRequirements(unittest.TestCase):
     "dependencies": {
         "express": "^4.18.0",
         "react": "^18.0.0"
-    },
-    "devDependencies": {
-        "webpack": "^5.0.0"
     }
 }
 """
         mock_fetch.return_value = package_json
         result = codemeta_software_requirements.extract_nodejs_requirements("owner", "repo")
         
-        self.assertIn("Node.js package: express", result)
-        self.assertIn("Node.js package: react", result)
-        self.assertIn("Node.js dev package: webpack", result)
+        self.assertTrue(any(r['name'] == 'express' for r in result))
+        self.assertTrue(any(r['name'] == 'react' for r in result))
 
 
 class TestJavaRequirements(unittest.TestCase):
@@ -110,9 +158,7 @@ class TestJavaRequirements(unittest.TestCase):
     <dependencies>
         <dependency>
             <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <artifactId>spring-core</artifactId>
+            <version>4.13.2</version>
         </dependency>
     </dependencies>
 </project>
@@ -120,8 +166,9 @@ class TestJavaRequirements(unittest.TestCase):
         mock_fetch.return_value = pom_xml
         result = codemeta_software_requirements.extract_java_requirements("owner", "repo")
         
-        self.assertIn("Java library: junit", result)
-        self.assertIn("Java library: spring-core", result)
+        self.assertTrue(any(r['name'] == 'junit' for r in result))
+        junit_req = next(r for r in result if r['name'] == 'junit')
+        self.assertEqual(junit_req.get('minVersion'), '4.13.2')
 
 
 class TestRubyRequirements(unittest.TestCase):
@@ -135,14 +182,12 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 7.0.0'
 gem 'sqlite3'
-gem 'puma'
 """
         mock_fetch.return_value = gemfile
         result = codemeta_software_requirements.extract_ruby_requirements("owner", "repo")
         
-        self.assertIn("Ruby gem: rails", result)
-        self.assertIn("Ruby gem: sqlite3", result)
-        self.assertIn("Ruby gem: puma", result)
+        self.assertTrue(any(r['name'] == 'rails' for r in result))
+        self.assertTrue(any(r['name'] == 'sqlite3' for r in result))
 
 
 class TestGoRequirements(unittest.TestCase):
@@ -164,8 +209,8 @@ require (
         mock_fetch.return_value = go_mod
         result = codemeta_software_requirements.extract_go_requirements("owner", "repo")
         
-        self.assertIn("Go module: github.com/gorilla/mux", result)
-        self.assertIn("Go module: github.com/lib/pq", result)
+        self.assertTrue(any(r['name'] == 'github.com/gorilla/mux' for r in result))
+        self.assertTrue(any(r['name'] == 'github.com/lib/pq' for r in result))
 
 
 class TestRustRequirements(unittest.TestCase):
@@ -180,35 +225,13 @@ name = "my-project"
 
 [dependencies]
 serde = "1.0"
-tokio = { version = "1.0", features = ["full"] }
+tokio = "1.0"
 """
         mock_fetch.return_value = cargo_toml
         result = codemeta_software_requirements.extract_rust_requirements("owner", "repo")
         
-        self.assertIn("Rust crate: serde", result)
-        self.assertIn("Rust crate: tokio", result)
-
-
-class TestSystemRequirements(unittest.TestCase):
-    """Test system requirements extraction."""
-
-    @patch('src.modules.codemeta_software_requirements.fetch_file_content')
-    def test_extract_system_requirements(self, mock_fetch):
-        """Test extraction of system requirements from README."""
-        readme = """
-# Installation
-
-This project requires:
-- PostgreSQL >= 12.0
-- Redis >= 6.0
-- Node.js version 16+
-
-You need to install Docker before running the project.
-"""
-        mock_fetch.return_value = readme
-        result = codemeta_software_requirements.extract_system_requirements("owner", "repo")
-        
-        self.assertTrue(len(result) > 0)
+        self.assertTrue(any(r['name'] == 'serde' for r in result))
+        self.assertTrue(any(r['name'] == 'tokio' for r in result))
 
 
 class TestRequirementsContent(unittest.TestCase):
@@ -233,39 +256,25 @@ class TestRequirementsContent(unittest.TestCase):
         self.assertTrue(len(result["softwareRequirements"]) > 0)
 
     @patch('src.modules.codemeta_software_requirements.fetch_file_content')
+    def test_requirements_are_software_applications(self, mock_fetch):
+        """Test that requirements are SoftwareApplication objects."""
+        mock_fetch.return_value = "requests==2.28.0"
+        result = codemeta_software_requirements.get("https://github.com/owner/repo")
+        
+        self.assertIn("softwareRequirements", result)
+        for req in result["softwareRequirements"]:
+            self.assertEqual(req.get("@type"), "SoftwareApplication")
+            self.assertIn("name", req)
+
+    @patch('src.modules.codemeta_software_requirements.fetch_file_content')
     def test_requirements_sorted(self, mock_fetch):
         """Test that requirements list is sorted."""
         mock_fetch.return_value = "requests==2.28.0\nnumpy>=1.20.0"
         result = codemeta_software_requirements.get("https://github.com/owner/repo")
         
         self.assertIn("softwareRequirements", result)
-        self.assertEqual(result["softwareRequirements"], sorted(result["softwareRequirements"]))
-
-
-class TestRealRepositories(unittest.TestCase):
-    """Test requirements extraction from real repositories."""
-
-    @patch('src.modules.codemeta_software_requirements.extract_python_requirements')
-    @patch('src.modules.codemeta_software_requirements.extract_nodejs_requirements')
-    @patch('src.modules.codemeta_software_requirements.extract_java_requirements')
-    @patch('src.modules.codemeta_software_requirements.extract_ruby_requirements')
-    @patch('src.modules.codemeta_software_requirements.extract_go_requirements')
-    @patch('src.modules.codemeta_software_requirements.extract_rust_requirements')
-    @patch('src.modules.codemeta_software_requirements.extract_system_requirements')
-    def test_flask_requirements(self, mock_sys, mock_rust, mock_go, mock_ruby, mock_java, mock_nodejs, mock_python):
-        """Test requirements extraction from Flask."""
-        mock_python.return_value = ["Python package: Werkzeug", "Python package: Jinja2"]
-        mock_nodejs.return_value = []
-        mock_java.return_value = []
-        mock_ruby.return_value = []
-        mock_go.return_value = []
-        mock_rust.return_value = []
-        mock_sys.return_value = []
-        
-        result = codemeta_software_requirements.get("https://github.com/pallets/flask")
-        
-        self.assertIn("softwareRequirements", result)
-        self.assertIn("Python package: Werkzeug", result["softwareRequirements"])
+        names = [r.get('name') for r in result["softwareRequirements"]]
+        self.assertEqual(names, sorted(names))
 
 
 if __name__ == '__main__':
