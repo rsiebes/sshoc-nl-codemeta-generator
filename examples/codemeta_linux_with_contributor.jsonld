@@ -1,0 +1,12 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "datePublished": "2025-12-11",
+  "description": "Linux kernel source tree",
+  "license": {
+    "@type": "CreativeWork",
+    "name": "GNU General Public License v2",
+    "@id": "https://spdx.org/licenses/GPL-2.0-only"
+  },
+  "name": "torvalds/linux"
+}

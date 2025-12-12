@@ -1,0 +1,151 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "Jeff Wu",
+      "@type": "Person",
+      "url": "https://github.com/WuTheFWasThat",
+      "email": "WuTheFWasThat@gmail.com",
+      "@id": "https://orcid.org/0000-0002-7075-7514"
+    },
+    {
+      "name": "Jack Clark",
+      "@type": "Person",
+      "url": "https://github.com/jackclarksf",
+      "@id": "https://orcid.org/0000-0003-2416-5128"
+    },
+    {
+      "name": "Christopher Hesse",
+      "@type": "Person",
+      "url": "https://github.com/christopherhesse",
+      "affiliation": "OpenAI",
+      "@id": "https://orcid.org/0000-0001-8754-1827"
+    },
+    {
+      "name": "James B. Pollack, MFA ",
+      "@type": "Person",
+      "url": "https://github.com/imgntn"
+    },
+    {
+      "name": "Nathan Murthy",
+      "@type": "Person",
+      "url": "https://github.com/natemurthy"
+    }
+  ],
+  "contributor": [
+    {
+      "name": "Jeff Wu",
+      "url": "https://github.com/WuTheFWasThat",
+      "@type": "Person",
+      "email": "WuTheFWasThat@gmail.com",
+      "@id": "https://orcid.org/0000-0002-7075-7514"
+    },
+    {
+      "name": "Jack Clark",
+      "url": "https://github.com/jackclarksf",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-2416-5128"
+    },
+    {
+      "name": "Christopher Hesse",
+      "url": "https://github.com/christopherhesse",
+      "@type": "Person",
+      "affiliation": "OpenAI",
+      "@id": "https://orcid.org/0000-0001-8754-1827"
+    },
+    {
+      "name": "",
+      "url": "",
+      "@type": "Person"
+    },
+    {
+      "name": "James B. Pollack, MFA ",
+      "url": "https://github.com/imgntn",
+      "@type": "Person"
+    },
+    {
+      "name": "Nathan Murthy",
+      "url": "https://github.com/natemurthy",
+      "@type": "Person"
+    },
+    {
+      "name": "GitHub30",
+      "url": "https://github.com/GitHub30",
+      "@type": "Person",
+      "email": "funaox@gmail.com"
+    },
+    {
+      "name": "albertwujj",
+      "url": "https://github.com/albertwujj",
+      "@type": "Person",
+      "email": "albertwujj@gmail.com"
+    },
+    {
+      "name": "Anders",
+      "url": "https://github.com/webproduktion01",
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0001-4748-6760"
+    },
+    {
+      "name": "Armaan Bhullar",
+      "url": "https://github.com/ArmaanBhullar",
+      "@type": "Person"
+    },
+    {
+      "name": "Leonard Bogdonoff",
+      "url": "https://github.com/rememberlenny",
+      "@type": "Person",
+      "email": "rememberlenny@gmail.com",
+      "affiliation": "NFDG"
+    },
+    {
+      "name": "Madison May",
+      "url": "https://github.com/madisonmay",
+      "@type": "Person",
+      "email": "madison.may@indicodata.ai",
+      "affiliation": "@IndicoDataSolutions ",
+      "@id": "https://orcid.org/0000-0001-9628-4041"
+    },
+    {
+      "name": "Mathieu Rene",
+      "url": "https://github.com/mrene",
+      "@type": "Person",
+      "email": "mathieu.rene@gmail.com",
+      "affiliation": "HumanFirst.ai"
+    },
+    {
+      "name": "Max Woolf",
+      "url": "https://github.com/minimaxir",
+      "@type": "Person",
+      "email": "max@minimaxir.com",
+      "affiliation": "@buzzfeed "
+    },
+    {
+      "name": "mallory",
+      "url": "https://github.com/memo",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8726-6300"
+    },
+    {
+      "name": "cookee12",
+      "url": "https://github.com/cookee12",
+      "@type": "Person"
+    }
+  ],
+  "datePublished": "2024-01-26",
+  "description": "Code for the paper \"Language Models are Unsupervised Multitask Learners\"",
+  "keywords": [
+    "cloud",
+    "language",
+    "paper",
+    "python",
+    "rest"
+  ],
+  "license": {
+    "@type": "CreativeWork",
+    "name": "Modified MIT License",
+    "@id": "https://spdx.org/licenses/MIT (modified)"
+  },
+  "name": "openai/gpt-2"
+}

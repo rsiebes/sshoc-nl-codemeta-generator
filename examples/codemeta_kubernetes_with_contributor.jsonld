@@ -1,0 +1,391 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "Kubernetes Prow Robot",
+      "@type": "Person",
+      "url": "https://github.com/k8s-ci-robot"
+    },
+    {
+      "name": "Jordan Liggitt",
+      "@type": "Person",
+      "url": "https://github.com/liggitt",
+      "email": "jordan@liggitt.net",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Tim Hockin",
+      "@type": "Person",
+      "url": "https://github.com/thockin",
+      "email": "thockin@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Wojciech Tyczynski",
+      "@type": "Person",
+      "url": "https://github.com/wojtek-t",
+      "email": "wojtekt@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Brendan Burns",
+      "@type": "Person",
+      "url": "https://github.com/brendandburns",
+      "affiliation": "Microsoft",
+      "@id": "https://orcid.org/0000-0002-2962-2597"
+    }
+  ],
+  "contributor": [
+    {
+      "name": "Kubernetes Prow Robot",
+      "url": "https://github.com/k8s-ci-robot",
+      "@type": "Person"
+    },
+    {
+      "name": "",
+      "url": "",
+      "@type": "Person"
+    },
+    {
+      "name": "Jordan Liggitt",
+      "url": "https://github.com/liggitt",
+      "@type": "Person",
+      "email": "jordan@liggitt.net",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Tim Hockin",
+      "url": "https://github.com/thockin",
+      "@type": "Person",
+      "email": "thockin@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Wojciech Tyczynski",
+      "url": "https://github.com/wojtek-t",
+      "@type": "Person",
+      "email": "wojtekt@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Brendan Burns",
+      "url": "https://github.com/brendandburns",
+      "@type": "Person",
+      "affiliation": "Microsoft",
+      "@id": "https://orcid.org/0000-0002-2962-2597"
+    },
+    {
+      "name": "Clayton Coleman",
+      "url": "https://github.com/smarterclayton",
+      "@type": "Person",
+      "email": "smarterclayton@gmail.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0009-0005-2619-2439"
+    },
+    {
+      "name": "Daniel Smith",
+      "url": "https://github.com/lavalamp",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-9029-393X"
+    },
+    {
+      "name": "David Eads",
+      "url": "https://github.com/deads2k",
+      "@type": "Person",
+      "affiliation": "Red Hat OpenShift",
+      "@id": "https://orcid.org/0000-0002-4247-017X"
+    },
+    {
+      "name": "Patrick Ohly",
+      "url": "https://github.com/pohly",
+      "@type": "Person",
+      "email": "patrick.ohly@intel.com",
+      "affiliation": "Intel GmbH"
+    },
+    {
+      "name": "Dr. Stefan Schimanski",
+      "url": "https://github.com/sttts",
+      "@type": "Person",
+      "affiliation": "NVIDIA"
+    },
+    {
+      "name": "Mike Danese",
+      "url": "https://github.com/mikedanese",
+      "@type": "Person",
+      "affiliation": "@databricks "
+    },
+    {
+      "name": "Davanum Srinivas",
+      "url": "https://github.com/dims",
+      "@type": "Person",
+      "email": "davanum@gmail.com",
+      "affiliation": "Nvidia",
+      "@id": "https://orcid.org/0009-0008-3951-9447"
+    },
+    {
+      "name": "Dawn Chen",
+      "url": "https://github.com/dchen1107",
+      "@type": "Person",
+      "email": "dawnchen@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0001-6918-0212"
+    },
+    {
+      "name": "Brian Grant",
+      "url": "https://github.com/bgrant0607",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8972-8716"
+    },
+    {
+      "name": "Zach Loafman",
+      "url": "https://github.com/zmerlynn",
+      "@type": "Person",
+      "email": "zml@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Jan \u0160afr\u00e1nek",
+      "url": "https://github.com/jsafrane",
+      "@type": "Person",
+      "email": "jsafrane@redhat.com",
+      "affiliation": "Red Hat",
+      "@id": "https://orcid.org/0000-0002-4823-5971"
+    },
+    {
+      "name": "Yu-Ju Hong",
+      "url": "https://github.com/yujuhong",
+      "@type": "Person",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Derek Carr",
+      "url": "https://github.com/derekwaynecarr",
+      "@type": "Person",
+      "email": "decarr@redhat.com",
+      "affiliation": "Red Hat",
+      "@id": "https://orcid.org/0000-0003-1503-015X"
+    },
+    {
+      "name": "Justin Santa Barbara",
+      "url": "https://github.com/justinsb",
+      "@type": "Person",
+      "email": "justinsb@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Eric Tune",
+      "url": "https://github.com/erictune",
+      "@type": "Person",
+      "email": "etune@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Victor Marmol",
+      "url": "https://github.com/vmarmol",
+      "@type": "Person",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Dan Winship",
+      "url": "https://github.com/danwinship",
+      "@type": "Person",
+      "affiliation": "Red Hat (@redhatofficial)"
+    },
+    {
+      "name": "Antonio Ojea",
+      "url": "https://github.com/aojea",
+      "@type": "Person",
+      "email": "antonio.ojea.garcia@gmail.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0009-0000-5260-9019"
+    },
+    {
+      "name": "Tim Allclair",
+      "url": "https://github.com/tallclair",
+      "@type": "Person",
+      "email": "timallclair@gmail.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Nikhil Jindal",
+      "url": "https://github.com/nikhiljindal",
+      "@type": "Person",
+      "email": "nikhiljindal@google.com",
+      "@id": "https://orcid.org/0000-0002-0252-3177"
+    },
+    {
+      "name": "Jeff Dempsey",
+      "url": "https://github.com/j3ffml",
+      "@type": "Person"
+    },
+    {
+      "name": "Jeff Grafton",
+      "url": "https://github.com/ixdy",
+      "@type": "Person",
+      "email": "jgrafton+ghprofile@google.com",
+      "affiliation": "@google"
+    },
+    {
+      "name": "Alex Robinson",
+      "url": "https://github.com/a-robinson",
+      "@type": "Person",
+      "email": "alexdwanerobinson@gmail.com",
+      "affiliation": "@cloudflare",
+      "@id": "https://orcid.org/0000-0002-0872-8499"
+    },
+    {
+      "name": "Maciej Szulik",
+      "url": "https://github.com/soltysh",
+      "@type": "Person",
+      "affiliation": "@defenseunicorns"
+    },
+    {
+      "name": "Shida Qiu",
+      "url": "https://github.com/SataQiu",
+      "@type": "Person",
+      "email": "shidaqiu2018@gmail.com",
+      "affiliation": "@kubernetes"
+    },
+    {
+      "name": "Saad Ali",
+      "url": "https://github.com/saad-ali",
+      "@type": "Person",
+      "email": "saadali@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0003-3053-7549"
+    },
+    {
+      "name": "Pengfei Ni",
+      "url": "https://github.com/feiskyer",
+      "@type": "Person",
+      "affiliation": "@kubernetes @Microsoft @Azure ",
+      "@id": "https://orcid.org/0009-0003-3978-2919"
+    },
+    {
+      "name": "Lubomir I. Ivanov",
+      "url": "https://github.com/neolit123",
+      "@type": "Person",
+      "email": "neolit123@gmail.com",
+      "@id": "https://orcid.org/0000-0002-8180-5542"
+    },
+    {
+      "name": "Joe Beda",
+      "url": "https://github.com/jbeda",
+      "@type": "Person",
+      "email": "joe.github@bedafamily.com"
+    },
+    {
+      "name": "Janet Kuo",
+      "url": "https://github.com/janetkuo",
+      "@type": "Person",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0002-3045-3575"
+    },
+    {
+      "name": "Satnam Singh",
+      "url": "https://github.com/satnam6502",
+      "@type": "Person",
+      "email": "satnam6502@gmail.com",
+      "@id": "https://orcid.org/0000-0002-8746-0610"
+    },
+    {
+      "name": "Lantao Liu",
+      "url": "https://github.com/Random-Liu",
+      "@type": "Person",
+      "email": "lantaol@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0002-0658-2991"
+    },
+    {
+      "name": "Paco Xu",
+      "url": "https://github.com/pacoxu",
+      "@type": "Person",
+      "email": "roollingstone@gmail.com",
+      "affiliation": "@DaoCloud Co,.Ltd, Shanghai"
+    },
+    {
+      "name": "Vish Kannan",
+      "url": "https://github.com/vishh",
+      "@type": "Person",
+      "email": "vishnuk@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Benjamin Elder",
+      "url": "https://github.com/BenTheElder",
+      "@type": "Person",
+      "email": "bentheelder@google.com",
+      "affiliation": "@Google ",
+      "@id": "https://orcid.org/0000-0002-2110-2853"
+    },
+    {
+      "name": "Piotr Szczesniak",
+      "url": "https://github.com/piosz",
+      "@type": "Person",
+      "email": "pszczesniak@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Joe Betz",
+      "url": "https://github.com/jpbetz",
+      "@type": "Person",
+      "email": "jpbetz@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Lucas K\u00e4ldstr\u00f6m",
+      "url": "https://github.com/luxas",
+      "@type": "Person",
+      "affiliation": "@kubernetes @cncf @upbound"
+    },
+    {
+      "name": "Andrew Sy Kim",
+      "url": "https://github.com/andrewsykim",
+      "@type": "Person",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0002-3223-6574"
+    },
+    {
+      "name": "Marcin Wielgus",
+      "url": "https://github.com/mwielgus",
+      "@type": "Person",
+      "affiliation": "Google"
+    },
+    {
+      "name": "\u6768\u6731 \u00b7 Kiki",
+      "url": "https://github.com/carlory",
+      "@type": "Person",
+      "email": "baofa.fan@daocloud.io",
+      "affiliation": "DaoCloud"
+    }
+  ],
+  "datePublished": "2025-12-10",
+  "description": "Production-Grade Container Scheduling and Management",
+  "keywords": [
+    "cloud",
+    "cncf",
+    "communication",
+    "community",
+    "container",
+    "containers",
+    "course",
+    "docker",
+    "documentation",
+    "framework",
+    "guide",
+    "kubernetes",
+    "learning",
+    "library",
+    "location",
+    "microservice",
+    "open source"
+  ],
+  "license": {
+    "@type": "CreativeWork",
+    "name": "Apache License 2.0",
+    "@id": "https://spdx.org/licenses/Apache-2.0"
+  },
+  "name": "kubernetes/kubernetes",
+  "version": "1.34.3"
+}

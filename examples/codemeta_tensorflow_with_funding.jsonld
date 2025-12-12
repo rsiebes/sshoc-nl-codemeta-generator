@@ -1,0 +1,366 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "TensorFlower Gardener",
+      "@type": "Person",
+      "url": "https://github.com/tensorflower-gardener"
+    },
+    {
+      "name": "Eugene Zhulenev",
+      "@type": "Person",
+      "url": "https://github.com/ezhulenev",
+      "email": "ezhulenev@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Adrian Kuegel",
+      "@type": "Person",
+      "url": "https://github.com/akuegel",
+      "affiliation": "Google Germany GmbH"
+    },
+    {
+      "name": "Peter Hawkins",
+      "@type": "Person",
+      "url": "https://github.com/hawkinsp",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0001-5912-409X"
+    },
+    {
+      "name": "Mihai Maruseac",
+      "@type": "Person",
+      "url": "https://github.com/mihaimaruseac",
+      "email": "mihaimaruseac@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0002-6225-1206"
+    }
+  ],
+  "contributor": [
+    {
+      "name": "TensorFlower Gardener",
+      "url": "https://github.com/tensorflower-gardener",
+      "@type": "Person"
+    },
+    {
+      "name": "Eugene Zhulenev",
+      "url": "https://github.com/ezhulenev",
+      "@type": "Person",
+      "email": "ezhulenev@google.com",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Adrian Kuegel",
+      "url": "https://github.com/akuegel",
+      "@type": "Person",
+      "affiliation": "Google Germany GmbH"
+    },
+    {
+      "name": "Peter Hawkins",
+      "url": "https://github.com/hawkinsp",
+      "@type": "Person",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0001-5912-409X"
+    },
+    {
+      "name": "Mihai Maruseac",
+      "url": "https://github.com/mihaimaruseac",
+      "@type": "Person",
+      "email": "mihaimaruseac@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0002-6225-1206"
+    },
+    {
+      "name": "Yong Tang",
+      "url": "https://github.com/yongtang",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-3096-3719"
+    },
+    {
+      "name": "Gunhan Gulsoy",
+      "url": "https://github.com/gunan",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8482-2930"
+    },
+    {
+      "name": "",
+      "url": "",
+      "@type": "Person"
+    },
+    {
+      "name": "Shanqing Cai",
+      "url": "https://github.com/caisq",
+      "@type": "Person",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0003-4514-1715"
+    },
+    {
+      "name": "Derek Murray",
+      "url": "https://github.com/mrry",
+      "@type": "Person",
+      "email": "derek.murray@gmail.com",
+      "@id": "https://orcid.org/0000-0002-3702-1847"
+    },
+    {
+      "name": "George Karpenkov",
+      "url": "https://github.com/cheshire",
+      "@type": "Person",
+      "email": "cheshire@google.com",
+      "affiliation": "@google"
+    },
+    {
+      "name": "Roman Sorokin",
+      "url": "https://github.com/roserg",
+      "@type": "Person",
+      "email": "sorok-roma@yandex.ru",
+      "@id": "https://orcid.org/0000-0002-1463-6478"
+    },
+    {
+      "name": "Benoit Steiner",
+      "url": "https://github.com/benoitsteiner",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-5767-4976"
+    },
+    {
+      "name": "Jacques Pienaar",
+      "url": "https://github.com/jpienaar",
+      "@type": "Person",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0003-0443-7624"
+    },
+    {
+      "name": "Qianli Scott Zhu",
+      "url": "https://github.com/qlzh727",
+      "@type": "Person",
+      "email": "scottzhu@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0003-3393-4232"
+    },
+    {
+      "name": "Benjamin Kramer",
+      "url": "https://github.com/d0k",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-4406-8085"
+    },
+    {
+      "name": "River Riddle",
+      "url": "https://github.com/River707",
+      "@type": "Person"
+    },
+    {
+      "name": "Mehdi Amini",
+      "url": "https://github.com/joker-eph",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-5579-9874"
+    },
+    {
+      "name": "Alexander Belyaev",
+      "url": "https://github.com/pifon2a",
+      "@type": "Person",
+      "affiliation": " https://github.com/google",
+      "@id": "https://orcid.org/0000-0002-5934-8138"
+    },
+    {
+      "name": "Christian Sigg",
+      "url": "https://github.com/chsigg",
+      "@type": "Person",
+      "email": "csigg@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0003-1067-9224"
+    },
+    {
+      "name": "Martin Wicke",
+      "url": "https://github.com/martinwicke",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-4844-8982"
+    },
+    {
+      "name": "Yifei Feng",
+      "url": "https://github.com/yifeif",
+      "@type": "Person",
+      "affiliation": "@ray-project, @anyscale ex-@tensorflow",
+      "@id": "https://orcid.org/0000-0003-0818-3166"
+    },
+    {
+      "name": "Allen Lavoie",
+      "url": "https://github.com/allenlavoie",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-3155-7245"
+    },
+    {
+      "name": "David",
+      "url": "https://github.com/ddunl",
+      "@type": "Person",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0002-4285-6742"
+    },
+    {
+      "name": "Smit Hinsu",
+      "url": "https://github.com/smit-hinsu",
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0003-9371-0844"
+    },
+    {
+      "name": "Yang Chen",
+      "url": "https://github.com/yangustc07",
+      "@type": "Person",
+      "affiliation": "Google, Inc.",
+      "@id": "https://orcid.org/0000-0002-6263-7010"
+    },
+    {
+      "name": "Johannes Reifferscheid",
+      "url": "https://github.com/jreiffers",
+      "@type": "Person",
+      "affiliation": "@NVIDIA"
+    },
+    {
+      "name": "Jiri Simsa",
+      "url": "https://github.com/jsimsa",
+      "@type": "Person",
+      "affiliation": "Google, Inc.",
+      "@id": "https://orcid.org/0009-0009-8941-7227"
+    },
+    {
+      "name": "Kyle Lucke",
+      "url": "https://github.com/klucke",
+      "@type": "Person",
+      "email": "kylelucke@gmail.com",
+      "@id": "https://orcid.org/0009-0000-9857-8625"
+    },
+    {
+      "name": "Eugene Brevdo",
+      "url": "https://github.com/ebrevdo",
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0005-7965-3534"
+    },
+    {
+      "name": "Alexandre Passos",
+      "url": "https://github.com/alextp",
+      "@type": "Person",
+      "email": "alexandre.tp@gmail.com",
+      "@id": "https://orcid.org/0000-0002-9593-2526"
+    },
+    {
+      "name": "Anna Revinskaya",
+      "url": "https://github.com/annarev",
+      "@type": "Person"
+    },
+    {
+      "name": "Mark Daoust",
+      "url": "https://github.com/MarkDaoust",
+      "@type": "Person"
+    },
+    {
+      "name": "Reed",
+      "url": "https://github.com/reedwm",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4660-4470"
+    },
+    {
+      "name": "Rahul Joshi",
+      "url": "https://github.com/jurahul",
+      "@type": "Person",
+      "affiliation": "NVIDIA",
+      "@id": "https://orcid.org/0009-0004-8278-1505"
+    },
+    {
+      "name": "Skye Wanderman-Milne",
+      "url": "https://github.com/skye",
+      "@type": "Person",
+      "email": "skyewm@google.com"
+    },
+    {
+      "name": "andyly",
+      "url": "https://github.com/andyly",
+      "@type": "Person"
+    },
+    {
+      "name": "David Majnemer",
+      "url": "https://github.com/majnemer",
+      "@type": "Person",
+      "affiliation": "@google"
+    },
+    {
+      "name": "Oleg Shyshkov",
+      "url": "https://github.com/olegshyshkov",
+      "@type": "Person",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Advait Jain",
+      "url": "https://github.com/advaitjain",
+      "@type": "Person",
+      "affiliation": "@google @tensorflow "
+    },
+    {
+      "name": "Andrew Audibert",
+      "url": "https://github.com/aaudiber",
+      "@type": "Person",
+      "affiliation": "Tensorflow",
+      "@id": "https://orcid.org/0009-0007-5392-322X"
+    },
+    {
+      "name": "frgossen",
+      "url": "https://github.com/frgossen",
+      "@type": "Person"
+    },
+    {
+      "name": "Terry Heo",
+      "url": "https://github.com/terryheo",
+      "@type": "Person",
+      "affiliation": "Google"
+    },
+    {
+      "name": "Karim Nosseir",
+      "url": "https://github.com/karimnosseir",
+      "@type": "Person"
+    },
+    {
+      "name": "Bixia Zheng",
+      "url": "https://github.com/bixia1",
+      "@type": "Person",
+      "email": "bixia@google.com",
+      "affiliation": "Google",
+      "@id": "https://orcid.org/0000-0001-5772-5449"
+    }
+  ],
+  "datePublished": "2025-08-13",
+  "description": "An Open Source Machine Learning Framework for Everyone",
+  "keywords": [
+    "android",
+    "api",
+    "c++",
+    "community",
+    "container",
+    "course",
+    "deep learning",
+    "deep neural networks",
+    "distributed",
+    "docker",
+    "documentation",
+    "example",
+    "framework",
+    "guide",
+    "language",
+    "learning",
+    "machine learning",
+    "neural network",
+    "open source",
+    "optimization",
+    "python",
+    "security",
+    "shell",
+    "tensorflow",
+    "testing",
+    "toolkit",
+    "tutorial",
+    "visualization"
+  ],
+  "license": {
+    "@type": "CreativeWork",
+    "name": "Apache License 2.0",
+    "@id": "https://spdx.org/licenses/Apache-2.0"
+  },
+  "name": "tensorflow/tensorflow",
+  "version": "2.20.0"
+}
