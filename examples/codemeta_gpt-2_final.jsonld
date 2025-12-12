@@ -1,0 +1,50 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "Jeff Wu",
+      "@type": "Person",
+      "url": "https://github.com/WuTheFWasThat",
+      "email": "WuTheFWasThat@gmail.com",
+      "@id": "https://orcid.org/0000-0002-7075-7514"
+    },
+    {
+      "name": "Jack Clark",
+      "@type": "Person",
+      "url": "https://github.com/jackclarksf",
+      "@id": "https://orcid.org/0000-0003-2416-5128"
+    },
+    {
+      "name": "Christopher Hesse",
+      "@type": "Person",
+      "url": "https://github.com/christopherhesse",
+      "affiliation": "OpenAI",
+      "@id": "https://orcid.org/0000-0001-8754-1827"
+    },
+    {
+      "name": "James B. Pollack, MFA ",
+      "@type": "Person",
+      "url": "https://github.com/imgntn"
+    },
+    {
+      "name": "Nathan Murthy",
+      "@type": "Person",
+      "url": "https://github.com/natemurthy"
+    }
+  ],
+  "description": "Code for the paper \"Language Models are Unsupervised Multitask Learners\"",
+  "keywords": [
+    "cloud",
+    "language",
+    "paper",
+    "python",
+    "rest"
+  ],
+  "license": {
+    "@type": "CreativeWork",
+    "name": "Modified MIT License",
+    "@id": "https://spdx.org/licenses/MIT (modified)"
+  },
+  "name": "openai/gpt-2"
+}

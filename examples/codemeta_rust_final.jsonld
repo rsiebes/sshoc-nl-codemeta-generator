@@ -1,0 +1,58 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "author": [
+    {
+      "name": "bors",
+      "@type": "Person",
+      "url": "https://github.com/bors"
+    },
+    {
+      "name": "Matthias Kr\u00fcger",
+      "@type": "Person",
+      "url": "https://github.com/matthiaskrgr",
+      "@id": "https://orcid.org/0000-0001-5015-935X"
+    },
+    {
+      "name": "Ralf Jung",
+      "@type": "Person",
+      "url": "https://github.com/RalfJung",
+      "@id": "https://orcid.org/0000-0001-7669-6348"
+    },
+    {
+      "name": "Guillaume Gomez",
+      "@type": "Person",
+      "url": "https://github.com/GuillaumeGomez",
+      "email": "guillaume1.gomez@gmail.com",
+      "affiliation": "@huawei",
+      "@id": "https://orcid.org/0000-0002-0881-2607"
+    },
+    {
+      "name": "Oli Scherer",
+      "@type": "Person",
+      "url": "https://github.com/oli-obk",
+      "@id": "https://orcid.org/0009-0000-1731-1081"
+    }
+  ],
+  "description": "Empowering everyone to build reliable and efficient software.",
+  "keywords": [
+    "cli",
+    "community",
+    "compiler",
+    "distributed",
+    "documentation",
+    "embedded",
+    "language",
+    "library",
+    "performance",
+    "rust",
+    "social"
+  ],
+  "license": {
+    "@type": "CreativeWork",
+    "name": "Apache License 2.0",
+    "@id": "https://spdx.org/licenses/Apache-2.0"
+  },
+  "name": "rust-lang/rust",
+  "version": "1.92.0"
+}
