@@ -3,215 +3,88 @@
   "@type": "SoftwareSourceCode",
   "author": [
     {
-      "name": "bors",
+      "name": "David Lord",
       "@type": "Person",
-      "url": "https://github.com/bors"
+      "url": "https://github.com/davidism",
+      "@id": "https://orcid.org/0000-0001-6723-2832"
     },
     {
-      "name": "Matthias Kr\u00fcger",
+      "name": "Armin Ronacher",
       "@type": "Person",
-      "url": "https://github.com/matthiaskrgr",
-      "@id": "https://orcid.org/0000-0001-5015-935X"
+      "url": "https://github.com/mitsuhiko",
+      "email": "armin.ronacher@active-4.com",
+      "affiliation": "Earendil"
     },
     {
-      "name": "Ralf Jung",
+      "name": "Markus Unterwaditzer",
       "@type": "Person",
-      "url": "https://github.com/RalfJung",
-      "@id": "https://orcid.org/0000-0001-7669-6348"
+      "url": "https://github.com/untitaker",
+      "affiliation": "@getsentry "
     },
     {
-      "name": "Guillaume Gomez",
+      "name": "Rom DuPlain",
       "@type": "Person",
-      "url": "https://github.com/GuillaumeGomez",
-      "email": "guillaume1.gomez@gmail.com",
-      "affiliation": "@huawei",
-      "@id": "https://orcid.org/0000-0002-0881-2607"
+      "url": "https://github.com/rduplain"
     },
     {
-      "name": "Oli Scherer",
+      "name": "Grey Li",
       "@type": "Person",
-      "url": "https://github.com/oli-obk",
-      "@id": "https://orcid.org/0009-0000-1731-1081"
+      "url": "https://github.com/greyli",
+      "affiliation": "Dell"
     }
   ],
   "contributor": [
     {
-      "name": "bors",
-      "url": "https://github.com/bors",
+      "name": "David Lord",
+      "url": "https://github.com/davidism",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-6723-2832"
+    },
+    {
+      "name": "Armin Ronacher",
+      "url": "https://github.com/mitsuhiko",
+      "@type": "Person",
+      "email": "armin.ronacher@active-4.com",
+      "affiliation": "Earendil"
+    },
+    {
+      "name": "Markus Unterwaditzer",
+      "url": "https://github.com/untitaker",
+      "@type": "Person",
+      "affiliation": "@getsentry "
+    },
+    {
+      "name": "Rom DuPlain",
+      "url": "https://github.com/rduplain",
       "@type": "Person"
     },
     {
-      "name": "Matthias Kr\u00fcger",
-      "url": "https://github.com/matthiaskrgr",
+      "name": "Grey Li",
+      "url": "https://github.com/greyli",
       "@type": "Person",
-      "@id": "https://orcid.org/0000-0001-5015-935X"
+      "affiliation": "Dell"
     },
     {
-      "name": "Ralf Jung",
-      "url": "https://github.com/RalfJung",
-      "@type": "Person",
-      "@id": "https://orcid.org/0000-0001-7669-6348"
-    },
-    {
-      "name": "Guillaume Gomez",
-      "url": "https://github.com/GuillaumeGomez",
-      "@type": "Person",
-      "email": "guillaume1.gomez@gmail.com",
-      "affiliation": "@huawei",
-      "@id": "https://orcid.org/0000-0002-0881-2607"
-    },
-    {
-      "name": "Oli Scherer",
-      "url": "https://github.com/oli-obk",
-      "@type": "Person",
-      "@id": "https://orcid.org/0009-0000-1731-1081"
-    },
-    {
-      "name": "Alex Crichton",
-      "url": "https://github.com/alexcrichton",
-      "@type": "Person",
-      "email": "alex@alexcrichton.com",
-      "@id": "https://orcid.org/0009-0006-8251-9245"
-    },
-    {
-      "name": "Alex Kladov",
-      "url": "https://github.com/matklad",
-      "@type": "Person",
-      "email": "aleksey.kladov@gmail.com",
-      "affiliation": "@tigerbeetle"
-    },
-    {
-      "name": "Brian Anderson",
-      "url": "https://github.com/brson",
-      "@type": "Person",
-      "@id": "https://orcid.org/0000-0002-5187-5208"
-    },
-    {
-      "name": "bjorn3",
-      "url": "https://github.com/bjorn3",
-      "@type": "Person",
-      "affiliation": "@tweedegolf"
-    },
-    {
-      "name": "Michael Goulet",
-      "url": "https://github.com/compiler-errors",
-      "@type": "Person",
-      "@id": "https://orcid.org/0000-0002-9104-4011"
-    },
-    {
-      "name": "Niko Matsakis",
-      "url": "https://github.com/nikomatsakis",
-      "@type": "Person",
-      "email": "rust@nikomatsakis.com"
-    },
-    {
-      "name": "Mazdak Farrokhzad",
-      "url": "https://github.com/Centril",
-      "@type": "Person",
-      "email": "twingoow@gmail.com"
-    },
-    {
-      "name": "Lukas Wirth",
-      "url": "https://github.com/Veykril",
-      "@type": "Person",
-      "email": "me@lukaswirth.dev",
-      "affiliation": "@zed-industries",
-      "@id": "https://orcid.org/0009-0003-8953-6177"
-    },
-    {
-      "name": "Manish Goregaokar",
-      "url": "https://github.com/Manishearth",
-      "@type": "Person",
-      "email": "manishsmail@gmail.com",
-      "affiliation": "@google"
-    },
-    {
-      "name": "Nicholas Nethercote",
-      "url": "https://github.com/nnethercote",
+      "name": "dependabot-preview[bot]",
+      "url": "https://github.com/apps/dependabot-preview",
       "@type": "Person"
     },
     {
-      "name": "Dylan DPC",
-      "url": "https://github.com/Dylan-DPC",
+      "name": "Daniel Neuh\u00e4user",
+      "url": "https://github.com/DasIch",
+      "@type": "Person",
+      "affiliation": "Zalando SE"
+    },
+    {
+      "name": "dependabot[bot]",
+      "url": "https://github.com/apps/dependabot",
       "@type": "Person"
     },
     {
-      "name": "Yuki Okushi",
-      "url": "https://github.com/JohnTitor",
+      "name": "Kenneth Reitz",
+      "url": "https://github.com/kennethreitz",
       "@type": "Person",
-      "@id": "https://orcid.org/0009-0001-4368-8314"
-    },
-    {
-      "name": "Esteban Kuber",
-      "url": "https://github.com/estebank",
-      "@type": "Person"
-    },
-    {
-      "name": "Patrick Walton",
-      "url": "https://github.com/pcwalton",
-      "@type": "Person",
-      "email": "pcwalton@mimiga.net",
-      "@id": "https://orcid.org/0009-0008-2270-9359"
-    },
-    {
-      "name": "Camille Gillot",
-      "url": "https://github.com/cjgillot",
-      "@type": "Person",
-      "@id": "https://orcid.org/0000-0002-3038-2367"
-    },
-    {
-      "name": "Graydon Hoare",
-      "url": "https://github.com/graydon",
-      "@type": "Person",
-      "email": "graydon@pobox.com"
-    },
-    {
-      "name": "Nick Cameron",
-      "url": "https://github.com/nrc",
-      "@type": "Person",
-      "email": "nrc@ncameron.org",
-      "@id": "https://orcid.org/0009-0004-7102-3063"
-    },
-    {
-      "name": "Vadim Petrochenkov",
-      "url": "https://github.com/petrochenkov",
-      "@type": "Person"
-    },
-    {
-      "name": "Stuart Cook",
-      "url": "https://github.com/Zalathar",
-      "@type": "Person",
-      "@id": "https://orcid.org/0000-0003-0852-9104"
-    },
-    {
-      "name": "Philipp Krones",
-      "url": "https://github.com/flip1995",
-      "@type": "Person",
-      "email": "hello@philkrones.com",
-      "affiliation": "@recogni "
-    },
-    {
-      "name": "Eduard-Mihai Burtescu",
-      "url": "https://github.com/eddyb",
-      "@type": "Person",
-      "email": "eddyb@lyken.rs"
-    },
-    {
-      "name": "kennytm",
-      "url": "https://github.com/kennytm",
-      "@type": "Person"
-    },
-    {
-      "name": "Mark Rousskov",
-      "url": "https://github.com/Mark-Simulacrum",
-      "@type": "Person",
-      "email": "mark.simulacrum@gmail.com"
-    },
-    {
-      "name": "Steve Klabnik",
-      "url": "https://github.com/steveklabnik",
-      "@type": "Person",
-      "email": "steve@steveklabnik.com"
+      "email": "me@kennethreitz.org"
     },
     {
       "name": "",
@@ -219,151 +92,251 @@
       "@type": "Person"
     },
     {
-      "name": "lcnr",
-      "url": "https://github.com/lcnr",
+      "name": "Phil Jones",
+      "url": "https://github.com/pgjones",
       "@type": "Person",
-      "email": "rust@lcnr.de"
+      "@id": "https://orcid.org/0000-0002-4629-9138"
     },
     {
-      "name": "Seiichi Uchida",
-      "url": "https://github.com/topecongiro",
-      "@type": "Person",
-      "affiliation": "@DeNA",
-      "@id": "https://orcid.org/0000-0001-8592-7566"
-    },
-    {
-      "name": "Tim Chevalier",
-      "url": "https://github.com/catamorphism",
-      "@type": "Person",
-      "email": "catamorphism@gmail.com",
-      "affiliation": "@Igalia"
-    },
-    {
-      "name": "Jubilee",
-      "url": "https://github.com/workingjubilee",
+      "name": "pre-commit-ci[bot]",
+      "url": "https://github.com/apps/pre-commit-ci",
       "@type": "Person"
     },
     {
-      "name": "Trevor Gross",
-      "url": "https://github.com/tgross35",
+      "name": "Keyan Pishdadian",
+      "url": "https://github.com/keyan",
       "@type": "Person",
-      "@id": "https://orcid.org/0009-0000-4989-9203"
+      "email": "kpishdadian@gmail.com",
+      "affiliation": "@facebook"
     },
     {
-      "name": "Lauren\u021biu Nicola",
-      "url": "https://github.com/lnicola",
+      "name": "Adrian",
+      "url": "https://github.com/ThiefMaster",
       "@type": "Person",
-      "@id": "https://orcid.org/0000-0001-9805-8179"
+      "email": "adrian@planetcoding.net",
+      "affiliation": "CERN / @indico ",
+      "@id": "https://orcid.org/0009-0005-6342-2483"
     },
     {
-      "name": "Mara Bos",
-      "url": "https://github.com/m-ou-se",
+      "name": "Ivan Ivashchenko",
+      "url": "https://github.com/defuz",
       "@type": "Person",
-      "email": "mara@marabos.nl"
+      "email": "defuz@me.com",
+      "@id": "https://orcid.org/0000-0003-2077-3193"
     },
     {
-      "name": "jyn",
-      "url": "https://github.com/jyn514",
+      "name": "Hsiaoming Yang",
+      "url": "https://github.com/lepture",
       "@type": "Person",
-      "email": "github@jyn.dev"
+      "affiliation": "@hsiaoming "
     },
     {
-      "name": "Jakub Ber\u00e1nek",
-      "url": "https://github.com/Kobzol",
+      "name": "TW",
+      "url": "https://github.com/ThomasWaldmann",
       "@type": "Person",
-      "email": "berykubik@gmail.com",
-      "affiliation": "Rust Project",
-      "@id": "https://orcid.org/0000-0003-3758-2836"
+      "email": "tw@waldmann-edv.de",
+      "@id": "https://orcid.org/0000-0002-7440-7642"
     },
     {
-      "name": "Felix S Klock II",
-      "url": "https://github.com/pnkfelix",
+      "name": "Jeff Widman",
+      "url": "https://github.com/jeffwidman",
       "@type": "Person",
-      "email": "pnkfelix@pnkfx.org"
+      "email": "jeff@jeffwidman.com"
     },
     {
-      "name": "\u8bb8\u6770\u53cb Jieyou Xu (Joe)",
-      "url": "https://github.com/jieyouxu",
+      "name": "Joshua Bronson",
+      "url": "https://github.com/jab",
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-9730-4411"
+    },
+    {
+      "name": "Simon Sapin",
+      "url": "https://github.com/SimonSapin",
       "@type": "Person"
     },
     {
-      "name": "Michael Howell",
-      "url": "https://github.com/notriddle",
+      "name": "lord63",
+      "url": "https://github.com/lord63",
       "@type": "Person",
-      "email": "michael@notriddle.com",
-      "affiliation": "Cerebrum Corp.",
-      "@id": "https://orcid.org/0000-0003-0908-7846"
+      "email": "lord63.j@gmail.com"
     },
     {
-      "name": "Michael Woerister",
-      "url": "https://github.com/michaelwoerister",
+      "name": "Florent Xicluna",
+      "url": "https://github.com/florentx",
       "@type": "Person"
     },
     {
-      "name": "Corey Farwell",
-      "url": "https://github.com/frewsxcv",
+      "name": "Adam Byrtek",
+      "url": "https://github.com/adambyrtek",
+      "@type": "Person",
+      "email": "adambyrtek@gmail.com",
+      "affiliation": "Houst"
+    },
+    {
+      "name": "Dag",
+      "url": "https://github.com/dag",
       "@type": "Person"
     },
     {
-      "name": "Pietro Albini",
-      "url": "https://github.com/pietroalbini",
+      "name": "Kyle Lawlor-Bagcal",
+      "url": "https://github.com/wgwz",
       "@type": "Person",
-      "email": "pietro@pietroalbini.org",
-      "affiliation": "@oxidecomputer",
-      "@id": "https://orcid.org/0009-0003-3863-1959"
+      "affiliation": "Green River"
     },
     {
-      "name": "varkor",
-      "url": "https://github.com/varkor",
+      "name": "Petr Zemek",
+      "url": "https://github.com/s3rvac",
+      "@type": "Person",
+      "email": "s3rvac@petrzemek.net",
+      "affiliation": "@Avast"
+    },
+    {
+      "name": "Philipp A.",
+      "url": "https://github.com/flying-sheep",
+      "@type": "Person",
+      "email": "flying-sheep@web.de",
+      "affiliation": "@theislab"
+    },
+    {
+      "name": "Daw-Ran Liou",
+      "url": "https://github.com/dawranliou",
+      "@type": "Person",
+      "email": "hi@dawranliou.com"
+    },
+    {
+      "name": "Priit Laes",
+      "url": "https://github.com/plaes",
+      "@type": "Person",
+      "email": "plaes@plaes.org"
+    },
+    {
+      "name": "Garen Chan",
+      "url": "https://github.com/garenchan",
+      "@type": "Person",
+      "email": "garenchan23@gmail.com",
+      "affiliation": "Realm of Light"
+    },
+    {
+      "name": "Inada Naoki",
+      "url": "https://github.com/methane",
+      "@type": "Person",
+      "email": "songofacandy@gmail.com",
+      "affiliation": "KLab Inc,"
+    },
+    {
+      "name": "Matt Cooper",
+      "url": "https://github.com/vtbassmatt",
+      "@type": "Person",
+      "email": "vtbassmatt@gmail.com",
+      "affiliation": "@microsoft ",
+      "@id": "https://orcid.org/0000-0002-0118-5161"
+    },
+    {
+      "name": "Tully Rankin",
+      "url": "https://github.com/tullyrankin",
+      "@type": "Person",
+      "email": "TullyRankin@gmail.com"
+    },
+    {
+      "name": "Miguel Grinberg",
+      "url": "https://github.com/miguelgrinberg",
+      "@type": "Person",
+      "affiliation": "Elastic"
+    },
+    {
+      "name": "Frank Yu",
+      "url": "https://github.com/yuxiaoy1",
+      "@type": "Person",
+      "email": "withyuxiaoy@gmail.com",
+      "@id": "https://orcid.org/0000-0002-2120-5537"
+    },
+    {
+      "name": "Chris Rebert",
+      "url": "https://github.com/cvrebert",
+      "@type": "Person",
+      "affiliation": "On the prowl"
+    },
+    {
+      "name": "Mieszko Chowaniec",
+      "url": "https://github.com/Winnetou",
+      "@type": "Person",
+      "email": "mieszko.chowaniec@gmail.com",
+      "affiliation": "Freelance Inc."
+    },
+    {
+      "name": "Lowell Tarek Abbott Vidal",
+      "url": "https://github.com/aqt01",
+      "@type": "Person",
+      "email": "lowell.abbott@gmail.com",
+      "affiliation": "pokt-network"
+    },
+    {
+      "name": "Hendrik Makait",
+      "url": "https://github.com/hendrikmakait",
+      "@type": "Person",
+      "email": "hendrik@makait.com"
+    },
+    {
+      "name": "David Baumgold",
+      "url": "https://github.com/singingwolfboy",
+      "@type": "Person",
+      "email": "david@davidbaumgold.com"
+    },
+    {
+      "name": "Daniel Pope",
+      "url": "https://github.com/lordmauve",
+      "@type": "Person",
+      "affiliation": "@twosigma",
+      "@id": "https://orcid.org/0009-0004-7357-634X"
+    },
+    {
+      "name": "antsar",
+      "url": "https://github.com/antsar",
       "@type": "Person"
     },
     {
-      "name": "Marijn Haverbeke",
-      "url": "https://github.com/marijnh",
+      "name": "Alexander Pantyukhin",
+      "url": "https://github.com/alexpantyukhin",
       "@type": "Person",
-      "email": "marijn@haverbeke.berlin",
-      "affiliation": "not interested in recruiter mail"
+      "email": "apantykhin@gmail.com"
     },
     {
-      "name": "Tshepang Mbambo",
-      "url": "https://github.com/tshepang",
+      "name": "Aaron Kavlie",
+      "url": "https://github.com/akavlie",
       "@type": "Person",
-      "email": "hopsi@tuta.io"
+      "affiliation": "Stremor"
     },
     {
-      "name": "Santiago Pastorino",
-      "url": "https://github.com/spastorino",
-      "@type": "Person",
-      "email": "spastorino@gmail.com",
-      "affiliation": "@wyeworks"
-    },
-    {
-      "name": "waffle",
-      "url": "https://github.com/WaffleLapkin",
-      "@type": "Person",
-      "affiliation": "tasking.com"
+      "name": "jfinkels",
+      "url": "https://github.com/jfinkels",
+      "@type": "Person"
     }
   ],
-  "datePublished": "2025-12-11",
-  "description": "Empowering everyone to build reliable and efficient software.",
+  "datePublished": "2025-08-19",
+  "description": "Flask is a lightweight WSGI] web application framework. It is designed to make getting started quick and easy, with the ability to scale up to complex applications. It began as a simple wrapper around Werkzeug] and Jinja], and has become one of the most popular Python web application frameworks. Flask offers suggestions, but doesn't enforce any dependencies or project layout. It is up to the developer to choose the tools and libraries they want to use. There are many extensions provided by the community that make adding new functionality easy. WSGI]: https://wsgi.readthedocs.io/ Werkzeug]: https://werkzeug.palletsprojects.com/ Jinja]: https://jinja.palletsprojects.com/",
+  "funder": [
+    {
+      "type": "Funding",
+      "url": "https://palletsprojects.com/donate"
+    }
+  ],
   "keywords": [
-    "cli",
     "community",
-    "compiler",
-    "distributed",
     "documentation",
-    "embedded",
-    "language",
-    "library",
-    "performance",
-    "rust",
-    "social"
+    "example",
+    "flask",
+    "framework",
+    "jinja",
+    "pallets",
+    "python",
+    "web framework",
+    "werkzeug",
+    "wsgi"
   ],
   "license": {
     "@type": "CreativeWork",
-    "name": "Apache License 2.0",
-    "@id": "https://spdx.org/licenses/Apache-2.0"
+    "name": "Custom License"
   },
-  "name": "rust-lang/rust",
-  "version": "1.92.0"
+  "name": "Flask",
+  "version": "3.1.2"
 }
