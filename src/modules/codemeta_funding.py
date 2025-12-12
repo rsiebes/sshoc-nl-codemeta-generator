@@ -25,6 +25,58 @@ from src.github_api import parse_repository_url, get_github_token
 from src.utils import normalize_url
 
 
+def is_valid_funding_url(url: str) -> bool:
+    """
+    Validate that a URL is a legitimate funding URL.
+    
+    Only accepts URLs from known funding platforms or URLs that clearly indicate funding.
+    
+    Args:
+        url (str): The URL to validate.
+        
+    Returns:
+        bool: True if the URL is a valid funding URL, False otherwise.
+    """
+    if not url or not isinstance(url, str):
+        return False
+    
+    url_lower = url.lower()
+    
+    # Must start with http
+    if not url_lower.startswith("http"):
+        return False
+    
+    # Must not be too short (avoid fragments)
+    if len(url) < 15:
+        return False
+    
+    # Known funding platforms
+    valid_domains = [
+        "patreon.com",
+        "ko-fi.com",
+        "liberapay.com",
+        "buymeacoffee.com",
+        "github.com/sponsors",
+        "tidelift.com",
+        "issuehunt.io",
+        "otechie.com",
+        "opencollective.com",
+        "gumroad.com",
+        "stripe.com",
+        "paypal.com",
+        "donate",
+        "sponsor",
+        "funding",
+    ]
+    
+    # Check if URL contains any known funding platform
+    for domain in valid_domains:
+        if domain in url_lower:
+            return True
+    
+    return False
+
+
 def fetch_funding_yml(owner: str, repo: str) -> List[Dict]:
     """
     Fetch funding information from .github/FUNDING.yml file.
@@ -76,6 +128,7 @@ def fetch_funding_yml(owner: str, repo: str) -> List[Dict]:
                                 "issuehunt": "IssueHunt",
                                 "otechie": "Otechie",
                                 "buymeacoffee": "Buy Me a Coffee",
+                                "opencollective": "Open Collective",
                             }
 
                             funding_type = funding_type_map.get(key, key.replace("_", " ").title())
@@ -85,10 +138,21 @@ def fetch_funding_yml(owner: str, repo: str) -> List[Dict]:
                                 # Parse list format
                                 values = re.findall(r"[\w\-]+", value)
                                 for v in values:
-                                    funding_sources.append({
-                                        "type": funding_type,
-                                        "url": f"https://{key.lower()}.com/{v}" if key != "custom" else v,
-                                    })
+                                    if key in ["github", "patreon", "ko_fi", "liberapay", "buymeacoffee"]:
+                                        url_map = {
+                                            "github": "https://github.com/sponsors/{}",
+                                            "patreon": "https://patreon.com/{}",
+                                            "ko_fi": "https://ko-fi.com/{}",
+                                            "liberapay": "https://liberapay.com/{}",
+                                            "buymeacoffee": "https://buymeacoffee.com/{}",
+                                        }
+                                        if key in url_map:
+                                            funding_url = url_map[key].format(v)
+                                            if is_valid_funding_url(funding_url):
+                                                funding_sources.append({
+                                                    "type": funding_type,
+                                                    "url": funding_url,
+                                                })
                             else:
                                 # Single value
                                 if key in ["github", "patreon", "ko_fi", "liberapay", "buymeacoffee"]:
@@ -107,10 +171,11 @@ def fetch_funding_yml(owner: str, repo: str) -> List[Dict]:
                                 else:
                                     funding_url = value
 
-                                funding_sources.append({
-                                    "type": funding_type,
-                                    "url": funding_url,
-                                })
+                                if is_valid_funding_url(funding_url):
+                                    funding_sources.append({
+                                        "type": funding_type,
+                                        "url": funding_url,
+                                    })
 
                 return funding_sources
 
@@ -148,27 +213,35 @@ def fetch_funding_from_readme(owner: str, repo: str) -> List[Dict]:
                 funding_sources = []
 
                 # Look for funding-related sections
-                funding_patterns = [
-                    (r"##\s*(?:Funding|Sponsor|Support|Donate)", "Funding"),
-                    (r"(?:Patreon|Ko-fi|Liberapay|Buy Me a Coffee|GitHub Sponsors)", "Sponsorship"),
-                    (r"(?:Grant|NSF|NIH|DOE|DARPA)", "Grant"),
-                ]
+                # Must have explicit "Funding" or "Sponsor" heading
+                if re.search(r"##\s*(?:Funding|Sponsor|Support|Donate)", content, re.IGNORECASE):
+                    # Extract URLs from the section
+                    url_pattern = r"https?://[^\s\)>\]]*"
+                    urls = re.findall(url_pattern, content)
 
-                for pattern, funding_type in funding_patterns:
-                    if re.search(pattern, content, re.IGNORECASE):
-                        # Extract URLs from the section
-                        url_pattern = r"https?://[^\s\)>\]]*"
-                        urls = re.findall(url_pattern, content)
+                    for url_match in urls:
+                        # Strict validation: only accept known funding platforms
+                        if is_valid_funding_url(url_match):
+                            # Determine funding type from URL
+                            if "patreon" in url_match.lower():
+                                funding_type = "Patreon"
+                            elif "ko-fi" in url_match.lower():
+                                funding_type = "Ko-fi"
+                            elif "liberapay" in url_match.lower():
+                                funding_type = "Liberapay"
+                            elif "buymeacoffee" in url_match.lower():
+                                funding_type = "Buy Me a Coffee"
+                            elif "github" in url_match.lower() and "sponsor" in url_match.lower():
+                                funding_type = "GitHub Sponsors"
+                            elif "opencollective" in url_match.lower():
+                                funding_type = "Open Collective"
+                            else:
+                                funding_type = "Funding"
 
-                        for url_match in urls:
-                            # Filter for funding-related URLs
-                            if any(keyword in url_match.lower() for keyword in
-                                   ["patreon", "ko-fi", "liberapay", "buymeacoffee", "github/sponsors",
-                                    "donate", "sponsor", "funding", "grant"]):
-                                funding_sources.append({
-                                    "type": funding_type,
-                                    "url": url_match,
-                                })
+                            funding_sources.append({
+                                "type": funding_type,
+                                "url": url_match,
+                            })
 
                 return funding_sources
 
@@ -214,26 +287,28 @@ def fetch_funding_from_file(owner: str, repo: str) -> List[Dict]:
                     urls = re.findall(url_pattern, content)
 
                     for url_match in urls:
-                        # Determine funding type from URL
-                        if "patreon" in url_match.lower():
-                            funding_type = "Patreon"
-                        elif "ko-fi" in url_match.lower():
-                            funding_type = "Ko-fi"
-                        elif "liberapay" in url_match.lower():
-                            funding_type = "Liberapay"
-                        elif "buymeacoffee" in url_match.lower():
-                            funding_type = "Buy Me a Coffee"
-                        elif "github" in url_match.lower() and "sponsor" in url_match.lower():
-                            funding_type = "GitHub Sponsors"
-                        elif "grant" in content.lower():
-                            funding_type = "Grant"
-                        else:
-                            funding_type = "Funding"
+                        # Strict validation
+                        if is_valid_funding_url(url_match):
+                            # Determine funding type from URL
+                            if "patreon" in url_match.lower():
+                                funding_type = "Patreon"
+                            elif "ko-fi" in url_match.lower():
+                                funding_type = "Ko-fi"
+                            elif "liberapay" in url_match.lower():
+                                funding_type = "Liberapay"
+                            elif "buymeacoffee" in url_match.lower():
+                                funding_type = "Buy Me a Coffee"
+                            elif "github" in url_match.lower() and "sponsor" in url_match.lower():
+                                funding_type = "GitHub Sponsors"
+                            elif "opencollective" in url_match.lower():
+                                funding_type = "Open Collective"
+                            else:
+                                funding_type = "Funding"
 
-                        funding_sources.append({
-                            "type": funding_type,
-                            "url": url_match,
-                        })
+                            funding_sources.append({
+                                "type": funding_type,
+                                "url": url_match,
+                            })
 
                     return funding_sources
 
@@ -279,15 +354,16 @@ def fetch_funding_from_package_json(owner: str, repo: str) -> List[Dict]:
 
                         if isinstance(funding, str):
                             # Single funding URL
-                            funding_sources.append({
-                                "type": "Funding",
-                                "url": funding,
-                            })
+                            if is_valid_funding_url(funding):
+                                funding_sources.append({
+                                    "type": "Funding",
+                                    "url": funding,
+                                })
                         elif isinstance(funding, dict):
                             # Funding object with type and url
                             funding_type = funding.get("type", "Funding").title()
                             funding_url = funding.get("url", "")
-                            if funding_url:
+                            if funding_url and is_valid_funding_url(funding_url):
                                 funding_sources.append({
                                     "type": funding_type,
                                     "url": funding_url,
@@ -298,16 +374,17 @@ def fetch_funding_from_package_json(owner: str, repo: str) -> List[Dict]:
                                 if isinstance(fund, dict):
                                     funding_type = fund.get("type", "Funding").title()
                                     funding_url = fund.get("url", "")
-                                    if funding_url:
+                                    if funding_url and is_valid_funding_url(funding_url):
                                         funding_sources.append({
                                             "type": funding_type,
                                             "url": funding_url,
                                         })
                                 elif isinstance(fund, str):
-                                    funding_sources.append({
-                                        "type": "Funding",
-                                        "url": fund,
-                                    })
+                                    if is_valid_funding_url(fund):
+                                        funding_sources.append({
+                                            "type": "Funding",
+                                            "url": fund,
+                                        })
 
                     return funding_sources
 
@@ -352,6 +429,8 @@ def get(repository_url: str) -> Dict:
     2. From README.md file (text-based funding information)
     3. From dedicated FUNDING/SPONSORS/SUPPORT files
     4. From package.json funding field
+
+    Only valid funding URLs from known platforms are included.
 
     Args:
         repository_url (str): The URL of the GitHub repository.
