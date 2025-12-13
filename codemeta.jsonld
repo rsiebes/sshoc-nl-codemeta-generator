@@ -1,7 +1,10 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "applicationCategory": "Reference",
+  "applicationCategory": [
+    "Web",
+    "Reference"
+  ],
   "author": [
     {
       "name": "Jacco van Ossenbruggen",

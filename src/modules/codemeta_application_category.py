@@ -45,6 +45,14 @@ class ApplicationCategoryExtractor:
             "api", "rest", "graphql", "database", "orm",
             "framework", "toolkit", "tool"
         ],
+        "Web": [
+            "web", "web application", "web platform", "web service",
+            "website", "web server", "web framework", "web-based",
+            "html", "css", "javascript", "frontend", "backend",
+            "interactive platform", "web interface", "interactive",
+            "alignment", "mapping", "vocabulary", "skos", "rdf",
+            "semantic web", "linked data", "ontology"
+        ],
         "Multimedia": [
             "audio", "video", "image", "graphics", "animation",
             "ffmpeg", "imagemagick", "blender",
