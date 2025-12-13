@@ -2,6 +2,14 @@
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
   "abstract": "Amalgame: a SKOS vocabulary alignment tool",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 2.0,
+    "bestRating": 5,
+    "worstRating": 1,
+    "ratingCount": 12,
+    "name": "GitHub Stars (12)"
+  },
   "applicationCategory": [
     "Web",
     "Reference"
