@@ -6,20 +6,21 @@ The applicationCategory property describes the type of software application usin
 text categories from schema.org and common app store classifications (e.g., "Game", "Multimedia",
 "Developer", "Productivity", "Business", "Education", "Entertainment", "Health", "Utility",
 "Social", "News", "Music", "Photo", "Video", "Navigation", "Shopping", "Travel", "Security",
-"Medical", "Personalization", "Lifestyle", "Sports", "Kids", "Reference", "Communication").
+"Medical", "Personalization", "Lifestyle", "Sports", "Reference").
+
+This module uses a conservative approach - it only assigns categories when there is strong
+evidence from multiple sources. If uncertain, it returns None/empty.
 
 This module analyzes multiple sources:
-1. GitHub repository topics/tags
-2. Package metadata (setup.py, package.json, Cargo.toml, etc.)
-3. README content analysis
-4. Repository description
-5. File structure and language patterns
+1. GitHub repository topics/tags (highest weight)
+2. Repository description (medium weight)
+3. Homepage URL (low weight)
+4. Programming language patterns (contextual)
 
 Returns:
-    dict: CodeMeta-compliant applicationCategory structure
     str: Single category string (e.g., "Developer")
-    list: Multiple categories if applicable
-    None: If no category can be determined
+    list: Multiple categories if applicable (only if high confidence)
+    None: If no category can be determined with confidence
 """
 
 import os
@@ -35,111 +36,113 @@ class ApplicationCategoryExtractor:
     """Extracts application category from GitHub repository metadata."""
 
     # Mapping of keywords to application categories
+    # Using more specific keywords to avoid false positives
     CATEGORY_KEYWORDS = {
         "Developer": [
-            "build", "compiler", "debugger", "editor", "framework", "ide", "library",
-            "lint", "parser", "sdk", "test", "tool", "linter", "formatter", "transpiler",
-            "bundler", "package manager", "version control", "ci", "cd", "deployment",
-            "docker", "kubernetes", "devops", "api", "rest", "graphql", "database",
-            "orm", "query", "migration", "schema", "validation", "serialization", "toolkit"
+            "compiler", "debugger", "editor", "ide", "library",
+            "linter", "parser", "sdk", "test", "testing",
+            "version control", "ci/cd", "deployment", "devops",
+            "api", "rest", "graphql", "database", "orm",
+            "framework", "toolkit", "tool"
         ],
         "Multimedia": [
-            "audio", "video", "image", "graphics", "animation", "media", "player",
-            "editor", "converter", "ffmpeg", "imagemagick", "blender", "photoshop",
-            "streaming", "podcast", "music", "photo", "visual", "rendering"
+            "audio", "video", "image", "graphics", "animation",
+            "ffmpeg", "imagemagick", "blender",
+            "streaming", "podcast", "rendering"
         ],
         "Productivity": [
             "productivity", "office", "document", "spreadsheet", "presentation",
-            "note", "todo", "calendar", "email", "communication", "collaboration",
-            "project management", "task", "workflow", "automation", "organization"
+            "note", "todo", "calendar", "email", "collaboration",
+            "project management", "task", "workflow"
         ],
         "Business": [
-            "business", "erp", "crm", "accounting", "finance", "hr", "sales",
-            "marketing", "inventory", "supply chain", "ecommerce", "retail", "enterprise"
+            "erp", "crm", "accounting", "finance", "sales",
+            "marketing", "inventory", "supply chain", "ecommerce", "retail"
         ],
         "Education": [
-            "education", "learning", "course", "tutorial", "training", "school",
-            "university", "exam", "quiz", "homework", "textbook", "instructional"
+            "education", "learning", "course", "tutorial", "training",
+            "school", "university", "exam", "quiz", "textbook"
         ],
         "Entertainment": [
-            "entertainment", "streaming", "movies", "videos", "live", "sports",
-            "ticket", "theatre", "concert", "show", "broadcast"
+            "entertainment", "streaming", "movies", "videos",
+            "sports", "ticket", "theatre", "concert"
         ],
         "Game": [
-            "game", "gaming", "engine", "unity", "unreal", "godot", "pygame",
-            "arcade", "puzzle", "rpg", "mmo", "3d", "graphics", "animation", "gameplay"
+            "game", "gaming", "game engine", "unity", "unreal", "godot",
+            "arcade", "puzzle", "rpg", "mmo"
         ],
         "Health": [
-            "health", "fitness", "workout", "yoga", "running", "cycling", "diet",
-            "nutrition", "wellness", "exercise", "tracker", "activity"
+            "health", "fitness", "workout", "yoga", "running",
+            "diet", "nutrition", "wellness", "exercise"
         ],
         "Medical": [
-            "medical", "healthcare", "hospital", "clinic", "doctor", "patient",
-            "medicine", "pharmacy", "symptom", "disease", "health record"
+            "medical", "healthcare", "hospital", "clinic", "doctor",
+            "medicine", "pharmacy", "symptom", "disease"
         ],
         "Music": [
-            "music", "audio", "song", "track", "album", "artist", "playlist",
-            "recording", "streaming", "radio", "dj", "synthesizer"
+            "music", "audio", "song", "track", "album",
+            "recording", "streaming", "radio", "synthesizer"
         ],
         "News": [
-            "news", "blog", "article", "journalism", "publication", "rss", "feed",
-            "newspaper", "magazine", "media", "content"
+            "news", "blog", "article", "journalism", "publication",
+            "rss", "feed", "newspaper", "magazine"
         ],
         "Photo": [
-            "photo", "image", "picture", "photography", "editing", "gallery",
-            "album", "sharing", "filter", "effects", "camera"
+            "photo", "image", "photography", "editing", "gallery",
+            "album", "sharing", "filter", "camera"
         ],
         "Video": [
-            "video", "movie", "film", "streaming", "playback", "editing",
-            "codec", "transcoding", "player", "recording", "broadcast"
+            "video", "movie", "film", "streaming", "playback",
+            "editing", "codec", "transcoding", "player"
         ],
         "Navigation": [
-            "navigation", "map", "gps", "location", "route", "direction",
-            "travel", "driving", "walking", "public transport", "atlas"
+            "navigation", "map", "gps", "location", "route",
+            "direction", "driving", "walking", "atlas"
         ],
         "Shopping": [
-            "shopping", "store", "ecommerce", "marketplace", "cart", "checkout",
-            "payment", "product", "catalog", "inventory", "retail"
+            "shopping", "store", "ecommerce", "marketplace", "cart",
+            "checkout", "payment", "product", "catalog", "retail"
         ],
         "Travel": [
-            "travel", "booking", "hotel", "flight", "car rental", "tourism",
-            "destination", "itinerary", "accommodation", "vacation"
+            "travel", "booking", "hotel", "flight", "car rental",
+            "tourism", "destination", "itinerary", "accommodation"
         ],
         "Social": [
-            "social", "social media", "chat", "messaging", "forum", "community",
-            "network", "collaboration", "team", "meeting", "conference", "video call"
+            "social", "social media", "chat", "messaging", "forum",
+            "community", "network", "collaboration", "team", "meeting"
         ],
         "Security": [
-            "security", "antivirus", "vpn", "encryption", "password", "protection",
-            "firewall", "threat", "malware", "vulnerability", "secure"
+            "security", "antivirus", "vpn", "encryption", "password",
+            "protection", "firewall", "threat", "malware"
         ],
         "Utility": [
-            "utility", "tool", "system", "monitor", "backup", "compression",
-            "encryption", "cleaner", "optimizer", "converter", "calculator"
+            "utility", "tool", "system", "monitor", "backup",
+            "compression", "cleaner", "optimizer", "converter"
         ],
         "Reference": [
-            "reference", "dictionary", "encyclopedia", "manual", "documentation",
-            "guide", "handbook", "knowledge", "vocabulary", "ontology", "taxonomy"
+            "reference", "dictionary", "encyclopedia", "manual",
+            "documentation", "guide", "handbook", "knowledge",
+            "vocabulary", "ontology", "taxonomy"
         ],
         "Communication": [
-            "communication", "messaging", "chat", "email", "voice", "video call",
-            "conference", "collaboration", "team", "meeting", "contact"
+            "communication", "messaging", "chat", "email", "voice",
+            "video call", "conference", "collaboration"
         ],
         "Kids": [
-            "kids", "children", "family", "educational", "interactive", "story",
-            "playbook", "learning", "fun", "age-appropriate"
+            "kids", "children", "family", "educational",
+            "interactive", "story", "playbook", "learning"
         ],
         "Personalization": [
-            "personalization", "theme", "wallpaper", "ringtone", "customization",
-            "appearance", "settings", "preferences", "skin"
+            "personalization", "theme", "wallpaper", "ringtone",
+            "customization", "appearance", "settings"
         ],
         "Lifestyle": [
-            "lifestyle", "hobby", "interest", "diy", "fashion", "home", "garden",
-            "automotive", "relationships", "style", "trends"
+            "lifestyle", "hobby", "interest", "diy", "fashion",
+            "home", "garden", "automotive", "style"
         ],
         "Sports": [
-            "sports", "athletic", "game", "score", "statistics", "team",
-            "player", "league", "tournament", "fitness", "training"
+            "sports", "athletic", "score", "statistics", "team",
+            "player", "league", "tournament", "fitness"
         ]
     }
 
@@ -162,13 +165,13 @@ class ApplicationCategoryExtractor:
         """
         Extract application category from repository metadata.
 
+        Uses a conservative approach - only returns categories with strong evidence.
+
         Returns:
             str: Single category (e.g., "Developer")
-            list: Multiple categories if applicable
-            None: If no category can be determined
+            list: Multiple categories if applicable (only if high confidence)
+            None: If no category can be determined with confidence
         """
-        categories = set()
-
         # Score each category based on multiple signals
         category_scores = {}
         for category, keywords in self.CATEGORY_KEYWORDS.items():
@@ -179,20 +182,24 @@ class ApplicationCategoryExtractor:
         if not category_scores:
             return None
 
-        # Sort by score and return top categories
+        # Sort by score
         sorted_categories = sorted(category_scores.items(), key=lambda x: x[1], reverse=True)
 
-        # Return single category if score is significantly higher
+        # Conservative threshold: only return if we have strong confidence
+        # Require at least 15 points for a single category
+        # Require at least 10 points for multiple categories
         if len(sorted_categories) > 0:
             top_score = sorted_categories[0][1]
-            # If top score is significantly higher, return single category
-            if len(sorted_categories) == 1 or sorted_categories[1][1] < top_score * 0.7:
-                return sorted_categories[0][0]
-            else:
-                # Return multiple categories if scores are similar
-                categories = [cat for cat, _ in sorted_categories[:3]]
-                return categories if len(categories) > 1 else categories[0]
 
+            # If top score is very high and significantly higher than others, return single category
+            if top_score >= 15 and (len(sorted_categories) == 1 or sorted_categories[1][1] < top_score * 0.6):
+                return sorted_categories[0][0]
+            # If we have multiple categories with similar high scores, return them
+            elif top_score >= 10 and len(sorted_categories) > 1 and sorted_categories[1][1] >= 8:
+                categories = [cat for cat, score in sorted_categories[:3] if score >= 8]
+                return categories if len(categories) > 1 else (categories[0] if categories else None)
+
+        # If we don't have strong confidence, return None
         return None
 
     def _calculate_category_score(self, category: str, keywords: List[str]) -> float:
@@ -208,43 +215,44 @@ class ApplicationCategoryExtractor:
         """
         score = 0.0
 
-        # Check topics (highest weight)
+        # Check topics (highest weight - exact matches only)
         for keyword in keywords:
-            if any(keyword in topic for topic in self.topics):
-                score += 10
+            if keyword in self.topics:
+                score += 20  # Exact topic match is very strong
 
-        # Check description (medium weight)
+        # Check description (medium weight - must be clear context)
+        # Only count if keyword appears in description
         for keyword in keywords:
             if keyword in self.description:
                 score += 3
 
-        # Check homepage (medium weight)
+        # Check homepage (low weight)
         for keyword in keywords:
             if keyword in self.homepage:
-                score += 2
+                score += 1
 
         # Check programming language patterns
         language_category_map = {
-            "python": ["Developer", "Education", "Science"],
-            "javascript": ["Developer", "Multimedia", "Web"],
-            "java": ["Developer", "Business"],
-            "csharp": ["Developer", "Game", "Multimedia"],
-            "cpp": ["Developer", "Game", "Multimedia"],
-            "go": ["Developer", "Utility"],
-            "rust": ["Developer", "Utility", "Security"],
-            "swift": ["Developer", "Multimedia"],
-            "kotlin": ["Developer", "Mobile"],
-            "ruby": ["Developer", "Web"],
-            "php": ["Developer", "Web"],
-            "r": ["Science", "Education"],
-            "matlab": ["Science", "Education"],
-            "julia": ["Science", "Education"],
+            "python": {"Developer": 5, "Education": 3},
+            "javascript": {"Developer": 5},
+            "java": {"Developer": 5, "Business": 3},
+            "csharp": {"Developer": 5, "Game": 3},
+            "cpp": {"Developer": 5, "Game": 3, "Multimedia": 3},
+            "go": {"Developer": 5},
+            "rust": {"Developer": 5, "Security": 3},
+            "swift": {"Developer": 5},
+            "kotlin": {"Developer": 5},
+            "ruby": {"Developer": 5},
+            "php": {"Developer": 5},
+            "r": {"Education": 5},
+            "matlab": {"Education": 5},
+            "julia": {"Education": 5},
         }
 
         if self.language in language_category_map:
-            for lang_category in language_category_map[self.language]:
-                if lang_category == category:
-                    score += 5
+            lang_scores = language_category_map[self.language]
+            if category in lang_scores:
+                score += lang_scores[category]
 
         return score
 
@@ -264,7 +272,7 @@ def extract(repo_data: Dict[str, Any], repo_files: Dict[str, str] = None, **kwar
     Returns:
         str: Single application category (e.g., "Developer")
         list: Multiple categories if applicable
-        None: If no category can be determined
+        None: If no category can be determined with confidence
     """
     try:
         extractor = ApplicationCategoryExtractor(repo_data)
@@ -274,7 +282,7 @@ def extract(repo_data: Dict[str, Any], repo_files: Dict[str, str] = None, **kwar
             logger.info(f"Extracted applicationCategory: {result}")
             return result
         else:
-            logger.debug("No applicationCategory found")
+            logger.debug("No applicationCategory found with sufficient confidence")
             return None
 
     except Exception as e:
@@ -290,12 +298,14 @@ def get(repository_url: str) -> Dict[str, Optional[Union[str, List[str]]]]:
     It fetches repository metadata from GitHub API and extracts the application
     category based on multiple signals (topics, description, language, etc.).
 
+    Uses a conservative approach - returns empty dict if uncertain.
+
     Args:
         repository_url (str): The URL of the GitHub repository.
 
     Returns:
         Dict: A dictionary containing the 'applicationCategory' property and its value.
-              Returns an empty dict if no category can be extracted.
+              Returns an empty dict if no category can be extracted with confidence.
 
     Example:
         >>> result = get("https://github.com/pallets/flask")
