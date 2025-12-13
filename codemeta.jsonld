@@ -3,123 +3,39 @@
   "@type": "SoftwareSourceCode",
   "author": [
     {
-      "name": "David Lord",
+      "name": "Jacco van Ossenbruggen",
       "@type": "Person",
-      "url": "https://github.com/davidism",
-      "@id": "https://orcid.org/0000-0001-6723-2832"
+      "url": "https://github.com/jrvosse",
+      "affiliation": "VU",
+      "@id": "https://orcid.org/0000-0002-7748-4715"
     },
     {
-      "name": "Armin Ronacher",
+      "name": "Jakob Vo\u00df",
       "@type": "Person",
-      "url": "https://github.com/mitsuhiko",
-      "email": "armin.ronacher@active-4.com",
-      "affiliation": "Earendil"
-    },
-    {
-      "name": "Markus Unterwaditzer",
-      "@type": "Person",
-      "url": "https://github.com/untitaker",
-      "affiliation": "@getsentry "
-    },
-    {
-      "name": "Rom DuPlain",
-      "@type": "Person",
-      "url": "https://github.com/rduplain"
-    },
-    {
-      "name": "Grey Li",
-      "@type": "Person",
-      "url": "https://github.com/greyli",
-      "affiliation": "Dell"
-    }
-  ],
-  "buildInstructions": [
-    {
-      "step": 1,
-      "command": "flit install --deps develop",
-      "description": "Install project with development dependencies using Flit",
-      "annotation": "Flit dependency management",
-      "type": "dependencies"
-    },
-    {
-      "step": 2,
-      "command": "flit build",
-      "description": "Build the package using Flit",
-      "annotation": "Flit build backend",
-      "type": "build"
+      "url": "https://github.com/nichtich",
+      "email": "voss@gbv.de",
+      "affiliation": "Verbundzentrale des GBV (VZG)",
+      "@id": "https://orcid.org/0000-0002-7613-4123"
     }
   ],
   "codeRepository": {
     "@type": "Repository",
-    "url": "https://github.com/pallets/flask",
-    "language": "Python",
-    "clone_url": "https://github.com/pallets/flask.git",
-    "ssh_url": "git@github.com:pallets/flask.git",
-    "size": 11285,
+    "url": "https://github.com/jrvosse/amalgame",
+    "language": "Prolog",
+    "clone_url": "https://github.com/jrvosse/amalgame.git",
+    "ssh_url": "git@github.com:jrvosse/amalgame.git",
+    "size": 14835,
     "private": false,
     "fork": false,
-    "default_branch": "main"
-  },
-  "continuousIntegration": {
-    "platforms": [],
-    "testingFrameworks": [
-      "tox",
-      "pytest"
-    ],
-    "coverageTools": []
+    "default_branch": "master"
   },
   "contributor": [
     {
-      "name": "David Lord",
-      "url": "https://github.com/davidism",
+      "name": "Jacco van Ossenbruggen",
+      "url": "https://github.com/jrvosse",
       "@type": "Person",
-      "@id": "https://orcid.org/0000-0001-6723-2832"
-    },
-    {
-      "name": "Armin Ronacher",
-      "url": "https://github.com/mitsuhiko",
-      "@type": "Person",
-      "email": "armin.ronacher@active-4.com",
-      "affiliation": "Earendil"
-    },
-    {
-      "name": "Markus Unterwaditzer",
-      "url": "https://github.com/untitaker",
-      "@type": "Person",
-      "affiliation": "@getsentry "
-    },
-    {
-      "name": "Rom DuPlain",
-      "url": "https://github.com/rduplain",
-      "@type": "Person"
-    },
-    {
-      "name": "Grey Li",
-      "url": "https://github.com/greyli",
-      "@type": "Person",
-      "affiliation": "Dell"
-    },
-    {
-      "name": "dependabot-preview[bot]",
-      "url": "https://github.com/apps/dependabot-preview",
-      "@type": "Person"
-    },
-    {
-      "name": "Daniel Neuh\u00e4user",
-      "url": "https://github.com/DasIch",
-      "@type": "Person",
-      "affiliation": "Zalando SE"
-    },
-    {
-      "name": "dependabot[bot]",
-      "url": "https://github.com/apps/dependabot",
-      "@type": "Person"
-    },
-    {
-      "name": "Kenneth Reitz",
-      "url": "https://github.com/kennethreitz",
-      "@type": "Person",
-      "email": "me@kennethreitz.org"
+      "affiliation": "VU",
+      "@id": "https://orcid.org/0000-0002-7748-4715"
     },
     {
       "name": "",
@@ -127,312 +43,34 @@
       "@type": "Person"
     },
     {
-      "name": "Phil Jones",
-      "url": "https://github.com/pgjones",
+      "name": "Jakob Vo\u00df",
+      "url": "https://github.com/nichtich",
       "@type": "Person",
-      "@id": "https://orcid.org/0000-0002-4629-9138"
-    },
-    {
-      "name": "pre-commit-ci[bot]",
-      "url": "https://github.com/apps/pre-commit-ci",
-      "@type": "Person"
-    },
-    {
-      "name": "Keyan Pishdadian",
-      "url": "https://github.com/keyan",
-      "@type": "Person",
-      "email": "kpishdadian@gmail.com",
-      "affiliation": "@facebook"
-    },
-    {
-      "name": "Adrian",
-      "url": "https://github.com/ThiefMaster",
-      "@type": "Person",
-      "email": "adrian@planetcoding.net",
-      "affiliation": "CERN / @indico ",
-      "@id": "https://orcid.org/0009-0005-6342-2483"
-    },
-    {
-      "name": "Ivan Ivashchenko",
-      "url": "https://github.com/defuz",
-      "@type": "Person",
-      "email": "defuz@me.com",
-      "@id": "https://orcid.org/0000-0003-2077-3193"
-    },
-    {
-      "name": "Hsiaoming Yang",
-      "url": "https://github.com/lepture",
-      "@type": "Person",
-      "affiliation": "@hsiaoming "
-    },
-    {
-      "name": "TW",
-      "url": "https://github.com/ThomasWaldmann",
-      "@type": "Person",
-      "email": "tw@waldmann-edv.de",
-      "@id": "https://orcid.org/0000-0002-7440-7642"
-    },
-    {
-      "name": "Jeff Widman",
-      "url": "https://github.com/jeffwidman",
-      "@type": "Person",
-      "email": "jeff@jeffwidman.com"
-    },
-    {
-      "name": "Joshua Bronson",
-      "url": "https://github.com/jab",
-      "@type": "Person",
-      "@id": "https://orcid.org/0000-0001-9730-4411"
-    },
-    {
-      "name": "Simon Sapin",
-      "url": "https://github.com/SimonSapin",
-      "@type": "Person"
-    },
-    {
-      "name": "lord63",
-      "url": "https://github.com/lord63",
-      "@type": "Person",
-      "email": "lord63.j@gmail.com"
-    },
-    {
-      "name": "Florent Xicluna",
-      "url": "https://github.com/florentx",
-      "@type": "Person"
-    },
-    {
-      "name": "Adam Byrtek",
-      "url": "https://github.com/adambyrtek",
-      "@type": "Person",
-      "email": "adambyrtek@gmail.com",
-      "affiliation": "Houst"
-    },
-    {
-      "name": "Dag",
-      "url": "https://github.com/dag",
-      "@type": "Person"
-    },
-    {
-      "name": "Kyle Lawlor-Bagcal",
-      "url": "https://github.com/wgwz",
-      "@type": "Person",
-      "affiliation": "Green River"
-    },
-    {
-      "name": "Petr Zemek",
-      "url": "https://github.com/s3rvac",
-      "@type": "Person",
-      "email": "s3rvac@petrzemek.net",
-      "affiliation": "@Avast"
-    },
-    {
-      "name": "Philipp A.",
-      "url": "https://github.com/flying-sheep",
-      "@type": "Person",
-      "email": "flying-sheep@web.de",
-      "affiliation": "@theislab"
-    },
-    {
-      "name": "Daw-Ran Liou",
-      "url": "https://github.com/dawranliou",
-      "@type": "Person",
-      "email": "hi@dawranliou.com"
-    },
-    {
-      "name": "Priit Laes",
-      "url": "https://github.com/plaes",
-      "@type": "Person",
-      "email": "plaes@plaes.org"
-    },
-    {
-      "name": "Garen Chan",
-      "url": "https://github.com/garenchan",
-      "@type": "Person",
-      "email": "garenchan23@gmail.com",
-      "affiliation": "Realm of Light"
-    },
-    {
-      "name": "Inada Naoki",
-      "url": "https://github.com/methane",
-      "@type": "Person",
-      "email": "songofacandy@gmail.com",
-      "affiliation": "KLab Inc,"
-    },
-    {
-      "name": "Matt Cooper",
-      "url": "https://github.com/vtbassmatt",
-      "@type": "Person",
-      "email": "vtbassmatt@gmail.com",
-      "affiliation": "@microsoft ",
-      "@id": "https://orcid.org/0000-0002-0118-5161"
-    },
-    {
-      "name": "Tully Rankin",
-      "url": "https://github.com/tullyrankin",
-      "@type": "Person",
-      "email": "TullyRankin@gmail.com"
-    },
-    {
-      "name": "Miguel Grinberg",
-      "url": "https://github.com/miguelgrinberg",
-      "@type": "Person",
-      "affiliation": "Elastic"
-    },
-    {
-      "name": "Frank Yu",
-      "url": "https://github.com/yuxiaoy1",
-      "@type": "Person",
-      "email": "withyuxiaoy@gmail.com",
-      "@id": "https://orcid.org/0000-0002-2120-5537"
-    },
-    {
-      "name": "Chris Rebert",
-      "url": "https://github.com/cvrebert",
-      "@type": "Person",
-      "affiliation": "On the prowl"
-    },
-    {
-      "name": "Mieszko Chowaniec",
-      "url": "https://github.com/Winnetou",
-      "@type": "Person",
-      "email": "mieszko.chowaniec@gmail.com",
-      "affiliation": "Freelance Inc."
-    },
-    {
-      "name": "Lowell Tarek Abbott Vidal",
-      "url": "https://github.com/aqt01",
-      "@type": "Person",
-      "email": "lowell.abbott@gmail.com",
-      "affiliation": "pokt-network"
-    },
-    {
-      "name": "Hendrik Makait",
-      "url": "https://github.com/hendrikmakait",
-      "@type": "Person",
-      "email": "hendrik@makait.com"
-    },
-    {
-      "name": "David Baumgold",
-      "url": "https://github.com/singingwolfboy",
-      "@type": "Person",
-      "email": "david@davidbaumgold.com"
-    },
-    {
-      "name": "Daniel Pope",
-      "url": "https://github.com/lordmauve",
-      "@type": "Person",
-      "affiliation": "@twosigma",
-      "@id": "https://orcid.org/0009-0004-7357-634X"
-    },
-    {
-      "name": "antsar",
-      "url": "https://github.com/antsar",
-      "@type": "Person"
-    },
-    {
-      "name": "Alexander Pantyukhin",
-      "url": "https://github.com/alexpantyukhin",
-      "@type": "Person",
-      "email": "apantykhin@gmail.com"
-    },
-    {
-      "name": "Aaron Kavlie",
-      "url": "https://github.com/akavlie",
-      "@type": "Person",
-      "affiliation": "Stremor"
-    },
-    {
-      "name": "jfinkels",
-      "url": "https://github.com/jfinkels",
-      "@type": "Person"
+      "email": "voss@gbv.de",
+      "affiliation": "Verbundzentrale des GBV (VZG)",
+      "@id": "https://orcid.org/0000-0002-7613-4123"
     }
   ],
-  "dateCreated": "2010-04-06",
-  "dateModified": "2025-12-12",
-  "datePublished": "2025-08-19",
-  "description": "Flask is a lightweight WSGI] web application framework. It is designed to make getting started quick and easy, with the ability to scale up to complex applications. It began as a simple wrapper around Werkzeug] and Jinja], and has become one of the most popular Python web application frameworks. Flask offers suggestions, but doesn't enforce any dependencies or project layout. It is up to the developer to choose the tools and libraries they want to use. There are many extensions provided by the community that make adding new functionality easy. WSGI]: https://wsgi.readthedocs.io/ Werkzeug]: https://werkzeug.palletsprojects.com/ Jinja]: https://jinja.palletsprojects.com/",
-  "developmentStatus": "Active",
-  "documentation": {
-    "platforms": [
-      "Sphinx"
-    ],
-    "formats": [
-      "Markdown",
-      "reStructuredText"
-    ],
-    "locations": [
-      "README.md"
-    ],
-    "externalPlatforms": []
-  },
+  "dateCreated": "2014-05-10",
+  "dateModified": "2025-07-23",
+  "datePublished": "2018-04-25",
+  "description": "Amalgame: a SKOS vocabulary alignment tool",
+  "developmentStatus": "Inactive",
   "downloadUrl": [
-    "https://github.com/pallets/flask/releases/tag/3.1.2",
-    "https://github.com/pallets/flask/releases/download/3.1.2/flask-3.1.2-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/3.1.2/flask-3.1.2.tar.gz",
-    "https://github.com/pallets/flask/releases/tag/3.1.1",
-    "https://github.com/pallets/flask/releases/download/3.1.1/flask-3.1.1-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/3.1.1/flask-3.1.1.tar.gz",
-    "https://github.com/pallets/flask/releases/download/3.1.1/multiple.intoto.jsonl",
-    "https://github.com/pallets/flask/releases/tag/3.1.0",
-    "https://github.com/pallets/flask/releases/download/3.1.0/flask-3.1.0-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/3.1.0/flask-3.1.0.tar.gz",
-    "https://github.com/pallets/flask/releases/download/3.1.0/multiple.intoto.jsonl",
-    "https://github.com/pallets/flask/releases/tag/3.0.3",
-    "https://github.com/pallets/flask/releases/download/3.0.3/flask-3.0.3-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/3.0.3/flask-3.0.3.tar.gz",
-    "https://github.com/pallets/flask/releases/download/3.0.3/multiple.intoto.jsonl",
-    "https://github.com/pallets/flask/releases/tag/3.0.2",
-    "https://github.com/pallets/flask/releases/download/3.0.2/flask-3.0.2-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/3.0.2/flask-3.0.2.tar.gz",
-    "https://github.com/pallets/flask/releases/download/3.0.2/multiple.intoto.jsonl",
-    "https://github.com/pallets/flask/releases/tag/3.0.1",
-    "https://github.com/pallets/flask/releases/download/3.0.1/flask-3.0.1-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/3.0.1/flask-3.0.1.tar.gz",
-    "https://github.com/pallets/flask/releases/download/3.0.1/multiple.intoto.jsonl",
-    "https://github.com/pallets/flask/releases/tag/3.0.0",
-    "https://github.com/pallets/flask/releases/download/3.0.0/flask-3.0.0-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/3.0.0/flask-3.0.0.tar.gz",
-    "https://github.com/pallets/flask/releases/download/3.0.0/multiple.intoto.jsonl",
-    "https://github.com/pallets/flask/releases/tag/2.3.3",
-    "https://github.com/pallets/flask/releases/download/2.3.3/flask-2.3.3-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/2.3.3/flask-2.3.3.tar.gz",
-    "https://github.com/pallets/flask/releases/download/2.3.3/multiple.intoto.jsonl",
-    "https://github.com/pallets/flask/releases/tag/2.2.5",
-    "https://github.com/pallets/flask/releases/download/2.2.5/Flask-2.2.5-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/2.2.5/Flask-2.2.5.tar.gz",
-    "https://github.com/pallets/flask/releases/download/2.2.5/multiple.intoto.jsonl",
-    "https://github.com/pallets/flask/releases/tag/2.3.2",
-    "https://github.com/pallets/flask/releases/download/2.3.2/Flask-2.3.2-py3-none-any.whl",
-    "https://github.com/pallets/flask/releases/download/2.3.2/Flask-2.3.2.tar.gz",
-    "https://github.com/pallets/flask/releases/download/2.3.2/multiple.intoto.jsonl"
+    "https://github.com/jrvosse/amalgame/releases/tag/V1.0.0"
   ],
-  "executable": [
-    "flask"
-  ],
-  "funder": [
-    {
-      "type": "Funding",
-      "url": "https://palletsprojects.com/donate"
-    }
-  ],
-  "inputMethod": [
-    "Command-line interface",
-    "Web interface",
-    "Application programming interface"
-  ],
-  "issueTracker": "https://github.com/pallets/flask/issues",
+  "issueTracker": "https://github.com/jrvosse/amalgame/issues",
   "keywords": [
-    "community",
-    "documentation",
-    "example",
-    "flask",
+    "cli",
+    "container",
+    "docker",
     "framework",
-    "jinja",
-    "pallets",
-    "python",
-    "web framework",
-    "werkzeug",
-    "wsgi"
+    "game",
+    "mapping",
+    "open source",
+    "prolog",
+    "rest",
+    "toolkit"
   ],
   "license": {
     "@type": "CreativeWork",
@@ -441,88 +79,23 @@
   "maintainer": [
     {
       "@type": "Person",
-      "name": "davidism",
-      "url": "https://github.com/davidism",
-      "contributions": 1781
+      "name": "jrvosse",
+      "url": "https://github.com/jrvosse"
     },
     {
       "@type": "Person",
-      "name": "greyli",
-      "url": "https://github.com/greyli",
-      "contributions": 105
-    },
-    {
-      "@type": "Person",
-      "name": "mitsuhiko",
-      "url": "https://github.com/mitsuhiko",
-      "contributions": 1189
-    },
-    {
-      "@type": "Person",
-      "name": "pallets",
-      "url": "https://github.com/pallets"
-    },
-    {
-      "@type": "Person",
-      "name": "rduplain",
-      "url": "https://github.com/rduplain",
-      "contributions": 122
-    },
-    {
-      "@type": "Person",
-      "name": "untitaker",
-      "url": "https://github.com/untitaker",
-      "contributions": 274
+      "name": "nichtich",
+      "url": "https://github.com/nichtich",
+      "contributions": 1
     }
   ],
-  "name": "Flask",
-  "operatingSystem": [
-    "BSD"
-  ],
+  "name": "jrvosse/amalgame",
   "programmingLanguage": [
-    "Python",
-    "HTML",
-    "Shell",
-    "CSS"
+    "Prolog",
+    "JavaScript",
+    "CSS",
+    "Makefile",
+    "Dockerfile"
   ],
-  "readme": "<div align=\"center\"><img src=\"https://raw.githubusercontent.com/pallets/flask/refs/heads/stable/docs/_static/flask-name.svg\" alt=\"\" height=\"150\"></div>\n\n# Flask\n\nFlask is a lightweight [WSGI] web application framework. It is designed\nto make getting started quick and easy, with the ability to scale up to\ncomplex applications. It began as a simple wrapper around [Werkzeug]\nand [Jinja], and has become one of the most popular Python web\napplication frameworks.\n\nFlask offers suggestions, but doesn't enforce any dependencies or\nproject layout. It is up to the developer to choose the tools and\nlibraries they want to use. There are many extensions provided by the\ncommunity that make adding new functionality easy.\n\n[WSGI]: https://wsgi.readthedocs.io/\n[Werkzeug]: https://werkzeug.palletsprojects.com/\n[Jinja]: https://jinja.palletsprojects.com/\n\n## A Simple Example\n\n```python\n# save this as app.py\nfrom flask import Flask\n\napp = Flask(__name__)\n\n@app.route(\"/\")\ndef hello():\n    return \"Hello, World!\"\n```\n\n```\n$ flask run\n  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)\n```\n\n## Donate\n\nThe Pallets organization develops and supports Flask and the libraries\nit uses. In order to grow the community of contributors and users, and\nallow the maintainers to devote more time to the projects, [please\ndonate today].\n\n[please donate today]: https://palletsprojects.com/donate\n\n## Contributing\n\nSee our [detailed contributing documentation][contrib] for many ways to\ncontribute, including reporting issues, requesting features, asking or answering\nquestions, and making PRs.\n\n[contrib]: https://palletsprojects.com/contributing/\n",
-  "runtimePlatform": [
-    "Python",
-    "R",
-    "TypeScript"
-  ],
-  "softwareRequirements": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "blinker",
-      "minVersion": "1.9.0"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "click",
-      "minVersion": "8.1.3"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "itsdangerous",
-      "minVersion": "2.2.0"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "jinja2",
-      "minVersion": "3.1.2"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "markupsafe",
-      "minVersion": "2.1.1"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "name": "werkzeug",
-      "minVersion": "3.1.0"
-    }
-  ],
-  "url": "https://flask.palletsprojects.com",
-  "version": "3.1.2"
+  "url": "http://semanticweb.cs.vu.nl/amalgame/"
 }
