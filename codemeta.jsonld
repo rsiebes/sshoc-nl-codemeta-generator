@@ -63,8 +63,8 @@
   "continuousIntegration": {
     "platforms": [],
     "testingFrameworks": [
-      "pytest",
-      "tox"
+      "tox",
+      "pytest"
     ],
     "coverageTools": []
   },
@@ -357,8 +357,8 @@
       "Sphinx"
     ],
     "formats": [
-      "reStructuredText",
-      "Markdown"
+      "Markdown",
+      "reStructuredText"
     ],
     "locations": [
       "README.md"
@@ -414,6 +414,11 @@
       "type": "Funding",
       "url": "https://palletsprojects.com/donate"
     }
+  ],
+  "inputMethod": [
+    "Command-line interface",
+    "Web interface",
+    "Application programming interface"
   ],
   "issueTracker": "https://github.com/pallets/flask/issues",
   "keywords": [
