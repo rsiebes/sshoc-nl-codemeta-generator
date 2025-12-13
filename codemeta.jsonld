@@ -63,8 +63,8 @@
   "continuousIntegration": {
     "platforms": [],
     "testingFrameworks": [
-      "tox",
-      "pytest"
+      "pytest",
+      "tox"
     ],
     "coverageTools": []
   },
@@ -357,8 +357,8 @@
       "Sphinx"
     ],
     "formats": [
-      "Markdown",
-      "reStructuredText"
+      "reStructuredText",
+      "Markdown"
     ],
     "locations": [
       "README.md"
