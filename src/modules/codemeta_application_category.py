@@ -122,7 +122,8 @@ class ApplicationCategoryExtractor:
         "Reference": [
             "reference", "dictionary", "encyclopedia", "manual",
             "documentation", "guide", "handbook", "knowledge",
-            "vocabulary", "ontology", "taxonomy"
+            "vocabulary", "ontology", "taxonomy", "alignment",
+            "mapping", "skos", "rdf", "semantic web", "linked data"
         ],
         "Communication": [
             "communication", "messaging", "chat", "email", "voice",
@@ -224,7 +225,11 @@ class ApplicationCategoryExtractor:
         # Only count if keyword appears in description
         for keyword in keywords:
             if keyword in self.description:
-                score += 3
+                # Domain-specific keywords get higher weight
+                if keyword in ["vocabulary", "alignment", "mapping", "ontology", "semantic web", "skos", "rdf", "linked data"]:
+                    score += 5  # Higher weight for domain-specific keywords
+                else:
+                    score += 3
 
         # Check homepage (low weight)
         for keyword in keywords:
