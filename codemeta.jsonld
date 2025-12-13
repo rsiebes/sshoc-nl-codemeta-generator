@@ -1,6 +1,11 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
+  "applicationCategory": [
+    "Game",
+    "Sports",
+    "Developer"
+  ],
   "author": [
     {
       "name": "Jacco van Ossenbruggen",

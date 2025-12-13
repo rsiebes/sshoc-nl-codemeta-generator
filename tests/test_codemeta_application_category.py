@@ -361,8 +361,8 @@ class TestApplicationCategoryExtractor(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertTrue(isinstance(result, (str, list)))
 
-    def test_wikidata_id_mapping(self):
-        """Test that Wikidata IDs are correctly mapped."""
+    def test_category_text_format(self):
+        """Test that categories are returned as proper text values."""
         repo_data = self.base_repo_data.copy()
         repo_data["description"] = "A web framework"
         repo_data["topics"] = ["web"]
@@ -371,13 +371,18 @@ class TestApplicationCategoryExtractor(unittest.TestCase):
         extractor = ApplicationCategoryExtractor(repo_data)
         result = extractor.extract()
 
-        # Result should contain a Wikidata URL
+        # Result should be a text category, not a Wikidata URL
         if result:
             if isinstance(result, str):
-                self.assertTrue(result.startswith("https://www.wikidata.org/wiki/Q"))
+                # Should be a text category like "Developer", "Multimedia", etc.
+                self.assertIsInstance(result, str)
+                self.assertGreater(len(result), 0)
+                self.assertFalse(result.startswith("https://"))
             elif isinstance(result, list):
                 for item in result:
-                    self.assertTrue(item.startswith("https://www.wikidata.org/wiki/Q"))
+                    self.assertIsInstance(item, str)
+                    self.assertGreater(len(item), 0)
+                    self.assertFalse(item.startswith("https://"))
 
 
 class TestApplicationCategoryIntegration(unittest.TestCase):

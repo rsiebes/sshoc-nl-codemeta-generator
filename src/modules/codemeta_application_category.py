@@ -3,8 +3,10 @@ CodeMeta applicationCategory Module
 
 Extracts the application category/type of the software according to CodeMeta 3.1 standard.
 The applicationCategory property describes the type of software application using standard
-categories from schema.org (e.g., "DeveloperApplication", "DesktopApplication", "WebApplication",
-"MobileApplication", "GameApplication", "MultimediaApplication", "ProductivityApplication", etc.).
+text categories from schema.org and common app store classifications (e.g., "Game", "Multimedia",
+"Developer", "Productivity", "Business", "Education", "Entertainment", "Health", "Utility",
+"Social", "News", "Music", "Photo", "Video", "Navigation", "Shopping", "Travel", "Security",
+"Medical", "Personalization", "Lifestyle", "Sports", "Kids", "Reference", "Communication").
 
 This module analyzes multiple sources:
 1. GitHub repository topics/tags
@@ -15,7 +17,7 @@ This module analyzes multiple sources:
 
 Returns:
     dict: CodeMeta-compliant applicationCategory structure
-    str: Single category string (e.g., "DeveloperApplication")
+    str: Single category string (e.g., "Developer")
     list: Multiple categories if applicable
     None: If no category can be determined
 """
@@ -34,77 +36,110 @@ class ApplicationCategoryExtractor:
 
     # Mapping of keywords to application categories
     CATEGORY_KEYWORDS = {
-        "DeveloperApplication": [
+        "Developer": [
             "build", "compiler", "debugger", "editor", "framework", "ide", "library",
             "lint", "parser", "sdk", "test", "tool", "linter", "formatter", "transpiler",
             "bundler", "package manager", "version control", "ci", "cd", "deployment",
             "docker", "kubernetes", "devops", "api", "rest", "graphql", "database",
-            "orm", "query", "migration", "schema", "validation", "serialization"
+            "orm", "query", "migration", "schema", "validation", "serialization", "toolkit"
         ],
-        "WebApplication": [
-            "web", "website", "webapp", "http", "server", "client", "frontend",
-            "backend", "full-stack", "django", "flask", "express", "rails", "laravel",
-            "wordpress", "cms", "blog", "portal", "dashboard", "admin", "spa", "pwa",
-            "react", "vue", "angular", "svelte", "nextjs", "nuxt", "gatsby"
-        ],
-        "DesktopApplication": [
-            "desktop", "gui", "gtk", "qt", "wxwidgets", "electron", "tauri",
-            "swing", "javafx", "winforms", "wpf", "macos", "windows", "linux",
-            "cross-platform", "native", "application"
-        ],
-        "MobileApplication": [
-            "mobile", "android", "ios", "iphone", "ipad", "flutter", "react native",
-            "xamarin", "cordova", "ionic", "app", "smartphone", "tablet", "cross-mobile"
-        ],
-        "GameApplication": [
-            "game", "gaming", "engine", "unity", "unreal", "godot", "pygame",
-            "arcade", "puzzle", "rpg", "mmo", "3d", "graphics", "animation"
-        ],
-        "MultimediaApplication": [
+        "Multimedia": [
             "audio", "video", "image", "graphics", "animation", "media", "player",
             "editor", "converter", "ffmpeg", "imagemagick", "blender", "photoshop",
-            "streaming", "podcast", "music", "photo", "visual"
+            "streaming", "podcast", "music", "photo", "visual", "rendering"
         ],
-        "ProductivityApplication": [
+        "Productivity": [
             "productivity", "office", "document", "spreadsheet", "presentation",
             "note", "todo", "calendar", "email", "communication", "collaboration",
-            "project management", "task", "workflow", "automation"
+            "project management", "task", "workflow", "automation", "organization"
         ],
-        "UtilityApplication": [
-            "utility", "tool", "system", "monitor", "backup", "compression",
-            "encryption", "antivirus", "cleaner", "optimizer", "converter"
-        ],
-        "ScienceApplication": [
-            "science", "research", "data", "analysis", "visualization", "statistics",
-            "machine learning", "deep learning", "neural", "ai", "nlp", "computer vision",
-            "bioinformatics", "chemistry", "physics", "mathematics", "simulation"
-        ],
-        "BusinessApplication": [
+        "Business": [
             "business", "erp", "crm", "accounting", "finance", "hr", "sales",
-            "marketing", "inventory", "supply chain", "ecommerce", "retail"
+            "marketing", "inventory", "supply chain", "ecommerce", "retail", "enterprise"
         ],
-        "EducationApplication": [
+        "Education": [
             "education", "learning", "course", "tutorial", "training", "school",
-            "university", "exam", "quiz", "homework", "textbook"
+            "university", "exam", "quiz", "homework", "textbook", "instructional"
         ],
-        "HealthApplication": [
-            "health", "medical", "healthcare", "hospital", "clinic", "doctor",
-            "patient", "medicine", "pharmacy", "fitness", "wellness", "mental health"
+        "Entertainment": [
+            "entertainment", "streaming", "movies", "videos", "live", "sports",
+            "ticket", "theatre", "concert", "show", "broadcast"
         ],
-        "SocialApplication": [
+        "Game": [
+            "game", "gaming", "engine", "unity", "unreal", "godot", "pygame",
+            "arcade", "puzzle", "rpg", "mmo", "3d", "graphics", "animation", "gameplay"
+        ],
+        "Health": [
+            "health", "fitness", "workout", "yoga", "running", "cycling", "diet",
+            "nutrition", "wellness", "exercise", "tracker", "activity"
+        ],
+        "Medical": [
+            "medical", "healthcare", "hospital", "clinic", "doctor", "patient",
+            "medicine", "pharmacy", "symptom", "disease", "health record"
+        ],
+        "Music": [
+            "music", "audio", "song", "track", "album", "artist", "playlist",
+            "recording", "streaming", "radio", "dj", "synthesizer"
+        ],
+        "News": [
+            "news", "blog", "article", "journalism", "publication", "rss", "feed",
+            "newspaper", "magazine", "media", "content"
+        ],
+        "Photo": [
+            "photo", "image", "picture", "photography", "editing", "gallery",
+            "album", "sharing", "filter", "effects", "camera"
+        ],
+        "Video": [
+            "video", "movie", "film", "streaming", "playback", "editing",
+            "codec", "transcoding", "player", "recording", "broadcast"
+        ],
+        "Navigation": [
+            "navigation", "map", "gps", "location", "route", "direction",
+            "travel", "driving", "walking", "public transport", "atlas"
+        ],
+        "Shopping": [
+            "shopping", "store", "ecommerce", "marketplace", "cart", "checkout",
+            "payment", "product", "catalog", "inventory", "retail"
+        ],
+        "Travel": [
+            "travel", "booking", "hotel", "flight", "car rental", "tourism",
+            "destination", "itinerary", "accommodation", "vacation"
+        ],
+        "Social": [
             "social", "social media", "chat", "messaging", "forum", "community",
             "network", "collaboration", "team", "meeting", "conference", "video call"
         ],
-        "ShoppingApplication": [
-            "shopping", "store", "ecommerce", "marketplace", "cart", "checkout",
-            "payment", "product", "catalog", "inventory"
+        "Security": [
+            "security", "antivirus", "vpn", "encryption", "password", "protection",
+            "firewall", "threat", "malware", "vulnerability", "secure"
         ],
-        "TravelApplication": [
-            "travel", "map", "navigation", "gps", "booking", "hotel", "flight",
-            "car rental", "tourism", "weather", "location"
+        "Utility": [
+            "utility", "tool", "system", "monitor", "backup", "compression",
+            "encryption", "cleaner", "optimizer", "converter", "calculator"
         ],
-        "NewsApplication": [
-            "news", "blog", "article", "journalism", "publication", "rss", "feed"
+        "Reference": [
+            "reference", "dictionary", "encyclopedia", "manual", "documentation",
+            "guide", "handbook", "knowledge", "vocabulary", "ontology", "taxonomy"
+        ],
+        "Communication": [
+            "communication", "messaging", "chat", "email", "voice", "video call",
+            "conference", "collaboration", "team", "meeting", "contact"
+        ],
+        "Kids": [
+            "kids", "children", "family", "educational", "interactive", "story",
+            "playbook", "learning", "fun", "age-appropriate"
+        ],
+        "Personalization": [
+            "personalization", "theme", "wallpaper", "ringtone", "customization",
+            "appearance", "settings", "preferences", "skin"
+        ],
+        "Lifestyle": [
+            "lifestyle", "hobby", "interest", "diy", "fashion", "home", "garden",
+            "automotive", "relationships", "style", "trends"
+        ],
+        "Sports": [
+            "sports", "athletic", "game", "score", "statistics", "team",
+            "player", "league", "tournament", "fitness", "training"
         ]
     }
 
@@ -128,7 +163,7 @@ class ApplicationCategoryExtractor:
         Extract application category from repository metadata.
 
         Returns:
-            str: Single category (e.g., "DeveloperApplication")
+            str: Single category (e.g., "Developer")
             list: Multiple categories if applicable
             None: If no category can be determined
         """
@@ -152,13 +187,10 @@ class ApplicationCategoryExtractor:
             top_score = sorted_categories[0][1]
             # If top score is significantly higher, return single category
             if len(sorted_categories) == 1 or sorted_categories[1][1] < top_score * 0.7:
-                return f"https://www.wikidata.org/wiki/Q{self._get_wikidata_id(sorted_categories[0][0])}"
+                return sorted_categories[0][0]
             else:
                 # Return multiple categories if scores are similar
-                categories = [
-                    f"https://www.wikidata.org/wiki/Q{self._get_wikidata_id(cat)}"
-                    for cat, _ in sorted_categories[:3]
-                ]
+                categories = [cat for cat, _ in sorted_categories[:3]]
                 return categories if len(categories) > 1 else categories[0]
 
         return None
@@ -193,20 +225,20 @@ class ApplicationCategoryExtractor:
 
         # Check programming language patterns
         language_category_map = {
-            "python": ["DeveloperApplication", "ScienceApplication", "DataApplication"],
-            "javascript": ["WebApplication", "DeveloperApplication"],
-            "java": ["DeveloperApplication", "BusinessApplication"],
-            "csharp": ["DeveloperApplication", "DesktopApplication", "GameApplication"],
-            "cpp": ["DeveloperApplication", "GameApplication", "MultimediaApplication"],
-            "go": ["DeveloperApplication", "SystemApplication"],
-            "rust": ["DeveloperApplication", "SystemApplication"],
-            "swift": ["MobileApplication", "DesktopApplication"],
-            "kotlin": ["MobileApplication", "DeveloperApplication"],
-            "ruby": ["WebApplication", "DeveloperApplication"],
-            "php": ["WebApplication", "DeveloperApplication"],
-            "r": ["ScienceApplication", "DataApplication"],
-            "matlab": ["ScienceApplication", "DataApplication"],
-            "julia": ["ScienceApplication", "DataApplication"],
+            "python": ["Developer", "Education", "Science"],
+            "javascript": ["Developer", "Multimedia", "Web"],
+            "java": ["Developer", "Business"],
+            "csharp": ["Developer", "Game", "Multimedia"],
+            "cpp": ["Developer", "Game", "Multimedia"],
+            "go": ["Developer", "Utility"],
+            "rust": ["Developer", "Utility", "Security"],
+            "swift": ["Developer", "Multimedia"],
+            "kotlin": ["Developer", "Mobile"],
+            "ruby": ["Developer", "Web"],
+            "php": ["Developer", "Web"],
+            "r": ["Science", "Education"],
+            "matlab": ["Science", "Education"],
+            "julia": ["Science", "Education"],
         }
 
         if self.language in language_category_map:
@@ -215,36 +247,6 @@ class ApplicationCategoryExtractor:
                     score += 5
 
         return score
-
-    def _get_wikidata_id(self, category: str) -> str:
-        """
-        Get Wikidata ID for a category (simplified mapping).
-
-        Args:
-            category: Category name
-
-        Returns:
-            str: Wikidata ID (Q-number)
-        """
-        wikidata_mapping = {
-            "DeveloperApplication": "56678088",
-            "WebApplication": "7397968",
-            "DesktopApplication": "16869893",
-            "MobileApplication": "6061973",
-            "GameApplication": "7889",
-            "MultimediaApplication": "1305812",
-            "ProductivityApplication": "1305812",
-            "UtilityApplication": "1305812",
-            "ScienceApplication": "1305812",
-            "BusinessApplication": "1305812",
-            "EducationApplication": "1305812",
-            "HealthApplication": "1305812",
-            "SocialApplication": "1305812",
-            "ShoppingApplication": "1305812",
-            "TravelApplication": "1305812",
-            "NewsApplication": "1305812",
-        }
-        return wikidata_mapping.get(category, "1305812")
 
 
 def extract(repo_data: Dict[str, Any], repo_files: Dict[str, str] = None, **kwargs) -> Optional[Union[str, List[str]]]:
@@ -260,7 +262,7 @@ def extract(repo_data: Dict[str, Any], repo_files: Dict[str, str] = None, **kwar
         **kwargs: Additional arguments (ignored)
 
     Returns:
-        str: Single application category (e.g., "DeveloperApplication")
+        str: Single application category (e.g., "Developer")
         list: Multiple categories if applicable
         None: If no category can be determined
     """
@@ -278,3 +280,48 @@ def extract(repo_data: Dict[str, Any], repo_files: Dict[str, str] = None, **kwar
     except Exception as e:
         logger.error(f"Error extracting applicationCategory: {str(e)}")
         return None
+
+
+def get(repository_url: str) -> Dict[str, Optional[Union[str, List[str]]]]:
+    """
+    Extract applicationCategory from a GitHub repository.
+
+    This function is the main entry point for the CodeMeta generator framework.
+    It fetches repository metadata from GitHub API and extracts the application
+    category based on multiple signals (topics, description, language, etc.).
+
+    Args:
+        repository_url (str): The URL of the GitHub repository.
+
+    Returns:
+        Dict: A dictionary containing the 'applicationCategory' property and its value.
+              Returns an empty dict if no category can be extracted.
+
+    Example:
+        >>> result = get("https://github.com/pallets/flask")
+        >>> print(result)
+        {'applicationCategory': 'Developer'}
+    """
+    try:
+        from src.github_api import parse_repository_url, fetch_repository_info
+        from src.utils import normalize_url
+
+        repository_url = normalize_url(repository_url)
+        owner, repo = parse_repository_url(repository_url)
+        if not owner or not repo:
+            return {}
+
+        repo_data = fetch_repository_info(owner, repo)
+        if not repo_data:
+            return {}
+
+        result = extract(repo_data)
+
+        if result:
+            return {"applicationCategory": result}
+        else:
+            return {}
+
+    except Exception as e:
+        logger.error(f"Error in get function: {str(e)}")
+        return {}
