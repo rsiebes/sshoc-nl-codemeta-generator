@@ -1,95 +1,39 @@
-"""
-CodeMeta README Module
+"""Module 47: readme - Extract README file URL"""
+import logging
+from typing import Dict, Any, Optional
 
-This module extracts the README content from a GitHub repository.
-It provides the raw README file content or a URL to the README.
-"""
+logger = logging.getLogger(__name__)
 
-from typing import Dict, Optional
-from src.github_api import (
-    parse_repository_url,
-    fetch_file_content
-)
+class ReadmeExtractor:
+    def __init__(self, repo_data: Dict[str, Any]):
+        self.repo_data = repo_data
 
+    def extract(self) -> Optional[str]:
+        repo_url = self.repo_data.get("html_url", "")
+        if repo_url:
+            return f"{repo_url}/blob/main/README.md"
+        return None
 
-def get_readme_content(owner: str, repo: str) -> Optional[str]:
-    """
-    Get README content from GitHub repository.
-
-    Args:
-        owner (str): Repository owner.
-        repo (str): Repository name.
-
-    Returns:
-        Optional[str]: README content or None.
-    """
+def extract(repo_data: Dict[str, Any], repo_files: Dict[str, str] = None, **kwargs) -> Optional[str]:
     try:
-        # Try to fetch README.md first
-        readme_content = fetch_file_content(owner, repo, "README.md")
-        if readme_content:
-            return readme_content
-
-        # Try README.rst as fallback
-        readme_content = fetch_file_content(owner, repo, "README.rst")
-        if readme_content:
-            return readme_content
-
-        # Try README.txt as fallback
-        readme_content = fetch_file_content(owner, repo, "README.txt")
-        if readme_content:
-            return readme_content
-
-        # Try README (no extension) as fallback
-        readme_content = fetch_file_content(owner, repo, "README")
-        if readme_content:
-            return readme_content
-
+        return ReadmeExtractor(repo_data).extract()
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
         return None
 
-    except Exception:
-        return None
-
-
-def get_readme_url(owner: str, repo: str) -> Optional[str]:
-    """
-    Get README URL from GitHub repository.
-
-    Args:
-        owner (str): Repository owner.
-        repo (str): Repository name.
-
-    Returns:
-        Optional[str]: README URL or None.
-    """
+def get(repository_url: str) -> Dict[str, Optional[str]]:
     try:
-        # Construct the GitHub raw content URL for README.md
-        readme_url = f"https://raw.githubusercontent.com/{owner}/{repo}/main/README.md"
-        return readme_url
-
-    except Exception:
-        return None
-
-
-def get(repository_url: str) -> Dict:
-    """
-    Extract README information from a GitHub repository.
-
-    Args:
-        repository_url (str): The GitHub repository URL.
-
-    Returns:
-        Dict: Dictionary with 'readme' key if README is found, empty dict otherwise.
-    """
-    owner, repo = parse_repository_url(repository_url)
-    if not owner or not repo:
+        from src.github_api import parse_repository_url, fetch_repository_info
+        from src.utils import normalize_url
+        repository_url = normalize_url(repository_url)
+        owner, repo = parse_repository_url(repository_url)
+        if not owner or not repo:
+            return {}
+        repo_data = fetch_repository_info(owner, repo)
+        if not repo_data:
+            return {}
+        result = extract(repo_data)
+        return {"readme": result} if result else {}
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
         return {}
-
-    # Get README content
-    readme_content = get_readme_content(owner, repo)
-
-    if not readme_content:
-        return {}
-
-    return {
-        "readme": readme_content
-    }
