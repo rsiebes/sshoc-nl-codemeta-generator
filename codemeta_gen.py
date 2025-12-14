@@ -16,9 +16,81 @@ Examples:
 import argparse
 import sys
 import os
+import subprocess
 
 # Add src directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+
+def check_and_install_dependencies():
+    """Check for and install missing dependencies."""
+    required_packages = {
+        'requests': 'requests>=2.28.0',
+        'bs4': 'beautifulsoup4>=4.11.0',
+        'lxml': 'lxml>=4.9.0',
+        'nltk': 'nltk>=3.8.0',
+        'sklearn': 'scikit-learn>=1.3.0'
+    }
+    
+    missing_packages = []
+    
+    # Check which packages are missing
+    for module_name, package_spec in required_packages.items():
+        try:
+            __import__(module_name)
+        except ImportError:
+            missing_packages.append(package_spec)
+    
+    # Install missing packages
+    if missing_packages:
+        print("📦 Installing missing dependencies...")
+        print(f"   Missing: {', '.join(missing_packages)}")
+        print()
+        
+        try:
+            subprocess.check_call(
+                [sys.executable, '-m', 'pip', 'install', '--quiet'] + missing_packages,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.PIPE
+            )
+            print("✅ Dependencies installed successfully")
+            print()
+        except subprocess.CalledProcessError as e:
+            print(f"❌ Failed to install dependencies: {e}")
+            print("   Please install manually: pip install -r requirements.txt")
+            sys.exit(1)
+    
+    # Download NLTK data if needed
+    try:
+        import nltk
+        
+        # Check if NLTK data is available
+        try:
+            nltk.data.find('tokenizers/punkt')
+        except LookupError:
+            print("📚 Downloading NLTK data...")
+            
+            import ssl
+            try:
+                _create_unverified_https_context = ssl._create_unverified_context
+            except AttributeError:
+                pass
+            else:
+                ssl._create_default_https_context = _create_unverified_https_context
+            
+            # Download required NLTK data quietly
+            for dataset in ['stopwords', 'punkt', 'punkt_tab', 'averaged_perceptron_tagger', 'wordnet']:
+                try:
+                    nltk.download(dataset, quiet=True)
+                except:
+                    pass  # Some datasets might not be needed
+            
+            print("✅ NLTK data downloaded successfully")
+            print()
+    except Exception as e:
+        print(f"⚠️  Warning: Could not download NLTK data: {e}")
+        print()
+
 
 from src.generator import CodemetaGenerator
 
@@ -61,7 +133,17 @@ For more information, visit: https://codemeta.github.io/
         version='%(prog)s 1.0.0 (Codemeta 3.1)'
     )
     
+    parser.add_argument(
+        '--no-install',
+        action='store_true',
+        help='Skip automatic dependency installation'
+    )
+    
     args = parser.parse_args()
+    
+    # Check and install dependencies unless --no-install is specified
+    if not args.no_install:
+        check_and_install_dependencies()
     
     # Validate repository URL
     if not args.repo_url.startswith('http'):
