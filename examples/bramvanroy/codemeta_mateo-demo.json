@@ -1,19 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "mateo_st",
-  "programmingLanguage": [
-    "Python",
-    "HTML",
-    "CSS",
-    "Shell",
-    "Dockerfile",
-    "Makefile"
-  ],
-  "readme": "https://github.com/BramVanroy/mateo-demo/blob/main/README.md",
-  "runtimePlatform": [
-    "Python 3.6+"
-  ],
-  "url": "https://mateo.ivdnt.org/",
-  "version": "1.0.0"
+  "name": "mateo-demo",
+  "url": "https://github.com/BramVanroy/mateo-demo",
+  "codeRepository": "https://github.com/BramVanroy/mateo-demo",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

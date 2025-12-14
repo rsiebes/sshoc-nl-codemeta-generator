@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "regexmodel"
+  "name": "regexmodel",
+  "url": "https://github.com/sodascience/regexmodel",
+  "codeRepository": "https://github.com/sodascience/regexmodel",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

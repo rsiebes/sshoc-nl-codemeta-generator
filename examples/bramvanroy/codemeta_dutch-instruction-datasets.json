@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "dutch-instruction-datasets"
+  "name": "dutch-instruction-datasets",
+  "url": "https://github.com/BramVanroy/dutch-instruction-datasets",
+  "codeRepository": "https://github.com/BramVanroy/dutch-instruction-datasets",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

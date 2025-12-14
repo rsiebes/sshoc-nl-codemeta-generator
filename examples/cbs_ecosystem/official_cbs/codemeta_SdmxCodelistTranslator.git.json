@@ -1,9 +1,9 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "map-explorer",
-  "url": "https://github.com/sodascience/map-explorer",
-  "codeRepository": "https://github.com/sodascience/map-explorer",
+  "name": "SdmxCodelistTranslator.git",
+  "url": "https://github.com/statistiekcbs/SdmxCodelistTranslator.git",
+  "codeRepository": "https://github.com/statistiekcbs/SdmxCodelistTranslator.git",
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": 0.0,

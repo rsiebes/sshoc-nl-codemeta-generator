@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "word_norms_survey"
+  "name": "word_norms_survey",
+  "url": "https://github.com/sodascience/word_norms_survey",
+  "codeRepository": "https://github.com/sodascience/word_norms_survey",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

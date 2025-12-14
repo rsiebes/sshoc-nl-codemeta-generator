@@ -1,0 +1,15 @@
+{
+  "@context": "https://codemeta.github.io/terms/",
+  "@type": "SoftwareSourceCode",
+  "name": "Synthetic-Population-The-Hague-South-West",
+  "url": "https://github.com/A-Practical-Agent-Programming-Language/Synthetic-Population-The-Hague-South-West",
+  "codeRepository": "https://github.com/A-Practical-Agent-Programming-Language/Synthetic-Population-The-Hague-South-West",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
+}

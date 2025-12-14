@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "metasyn-privacy-template"
+  "name": "metasyn-privacy-template",
+  "url": "https://github.com/sodascience/metasyn-privacy-template",
+  "codeRepository": "https://github.com/sodascience/metasyn-privacy-template",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

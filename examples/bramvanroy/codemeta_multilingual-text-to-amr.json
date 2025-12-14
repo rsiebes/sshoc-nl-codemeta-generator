@@ -1,42 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
+  "name": "multilingual-text-to-amr",
+  "url": "https://github.com/BramVanroy/multilingual-text-to-amr",
+  "codeRepository": "https://github.com/BramVanroy/multilingual-text-to-amr",
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": 1.0,
+    "ratingValue": 0.0,
     "bestRating": 5,
-    "worstRating": 1,
-    "ratingCount": 6,
-    "name": "GitHub Stars (6)"
-  },
-  "author": [
-    {
-      "name": "Bram Vanroy",
-      "@type": "Person",
-      "url": "https://github.com/BramVanroy",
-      "affiliation": "@CCL-KULeuven @instituutnederlandsetaal",
-      "@id": "https://orcid.org/0000-0002-4622-8364"
-    }
-  ],
-  "buildInstructions": [
-    {
-      "step": 1,
-      "command": "make style",
-      "description": "Execute the 'style' target from Makefile",
-      "annotation": "Makefile-based build system",
-      "type": "build"
-    }
-  ],
-  "codeRepository": {
-    "@type": "Repository",
-    "url": "https://github.com/BramVanroy/multilingual-text-to-amr",
-    "language": "Python",
-    "clone_url": "https://github.com/BramVanroy/multilingual-text-to-amr.git",
-    "ssh_url": "git@github.com:BramVanroy/multilingual-text-to-amr.git",
-    "size": 398,
-    "private": false,
-    "fork": false,
-    "default_branch": "main"
-  },
-  "name": "multilingual-text-to-amr"
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

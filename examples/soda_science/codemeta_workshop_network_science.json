@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "workshop_network_science"
+  "name": "workshop_network_science",
+  "url": "https://github.com/sodascience/workshop_network_science",
+  "codeRepository": "https://github.com/sodascience/workshop_network_science",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

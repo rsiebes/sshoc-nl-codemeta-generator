@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "synthetic_youth_pilot"
+  "name": "synthetic_youth_pilot",
+  "url": "https://github.com/sodascience/synthetic_youth_pilot",
+  "codeRepository": "https://github.com/sodascience/synthetic_youth_pilot",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

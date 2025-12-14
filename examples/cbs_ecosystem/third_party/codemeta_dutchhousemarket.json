@@ -1,9 +1,9 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "map-explorer",
-  "url": "https://github.com/sodascience/map-explorer",
-  "codeRepository": "https://github.com/sodascience/map-explorer",
+  "name": "dutchhousemarket",
+  "url": "https://github.com/alihanucar/dutchhousemarket",
+  "codeRepository": "https://github.com/alihanucar/dutchhousemarket",
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": 0.0,

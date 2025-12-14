@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "workshop_cbs_microdata_computing"
+  "name": "workshop_cbs_microdata_computing",
+  "url": "https://github.com/sodascience/workshop_cbs_microdata_computing",
+  "codeRepository": "https://github.com/sodascience/workshop_cbs_microdata_computing",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

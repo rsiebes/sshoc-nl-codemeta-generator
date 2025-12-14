@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "bestworst_analysis"
+  "name": "bestworst_analysis",
+  "url": "https://github.com/sodascience/bestworst_analysis",
+  "codeRepository": "https://github.com/sodascience/bestworst_analysis",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

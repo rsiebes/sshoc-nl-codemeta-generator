@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "awesome-citizen-science-nl"
+  "name": "awesome-citizen-science-nl",
+  "url": "https://github.com/sodascience/awesome-citizen-science-nl",
+  "codeRepository": "https://github.com/sodascience/awesome-citizen-science-nl",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "fietje-2"
+  "name": "fietje-2",
+  "url": "https://github.com/BramVanroy/fietje-2",
+  "codeRepository": "https://github.com/BramVanroy/fietje-2",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

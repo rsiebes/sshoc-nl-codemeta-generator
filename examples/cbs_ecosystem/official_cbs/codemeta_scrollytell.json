@@ -1,9 +1,9 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "map-explorer",
-  "url": "https://github.com/sodascience/map-explorer",
-  "codeRepository": "https://github.com/sodascience/map-explorer",
+  "name": "scrollytell",
+  "url": "https://github.com/statistiekcbs/scrollytell",
+  "codeRepository": "https://github.com/statistiekcbs/scrollytell",
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": 0.0,

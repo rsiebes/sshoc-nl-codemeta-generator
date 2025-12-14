@@ -1,36 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "abstract": "Software to create C5, Common Crawl crawls, annotated with potential Creative Commons license information",
+  "name": "CommonCrawl-CreativeCommons",
+  "url": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons",
+  "codeRepository": "https://github.com/BramVanroy/CommonCrawl-CreativeCommons",
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": 1.0,
+    "ratingValue": 0.0,
     "bestRating": 5,
-    "worstRating": 1,
-    "ratingCount": 7,
-    "name": "GitHub Stars (7)"
-  },
-  "author": [
-    {
-      "name": "Bram Vanroy",
-      "@type": "Person",
-      "url": "https://github.com/BramVanroy",
-      "affiliation": "@CCL-KULeuven @instituutnederlandsetaal",
-      "@id": "https://orcid.org/0000-0002-4622-8364"
-    }
-  ],
-  "buildInstructions": [
-    {
-      "step": 1,
-      "command": "make quality",
-      "description": "Execute the 'quality' target from Makefile",
-      "annotation": "Makefile-based build system",
-      "type": "build"
-    }
-  ],
-  "citation": [
-    "CommonCrawl-CreativeCommons",
-    ", please cite [the dataset](https://huggingface.co/datasets/BramVanroy/CommonCrawl-CreativeCommons) as follows. Including a footnote url to this page is also appreciated!"
-  ],
-  "name": "CommonCrawl-CreativeCommons"
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "metasyn-disclosure-control"
+  "name": "metasyn-disclosure-control",
+  "url": "https://github.com/sodascience/metasyn-disclosure-control",
+  "codeRepository": "https://github.com/sodascience/metasyn-disclosure-control",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "osmenrich_docker"
+  "name": "osmenrich_docker",
+  "url": "https://github.com/sodascience/osmenrich_docker",
+  "codeRepository": "https://github.com/sodascience/osmenrich_docker",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }

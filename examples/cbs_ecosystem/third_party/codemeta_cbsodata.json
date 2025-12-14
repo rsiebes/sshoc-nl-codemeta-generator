@@ -1,9 +1,9 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "map-explorer",
-  "url": "https://github.com/sodascience/map-explorer",
-  "codeRepository": "https://github.com/sodascience/map-explorer",
+  "name": "cbsodata",
+  "url": "https://github.com/J535D165/cbsodata",
+  "codeRepository": "https://github.com/J535D165/cbsodata",
   "aggregateRating": {
     "@type": "AggregateRating",
     "ratingValue": 0.0,

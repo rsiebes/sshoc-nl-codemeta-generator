@@ -1,5 +1,15 @@
 {
   "@context": "https://codemeta.github.io/terms/",
   "@type": "SoftwareSourceCode",
-  "name": "BiodiversityASSET"
+  "name": "BiodiversityASSET",
+  "url": "https://github.com/sodascience/BiodiversityASSET",
+  "codeRepository": "https://github.com/sodascience/BiodiversityASSET",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 0.0,
+    "bestRating": 5,
+    "worstRating": 0,
+    "ratingCount": 0,
+    "name": "GitHub Stars (0)"
+  }
 }
