@@ -60,13 +60,35 @@ class AuthorMetadata(BaseMetadata):
             if creator:
                 authors.extend(self._process_authors(creator))
         
-        # Try owner field (GitHub repository owner)
+        # Try owner field (GitHub repository owner with profile data)
         if not authors:
             owner = self._get_value('owner')
             if owner:
-                author_obj = self._process_single_author(owner)
-                if author_obj:
-                    authors.append(author_obj)
+                # If owner is a dict (from enhanced scraper), it has profile data
+                if isinstance(owner, dict):
+                    author_obj = self._process_single_author(owner)
+                    if author_obj:
+                        authors.append(author_obj)
+                else:
+                    # Fallback to simple string
+                    author_obj = self._process_single_author(owner)
+                    if author_obj:
+                        authors.append(author_obj)
+        
+        # Try commit_authors (from commit history with profile data)
+        if not authors:
+            commit_authors = self._get_value('commit_authors')
+            if commit_authors and isinstance(commit_authors, list):
+                # Take first 5 commit authors
+                for commit_author in commit_authors[:5]:
+                    # Enrich with profile data if available
+                    if isinstance(commit_author, dict) and commit_author.get('username'):
+                        # Try to get full profile
+                        username = commit_author['username']
+                        # Use the name from commit if available
+                        author_obj = self._process_single_author(commit_author)
+                        if author_obj:
+                            authors.append(author_obj)
         
         # Try contributors (limit to first few)
         if not authors:
@@ -140,13 +162,18 @@ class AuthorMetadata(BaseMetadata):
             return self._create_person_object(name=author_data)
         
         elif isinstance(author_data, dict):
-            # Author as dictionary
+            # Author as dictionary (may include enhanced profile data)
             name = author_data.get('name') or author_data.get('login') or author_data.get('username')
             email = author_data.get('email')
             orcid = author_data.get('orcid') or author_data.get('orcid_id')
             affiliation = author_data.get('affiliation') or author_data.get('organization')
             given_name = author_data.get('givenName') or author_data.get('given_name')
             family_name = author_data.get('familyName') or author_data.get('family_name')
+            
+            # Extract additional profile data if available
+            location = author_data.get('location')
+            bio = author_data.get('bio')
+            website = author_data.get('website')
             
             return self._create_person_object(
                 name=name,

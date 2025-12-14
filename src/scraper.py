@@ -131,6 +131,17 @@ class GitHubScraper:
             # Set latest version
             if releases and isinstance(releases, list) and len(releases) > 0:
                 metadata['version'] = releases[0].get('tag', '')
+        
+        # Fetch owner profile information
+        owner_profile = self._fetch_user_profile(owner)
+        if owner_profile:
+            # Update owner info with profile data
+            metadata['owner'] = owner_profile
+        
+        # Fetch commit information to get email addresses
+        commit_info = self._fetch_commit_info(base_url)
+        if commit_info:
+            metadata['commit_authors'] = commit_info
 
         return metadata
 
@@ -288,3 +299,127 @@ class GitHubScraper:
                 return int(count_str.replace(',', ''))
             except ValueError:
                 return 0
+
+    def _fetch_user_profile(self, username: str) -> Optional[Dict]:
+        """
+        Fetch user profile information from GitHub.
+        
+        Args:
+            username: GitHub username
+        
+        Returns:
+            Dictionary with user profile information or None
+        """
+        try:
+            profile_url = f"https://github.com/{username}"
+            soup = self.fetch_page(profile_url)
+            if not soup:
+                return None
+            
+            profile_data = {
+                'username': username,
+                'name': None,
+                'email': None,
+                'organization': None,
+                'location': None,
+                'bio': None,
+                'website': None,
+            }
+            
+            # Extract full name
+            name_elem = soup.find('span', {'itemprop': 'name'})
+            if not name_elem:
+                name_elem = soup.find('h1', class_='vcard-names')
+            if name_elem:
+                full_name = name_elem.get_text(strip=True)
+                if full_name and full_name != username:
+                    profile_data['name'] = full_name
+            
+            # Extract organization/company
+            org_elem = soup.find('span', {'itemprop': 'worksFor'})
+            if not org_elem:
+                org_elem = soup.find('li', {'itemprop': 'worksFor'})
+            if org_elem:
+                org_text = org_elem.get_text(strip=True)
+                if org_text:
+                    profile_data['organization'] = org_text
+            
+            # Extract location
+            loc_elem = soup.find('span', {'itemprop': 'homeLocation'})
+            if not loc_elem:
+                loc_elem = soup.find('li', {'itemprop': 'homeLocation'})
+            if loc_elem:
+                location = loc_elem.get_text(strip=True)
+                if location:
+                    profile_data['location'] = location
+            
+            # Extract bio
+            bio_elem = soup.find('div', {'data-bio-text': True})
+            if bio_elem:
+                bio = bio_elem.get_text(strip=True)
+                if bio:
+                    profile_data['bio'] = bio
+            
+            # Extract website
+            website_elem = soup.find('a', {'itemprop': 'url'})
+            if website_elem and website_elem.get('href'):
+                website = website_elem.get('href')
+                if website and not website.startswith('https://github.com'):
+                    profile_data['website'] = website
+            
+            # Extract email from profile (if public)
+            email_elem = soup.find('a', {'itemprop': 'email'})
+            if not email_elem:
+                email_elem = soup.find('a', href=re.compile(r'^mailto:'))
+            if email_elem:
+                email = email_elem.get('href', '').replace('mailto:', '')
+                if email and '@' in email:
+                    profile_data['email'] = email
+            
+            return profile_data
+            
+        except Exception as e:
+            print(f"Error fetching user profile for {username}: {e}")
+            return None
+    
+    def _fetch_commit_info(self, repo_url: str) -> Optional[List[Dict]]:
+        """
+        Fetch commit information to extract author names and emails.
+        
+        Args:
+            repo_url: Repository URL
+        
+        Returns:
+            List of commit author information or None
+        """
+        try:
+            commits_url = f"{repo_url}/commits"
+            soup = self.fetch_page(commits_url)
+            if not soup:
+                return None
+            
+            commit_authors = []
+            seen_authors = set()
+            
+            # Find commit author links
+            author_links = soup.find_all('a', {'data-hovercard-type': 'user'})
+            for link in author_links[:20]:  # Limit to first 20 commits
+                username = link.get('href', '').strip('/').split('/')[-1]
+                author_name = link.get_text(strip=True)
+                
+                if username and username not in seen_authors:
+                    seen_authors.add(username)
+                    commit_authors.append({
+                        'username': username,
+                        'name': author_name if author_name != username else None
+                    })
+            
+            # Try to get email from commit patches
+            # Note: This requires accessing individual commit pages
+            # For now, we'll just return the usernames and names
+            
+            return commit_authors if commit_authors else None
+            
+        except Exception as e:
+            print(f"Error fetching commit info: {e}")
+            return None
