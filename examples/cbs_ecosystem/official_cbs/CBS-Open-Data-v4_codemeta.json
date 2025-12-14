@@ -1,0 +1,105 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "@id": "https://github.com/statistiekcbs/CBS-Open-Data-v4",
+  "name": "CBS-Open-Data-v4",
+  "description": "Code examples for using CBS Open Data v4 API in R and Python. Demonstrates downloading datasets with metadata, linking data, filtering, and creating thematic maps using OData 4 protocol.",
+  "url": "https://github.com/statistiekcbs/CBS-Open-Data-v4",
+  "codeRepository": "https://github.com/statistiekcbs/CBS-Open-Data-v4.git",
+  "programmingLanguage": [
+    "R",
+    "Python"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Jolien",
+      "familyName": "Oomens",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/jolienoomens"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Marijn",
+      "familyName": "van der Meer",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Centraal Bureau voor de Statistiek",
+        "url": "https://www.cbs.nl"
+      },
+      "url": "https://github.com/visualeditorNL"
+    }
+  ],
+  "contributor": [],
+  "maintainer": [],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Centraal Bureau voor de Statistiek",
+    "url": "https://www.cbs.nl",
+    "email": "infoservice@cbs.nl"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "version": "1.0.0",
+  "dateCreated": "2020-05-15",
+  "dateModified": "2020-05-15",
+  "keywords": [
+    "cbs",
+    "open-data",
+    "odata4",
+    "statistics",
+    "netherlands",
+    "api",
+    "examples",
+    "r",
+    "python",
+    "thematic-maps",
+    "geodata"
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "R",
+      "version": ">=3.5.0",
+      "provider": {
+        "@type": "Organization",
+        "name": "R Foundation for Statistical Computing",
+        "url": "https://www.r-project.org"
+      },
+      "runtimePlatform": "R"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Python",
+      "version": ">=3.6.0",
+      "provider": {
+        "@type": "Organization",
+        "name": "Python Software Foundation",
+        "url": "https://www.python.org"
+      },
+      "runtimePlatform": "Python"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "OData",
+      "version": "4.0",
+      "provider": {
+        "@type": "Organization",
+        "name": "OASIS",
+        "url": "https://www.odata.org"
+      },
+      "runtimePlatform": "Web API"
+    }
+  ],
+  "runtimePlatform": [
+    "R",
+    "Python",
+    "Cross-platform"
+  ],
+  "developmentStatus": "active",
+  "issueTracker": "https://github.com/statistiekcbs/CBS-Open-Data-v4/issues",
+  "readme": "https://github.com/statistiekcbs/CBS-Open-Data-v4/blob/master/README.md"
+}

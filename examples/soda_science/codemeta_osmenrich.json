@@ -1,0 +1,173 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "osmenrich",
+  "description": "Enrich sf data with geographic features from OpenStreetMaps. The goal of osmenrich is to easily enrich geocoded data (latitude/longitude) with geographic features from OpenStreetMap (OSM).",
+  "url": "https://github.com/sodascience/osmenrich",
+  "codeRepository": "https://github.com/sodascience/osmenrich",
+  "dateCreated": "2021-02-09",
+  "dateModified": "2021-07-08",
+  "softwareVersion": "1.2.1",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "R",
+    "Ruby",
+    "TeX"
+  ],
+  "keywords": [
+    "osm",
+    "geospatial",
+    "geospatial-data",
+    "sf",
+    "utrecht-university",
+    "odissei"
+  ],
+  "softwareRequirements": [
+    "https://github.com/ropensci/osmdata",
+    "https://github.com/r-spatial/sf",
+    "https://github.com/tidyverse/magrittr",
+    "https://github.com/cran/methods",
+    "https://github.com/r-spatial/lwgeom",
+    "https://github.com/tidyverse/tibble",
+    "https://github.com/r-lib/httr",
+    "https://github.com/omegahat/RCurl",
+    "https://github.com/jeroen/jsonlite",
+    "https://github.com/r-lib/cli",
+    "https://github.com/tidyverse/glue",
+    "https://github.com/tidyverse/tidyverse",
+    "https://github.com/rstudio/rmarkdown",
+    "https://github.com/Python-Markdown/markdown",
+    "https://github.com/yihui/knitr",
+    "https://github.com/tidyverse/ggplot2",
+    "https://github.com/paleolimbot/ggspatial",
+    "https://github.com/strengejacke/ggeffects",
+    "https://github.com/rspatial/raster",
+    "https://github.com/cran/mgcv",
+    "https://github.com/r-lib/covr",
+    "https://github.com/r-lib/testthat",
+    "https://github.com/vankesteren/firatheme"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8168-5336",
+      "givenName": "Leonardo",
+      "familyName": "Vida",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4297-0502",
+      "givenName": "Jonathan",
+      "familyName": "de Bruin",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-7467-2297",
+      "givenName": "Daniel",
+      "familyName": "Oberski",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "R 4.0+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/osmenrich/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/osmenrich/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/osmenrich/issues",
+  "downloadUrl": "https://github.com/sodascience/osmenrich/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/osmenrich/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/osmenrich/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/osmenrich",
+  "referencePublication": {
+    "@type": "Dataset",
+    "@id": "https://doi.org/10.5281/ZENODO.4548774",
+    "name": "OSMenrich: Enriching OpenStreetMap data with additional information",
+    "url": "https://doi.org/10.5281/ZENODO.4548774",
+    "datePublished": "2021",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Zenodo"
+    }
+  },
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "osmenrich software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

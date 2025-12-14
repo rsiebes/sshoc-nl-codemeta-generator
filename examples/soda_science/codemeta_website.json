@@ -1,0 +1,112 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "website",
+  "description": "The SoDa website. This repository contains the SoDa website and its assets.",
+  "url": "https://github.com/sodascience/website",
+  "codeRepository": "https://github.com/sodascience/website",
+  "dateCreated": "2022-09-23",
+  "dateModified": "2025-06-27",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "HTML",
+    "CSS"
+  ],
+  "keywords": [
+    "website",
+    "webpage",
+    "communications",
+    "online-presence"
+  ],
+  "softwareRequirements": [
+    "https://github.com/gohugoio/hugo",
+    "https://github.com/whatwg/html",
+    "https://github.com/w3c/csswg-drafts",
+    "https://github.com/tc39/ecma262",
+    "https://github.com/themefisher/bigspring-hugo"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Web Application",
+  "applicationSubCategory": "Data Visualization",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Cross-platform"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/website/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/website/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/website/issues",
+  "downloadUrl": "https://github.com/sodascience/website/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/website/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/website/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/website",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "website software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

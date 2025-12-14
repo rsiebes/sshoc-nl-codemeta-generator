@@ -1,0 +1,123 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "diaper_project",
+  "description": "Population-based study of poverty and perinatal maternal and child health in the Netherlands. Scripts pertaining to data pre-processing and analysis to investigate the role of poverty in maternal and child perinatal health outcomes in the Netherlands.",
+  "url": "https://github.com/sodascience/diaper_project",
+  "codeRepository": "https://github.com/sodascience/diaper_project",
+  "dateCreated": "2024-12-05",
+  "dateModified": "2025-05-01",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "R"
+  ],
+  "keywords": [
+    "mediation-analysis",
+    "perinatal",
+    "population-based-study"
+  ],
+  "softwareRequirements": [
+    "https://github.com/tidyverse/haven",
+    "https://github.com/r-lib/vroom",
+    "https://github.com/tidyverse/readr",
+    "https://github.com/tidyverse/tidyverse"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0007-7036-5776",
+      "givenName": "Nadya",
+      "familyName": "Ali",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Tilburg University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Javier Garcia-Bernardo"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0007-7036-5776",
+      "givenName": "Nadya",
+      "familyName": "Ali",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Tilburg University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "R 4.0+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/diaper_project/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/diaper_project/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/diaper_project/issues",
+  "downloadUrl": "https://github.com/sodascience/diaper_project/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/diaper_project/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/diaper_project/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/diaper_project",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "diaper_project software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

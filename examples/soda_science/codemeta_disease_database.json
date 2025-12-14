@@ -1,0 +1,123 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "disease_database",
+  "description": "Historical disease database (19th-20th century) for municipalities in the Netherlands. Code to create a historical disease database (19th-20th century) for municipalities in the Netherlands.",
+  "url": "https://github.com/sodascience/disease_database",
+  "codeRepository": "https://github.com/sodascience/disease_database",
+  "dateCreated": "2024-06-05",
+  "dateModified": "2025-07-11",
+  "softwareVersion": "1.2.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python",
+    "R"
+  ],
+  "keywords": [
+    "demography",
+    "geospatial-data",
+    "health",
+    "history"
+  ],
+  "softwareRequirements": [
+    "https://github.com/wention/BeautifulSoup4",
+    "https://github.com/Kitware/CMake",
+    "https://github.com/ToucanToco/fastexcel",
+    "https://github.com/ipython/ipython",
+    "https://github.com/lxml/lxml",
+    "https://github.com/matplotlib/matplotlib",
+    "https://github.com/has2k1/plotnine",
+    "https://github.com/pola-rs/polars",
+    "https://github.com/apache/arrow",
+    "https://github.com/python-qt-tools/PyQt6",
+    "https://github.com/psf/requests",
+    "https://github.com/astral-sh/ruff",
+    "https://github.com/scipy/scipy",
+    "https://github.com/sodascience/sruthis",
+    "https://github.com/tqdm/tqdm",
+    "https://docs.astral.sh/uv/"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Data Science",
+  "applicationSubCategory": "Research Tools",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/disease_database/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/disease_database/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/disease_database/issues",
+  "downloadUrl": "https://github.com/sodascience/disease_database/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/disease_database/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/disease_database/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/disease_database",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "disease_database software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

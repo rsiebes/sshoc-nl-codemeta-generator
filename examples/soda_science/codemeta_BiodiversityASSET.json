@@ -1,0 +1,104 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "BiodiversityASSET",
+  "description": "LLM-powered analysis of biodiversity-related investment activities in financial reports. A comprehensive pipeline for extracting, classifying, and analyzing biodiversity-related content from investor reports.",
+  "url": "https://github.com/sodascience/BiodiversityASSET",
+  "codeRepository": "https://github.com/sodascience/BiodiversityASSET",
+  "dateCreated": "2025-07-10",
+  "dateModified": "2025-07-10",
+  "softwareVersion": "1.0.0",
+  "license": "",
+  "programmingLanguage": [
+    "Python"
+  ],
+  "keywords": [
+    "biodiversity",
+    "LLM",
+    "investment analysis",
+    "financial reports"
+  ],
+  "softwareRequirements": [
+    "https://docs.astral.sh/uv/"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-2689-6653",
+      "givenName": "Qixiang",
+      "familyName": "Fang",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-2689-6653",
+      "givenName": "Qixiang",
+      "familyName": "Fang",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/BiodiversityASSET/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/BiodiversityASSET/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/BiodiversityASSET/issues",
+  "downloadUrl": "https://github.com/sodascience/BiodiversityASSET/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/BiodiversityASSET/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/BiodiversityASSET/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/BiodiversityASSET",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "BiodiversityASSET software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

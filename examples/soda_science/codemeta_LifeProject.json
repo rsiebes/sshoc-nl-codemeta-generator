@@ -1,0 +1,101 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "LifeProject",
+  "description": "This project classifies life goals into structured categories using large language models (LLMs) via API calls. It reads life goal data from Excel files, classifies them using a prompt aligned with a predefined codebook, and optionally evaluates the classification accuracy against manual labels.",
+  "url": "https://github.com/sodascience/LifeProject",
+  "codeRepository": "https://github.com/sodascience/LifeProject",
+  "dateCreated": "2025-07-07",
+  "dateModified": "2025-07-10",
+  "license": "",
+  "programmingLanguage": [
+    "Python"
+  ],
+  "keywords": [
+    "life goals",
+    "LLM",
+    "classification",
+    "Excel data"
+  ],
+  "softwareRequirements": [
+    "https://docs.astral.sh/uv/"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-7456-6259",
+      "name": "Shiyu Dong",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University | SaSR & SoDa"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-7456-6259",
+      "name": "Shiyu Dong",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University | SaSR & SoDa"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/LifeProject/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/LifeProject/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/LifeProject/issues",
+  "downloadUrl": "https://github.com/sodascience/LifeProject/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/LifeProject/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/LifeProject/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/LifeProject",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "LifeProject software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

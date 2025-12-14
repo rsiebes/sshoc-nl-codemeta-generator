@@ -1,0 +1,148 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "cbs_python",
+  "description": "An example python environment to use in CBS. Configuring Python in CBS Remote Access (RA).",
+  "url": "https://github.com/sodascience/cbs_python",
+  "codeRepository": "https://github.com/sodascience/cbs_python",
+  "dateCreated": "2023-03-24",
+  "dateModified": "2025-06-23",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python",
+    "Shell"
+  ],
+  "keywords": [
+    "python",
+    "environment",
+    "conda",
+    "yml",
+    "cbs",
+    "statistics-netherlands"
+  ],
+  "softwareRequirements": [
+    "https://github.com/jupyterlab/jupyterlab",
+    "https://github.com/jupyter/notebook",
+    "https://github.com/ipython/ipython",
+    "https://github.com/jupyter/jupyter",
+    "https://github.com/dask/dask",
+    "https://github.com/openpyxl/openpyxl",
+    "https://github.com/scipy/scipy",
+    "https://github.com/pandas-dev/pandas",
+    "https://github.com/Roche/pyreadstat",
+    "https://github.com/numpy/numpy",
+    "https://github.com/pola-rs/polars",
+    "https://github.com/apache/arrow",
+    "https://github.com/ploomber/jupysql",
+    "https://github.com/duckdb/duckdb",
+    "https://github.com/Mause/duckdb_engine",
+    "https://github.com/plotly/plotly.R",
+    "https://github.com/matplotlib/matplotlib",
+    "https://github.com/mwaskom/seaborn",
+    "https://github.com/holoviz/hvplot",
+    "https://github.com/plotly/Kaleido",
+    "https://github.com/networkx/networkx",
+    "https://github.com/igraph/rigraph",
+    "https://github.com/sodascience/netcbs",
+    "https://github.com/scikit-learn/scikit-learn",
+    "https://github.com/catboost/catboost",
+    "https://github.com/marcotcr/lime",
+    "https://github.com/eli5-org/eli5",
+    "https://github.com/shap/shap",
+    "https://github.com/scikit-learn-contrib/imbalanced-learn",
+    "https://github.com/interpretml/interpret",
+    "https://github.com/optuna/optuna",
+    "https://github.com/ray-project/ray",
+    "https://github.com/optuna/optuna-dashboard",
+    "https://github.com/sodascience/metasyn",
+    "https://github.com/statsmodels/statsmodels",
+    "https://github.com/pytorch/pytorch",
+    "https://github.com/pyg-team/pytorch_geometric",
+    "https://github.com/keras-team/keras",
+    "https://github.com/dmlc/dgl"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-8886-0640",
+      "givenName": "Javier",
+      "familyName": "Garcia-Bernardo",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-8886-0640",
+      "givenName": "Javier",
+      "familyName": "Garcia-Bernardo",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/cbs_python/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/cbs_python/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/cbs_python/issues",
+  "downloadUrl": "https://github.com/sodascience/cbs_python/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/cbs_python/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/cbs_python/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/cbs_python",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "cbs_python software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

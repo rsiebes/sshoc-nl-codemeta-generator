@@ -1,0 +1,133 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "night_globe",
+  "description": "Correcting inferences in volunteer data using geospatial covariates. Repository containing reproducible code belonging to the manuscript \"Correcting inferences for volunteer-collected data with geospatial sampling bias\" by Peter Lugtig, Annemarie Timmers, and Erik-Jan van Kesteren.",
+  "url": "https://github.com/sodascience/night_globe",
+  "codeRepository": "https://github.com/sodascience/night_globe",
+  "dateCreated": "2021-06-23",
+  "dateModified": "2022-05-31",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "R"
+  ],
+  "keywords": [
+    "statistics",
+    "inference",
+    "geospatial-data",
+    "volunteer-data"
+  ],
+  "softwareRequirements": [
+    "https://github.com/rstudio/renv",
+    "R (version 4.1.2)",
+    "https://github.com/tidyverse/tidyverse",
+    "https://github.com/r-spatial/sf",
+    "https://github.com/r-spatial/gstat",
+    "https://github.com/rspatial/raster",
+    "https://github.com/edzer/sp"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8548-6828",
+      "givenName": "Peter",
+      "familyName": "Lugtig",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1678-7816",
+      "givenName": "Annemarie",
+      "familyName": "Timmers",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0001-8548-6828",
+      "givenName": "Peter",
+      "familyName": "Lugtig",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Data Science",
+  "applicationSubCategory": "Research Tools",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "R 4.0+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/night_globe/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/night_globe/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/night_globe/issues",
+  "downloadUrl": "https://github.com/sodascience/night_globe/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/night_globe/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/night_globe/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/night_globe",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "night_globe software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}

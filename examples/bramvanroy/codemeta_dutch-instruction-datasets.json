@@ -1,0 +1,180 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "dutch-instruction-datasets",
+  "description": "Data creation scripts to generate Dutch instruction datasets through OpenAI services, specifically using Azure services. This comprehensive toolkit provides multiple command-line tools for translating existing datasets to Dutch, generating responses using various models, building multi-turn conversations, adding language identification, and filtering out non-Dutch content with sophisticated rules. The package supports both Azure OpenAI and Hugging Face models with advanced features like quantization, parallel processing, and robust error handling.",
+  "url": "https://github.com/BramVanroy/dutch-instruction-datasets",
+  "codeRepository": "https://github.com/BramVanroy/dutch-instruction-datasets",
+  "dateCreated": "2024-01-01",
+  "dateModified": "2024-07-22",
+  "softwareVersion": "0.0.1",
+  "license": {
+    "@id": "http://spdx.org/licenses/GPL-3.0-only",
+    "name": "GNU General Public License v3.0"
+  },
+  "programmingLanguage": [
+    "Python"
+  ],
+  "keywords": [
+    "openai",
+    "synthetic data",
+    "data creation",
+    "llm",
+    "large language models",
+    "dutch language",
+    "instruction datasets",
+    "azure openai",
+    "hugging face",
+    "dataset translation",
+    "conversation generation",
+    "language identification",
+    "data filtering",
+    "nlp",
+    "machine learning",
+    "transformers",
+    "quantization"
+  ],
+  "softwareRequirements": [
+    {
+      "@id": "https://github.com/huggingface/accelerate",
+      "@type": "SoftwareApplication",
+      "identifier": "accelerate",
+      "name": "accelerate",
+      "version": "=0.28.*"
+    },
+    {
+      "@id": "https://github.com/TimDettmers/bitsandbytes",
+      "@type": "SoftwareApplication",
+      "identifier": "bitsandbytes",
+      "name": "bitsandbytes",
+      "version": "=0.43.*"
+    },
+    {
+      "@id": "https://github.com/huggingface/datasets",
+      "@type": "SoftwareApplication",
+      "identifier": "datasets",
+      "name": "datasets",
+      "version": "=2.16.*"
+    },
+    {
+      "@id": "https://github.com/huggingface/huggingface_hub",
+      "@type": "SoftwareApplication",
+      "identifier": "huggingface-hub",
+      "name": "huggingface-hub",
+      "version": "=0.20.*"
+    },
+    {
+      "@id": "https://github.com/openai/openai-python",
+      "@type": "SoftwareApplication",
+      "identifier": "openai",
+      "name": "openai",
+      "version": "=1.6.*"
+    },
+    {
+      "@id": "https://github.com/pandas-dev/pandas",
+      "@type": "SoftwareApplication",
+      "identifier": "pandas",
+      "name": "pandas",
+      "version": "=2.*"
+    },
+    {
+      "@id": "https://github.com/jd/tenacity",
+      "@type": "SoftwareApplication",
+      "identifier": "tenacity",
+      "name": "tenacity",
+      "version": "=8.2.*"
+    },
+    {
+      "@id": "https://github.com/openai/tiktoken",
+      "@type": "SoftwareApplication",
+      "identifier": "tiktoken",
+      "name": "tiktoken",
+      "version": "=0.5.*"
+    },
+    {
+      "@id": "https://github.com/pytorch/pytorch",
+      "@type": "SoftwareApplication",
+      "identifier": "torch",
+      "name": "torch",
+      "version": "=2.*"
+    },
+    {
+      "@id": "https://github.com/tqdm/tqdm",
+      "@type": "SoftwareApplication",
+      "identifier": "tqdm",
+      "name": "tqdm",
+      "version": ">=4.0.0"
+    },
+    {
+      "@id": "https://github.com/huggingface/transformers",
+      "@type": "SoftwareApplication",
+      "identifier": "transformers",
+      "name": "transformers",
+      "version": "<5"
+    },
+    {
+      "@id": "https://github.com/tiangolo/typer",
+      "@type": "SoftwareApplication",
+      "identifier": "typer",
+      "name": "typer",
+      "version": "<1"
+    },
+    {
+      "@id": "https://github.com/facebookresearch/fastText",
+      "@type": "SoftwareApplication",
+      "identifier": "fasttext",
+      "name": "fasttext",
+      "version": ">=0.9.0"
+    }
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy",
+      "email": "bramvanroy@hotmail.com"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0002-4622-8364",
+      "givenName": "Bram",
+      "familyName": "Vanroy",
+      "email": "bramvanroy@hotmail.com"
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Data Processing",
+  "applicationSubCategory": "Dataset Creation",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.10",
+    "Python 3.11"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/dutch-instruction-datasets/blob/main/README.md"
+  },
+  "readme": "https://github.com/BramVanroy/dutch-instruction-datasets/blob/main/README.md",
+  "issueTracker": "https://github.com/BramVanroy/dutch-instruction-datasets/issues",
+  "downloadUrl": "https://github.com/BramVanroy/dutch-instruction-datasets/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/BramVanroy/dutch-instruction-datasets/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/BramVanroy/dutch-instruction-datasets/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/BramVanroy/dutch-instruction-datasets",
+  "isPartOf": null,
+  "referencePublication": null,
+  "relatedLink": [
+    "https://huggingface.co/datasets",
+    "https://azure.microsoft.com/en-us/products/ai-services/openai-service",
+    "https://openai.com/",
+    "https://huggingface.co/BramVanroy"
+  ],
+  "targetProduct": "Dutch instruction datasets"
+}

@@ -1,0 +1,130 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-3.0",
+  "@type": "SoftwareSourceCode",
+  "name": "dutch_sound_symbolism",
+  "description": "Comparing word similarity from embeddings to human-rated word associations. Repository containing code and data used to compare word similarity from embeddings to human-rated word associations.",
+  "url": "https://github.com/sodascience/dutch_sound_symbolism",
+  "codeRepository": "https://github.com/sodascience/dutch_sound_symbolism",
+  "dateCreated": "2023-01-26",
+  "dateModified": "2023-07-27",
+  "softwareVersion": "1.0.0",
+  "license": {
+    "@id": "http://spdx.org/licenses/MIT",
+    "name": "MIT License"
+  },
+  "programmingLanguage": [
+    "Python",
+    "R"
+  ],
+  "keywords": [
+    "word-embeddings",
+    "dutch",
+    "fasttext",
+    "bert",
+    "sound-symbolism"
+  ],
+  "softwareRequirements": [
+    "https://github.com/facebookresearch/fastText",
+    "https://github.com/huggingface/transformers",
+    "https://github.com/pytorch/pytorch",
+    "https://github.com/pandas-dev/pandas",
+    "https://github.com/numpy/numpy",
+    "https://github.com/scikit-learn/scikit-learn",
+    "https://github.com/matplotlib/matplotlib",
+    "https://github.com/mwaskom/seaborn",
+    "https://github.com/tidyverse/tidyverse",
+    "https://github.com/tidyverse/ggplot2"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0008-9976-5586",
+      "givenName": "Aron",
+      "familyName": "Joosse"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Utrecht University"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0000-0003-3917-3315",
+      "givenName": "Giovanni",
+      "familyName": "Cassani",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Tilburg University"
+      }
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0008-9976-5586",
+      "givenName": "Aron",
+      "familyName": "Joosse"
+    }
+  ],
+  "developmentStatus": "active",
+  "applicationCategory": "Research Software",
+  "applicationSubCategory": "Scientific Computing",
+  "operatingSystem": "Cross-platform",
+  "runtimePlatform": [
+    "Python 3.8+"
+  ],
+  "softwareHelp": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/dutch_sound_symbolism/blob/main/README.md"
+  },
+  "readme": "https://github.com/sodascience/dutch_sound_symbolism/blob/main/README.md",
+  "issueTracker": "https://github.com/sodascience/dutch_sound_symbolism/issues",
+  "downloadUrl": "https://github.com/sodascience/dutch_sound_symbolism/archive/refs/heads/main.zip",
+  "buildInstructions": {
+    "@type": "WebSite",
+    "url": "https://github.com/sodascience/dutch_sound_symbolism/blob/main/README.md"
+  },
+  "contIntegration": "https://github.com/sodascience/dutch_sound_symbolism/actions",
+  "embargoDate": null,
+  "funding": null,
+  "hasSourceCode": "https://github.com/sodascience/dutch_sound_symbolism",
+  "referencePublication": null,
+  "relatedLink": [
+    "https://sodascience.github.io/",
+    "https://www.uu.nl/en/research/methodology-and-statistics"
+  ],
+  "targetProduct": "dutch_sound_symbolism software package",
+  "isPartOf": {
+    "@type": "Organization",
+    "@id": "https://github.com/sodascience",
+    "name": "SODA Science",
+    "description": "SODA (Scalable Open Data Analytics) Science is a research group focused on developing scalable and open data analytics solutions for scientific research. The group works on advancing computational methods, tools, and infrastructure for data-intensive research across multiple domains.",
+    "url": "https://github.com/sodascience",
+    "sameAs": [
+      "https://sodascience.github.io/"
+    ],
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Utrecht University",
+      "url": "https://www.uu.nl/"
+    },
+    "foundingDate": "2020",
+    "location": {
+      "@type": "Place",
+      "name": "Utrecht, Netherlands"
+    },
+    "keywords": [
+      "data science",
+      "open science",
+      "scalable analytics",
+      "research software",
+      "computational methods",
+      "data infrastructure"
+    ]
+  }
+}
