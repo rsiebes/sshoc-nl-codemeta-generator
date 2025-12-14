@@ -1,93 +1,122 @@
 """
-Readme Property Module
+Readme property module for Codemeta metadata extraction.
 
-Handles extraction and validation of the 'readme' Codemeta property.
-README content or URL
+This module handles the extraction and validation of the readme property,
+which provides a URL to the README documentation file.
 """
 
-from typing import Dict, Any, Optional, Union, List
+from typing import Dict, Any, Optional
 from src.base_metadata import BaseMetadata
 
 
 class ReadmeMetadata(BaseMetadata):
-    """Handles readme metadata extraction and validation."""
-
-    CODEMETA_PROPERTY = 'readme'
-    CODEMETA_TYPE = 'schema:Text'
+    """
+    Handles extraction and validation of readme property.
+    
+    The readme property should be a URL pointing to the README documentation.
+    According to Codemeta 3.1, this is a URL or Text type.
+    """
+    
+    CODEMETA_PROPERTY = "readme"
+    CODEMETA_TYPE = "URL"
     REQUIRED = False
-
+    
     def extract(self) -> Dict[str, Any]:
         """
-        Extract readme from raw data.
-
+        Extract readme URL from raw data.
+        
         Returns:
-            Dictionary with 'readme' key containing the extracted value
+            Dictionary with readme URL or empty dict if not found
         """
-        # Try to extract from raw data
-        value = self._get_value('readme')
+        result = {}
         
-        if not value:
-            # Try alternative field names
-            value = self._get_value('readme')
+        # Try to extract from various sources
+        readme_url = None
         
-        if not value:
-            if self.REQUIRED:
-                self.add_error(f"Required field '{self.CODEMETA_PROPERTY}' could not be extracted")
-            else:
-                self.add_warning(f"Optional field '{self.CODEMETA_PROPERTY}' could not be extracted")
-            return {}
+        # Source 1: Direct readme field (should be a URL)
+        if 'readme' in self.raw_data and self.raw_data['readme']:
+            readme_value = self.raw_data['readme']
+            # If it's already a URL, use it
+            if isinstance(readme_value, str) and (readme_value.startswith('http://') or readme_value.startswith('https://')):
+                readme_url = readme_value
+            # If it's text content, construct URL from repository
+            elif isinstance(readme_value, str) and 'code_repository' in self.raw_data:
+                # Construct README URL from repository URL
+                repo_url = self.raw_data['code_repository']
+                if repo_url:
+                    readme_url = f"{repo_url}#readme"
         
-        # Process the value
-        processed_value = self._process_value(value)
+        # Source 2: readme_url field
+        if not readme_url and 'readme_url' in self.raw_data:
+            readme_url = self.raw_data['readme_url']
         
-        if processed_value is not None:
-            self.metadata[self.CODEMETA_PROPERTY] = processed_value
-            return self.metadata
-        else:
-            self.add_warning(f"'{self.CODEMETA_PROPERTY}' could not be processed")
-            return {}
-
-    def _process_value(self, value: Any) -> Optional[Any]:
-        """
-        Process and normalize the extracted value.
-
-        Args:
-            value: Raw value from data source
-
-        Returns:
-            Processed value or None
-        """
-        # TODO: Implement value processing logic
-        # This is a placeholder - implement specific logic for this property
-        return value
-
+        # Source 3: documentation field
+        if not readme_url and 'documentation' in self.raw_data:
+            readme_url = self.raw_data['documentation']
+        
+        # Source 4: Construct from code_repository
+        if not readme_url and 'code_repository' in self.raw_data:
+            repo_url = self.raw_data['code_repository']
+            if repo_url:
+                # For GitHub repositories, construct README URL
+                if 'github.com' in repo_url:
+                    readme_url = f"{repo_url}#readme"
+                elif 'gitlab.com' in repo_url:
+                    readme_url = f"{repo_url}#readme"
+                elif 'bitbucket.org' in repo_url:
+                    readme_url = f"{repo_url}#readme"
+        
+        if readme_url:
+            result['readme'] = readme_url
+            self.metadata['readme'] = readme_url
+        
+        return result
+    
     def _validate_metadata(self) -> None:
-        """Validate readme metadata."""
+        """
+        Validate the extracted readme metadata.
+        
+        Checks:
+        - readme must be a string (URL)
+        - readme must be a valid URL format
+        - readme should not be empty
+        """
         if not self.metadata:
-            if self.REQUIRED:
-                self.add_error(f"Required field '{self.CODEMETA_PROPERTY}' is missing")
-            return
-
-        value = self.metadata.get(self.CODEMETA_PROPERTY)
-        
-        if not value:
-            if self.REQUIRED:
-                self.add_error(f"'{self.CODEMETA_PROPERTY}' is empty")
             return
         
-        # TODO: Implement validation logic specific to this property type
-        # This is a placeholder - implement specific validation
-
+        readme = self.metadata.get('readme')
+        
+        if readme is None:
+            return
+        
+        # Check type
+        if not isinstance(readme, str):
+            self.errors.append("readme must be a string (URL)")
+            return
+        
+        # Check not empty
+        if not readme.strip():
+            self.errors.append("readme URL cannot be empty")
+            return
+        
+        # Check URL format
+        if not (readme.startswith('http://') or readme.startswith('https://')):
+            self.warnings.append("readme should be a valid URL starting with http:// or https://")
+        
+        # Check URL length
+        if len(readme) > 2000:
+            self.warnings.append("readme URL is very long (>2000 characters)")
+    
     def to_codemeta_dict(self) -> Dict[str, Any]:
         """
-        Convert to Codemeta format.
-
+        Convert metadata to Codemeta format.
+        
         Returns:
             Dictionary in Codemeta format
         """
-        if not self.metadata:
+        if not self.metadata or 'readme' not in self.metadata:
             return {}
         
         return {
-            self.CODEMETA_PROPERTY: self.metadata[self.CODEMETA_PROPERTY]
+            'readme': self.metadata['readme']
         }
