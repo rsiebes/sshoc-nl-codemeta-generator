@@ -18,6 +18,7 @@ from src.properties.license import LicenseMetadata
 from src.properties.keywords import KeywordsMetadata
 from src.properties.programming_language import ProgrammingLanguageMetadata
 from src.properties.author import AuthorMetadata
+from src.properties.contributor import ContributorMetadata
 from src.properties.date_created import DateCreatedMetadata
 from src.properties.date_modified import DateModifiedMetadata
 from src.properties.readme import ReadmeMetadata
@@ -42,6 +43,7 @@ class CodemetaGenerator:
             KeywordsMetadata,
             ProgrammingLanguageMetadata,
             AuthorMetadata,
+            ContributorMetadata,
             DateCreatedMetadata,
             DateModifiedMetadata,
             ReadmeMetadata,
