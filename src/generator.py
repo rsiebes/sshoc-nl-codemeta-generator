@@ -17,6 +17,7 @@ from src.properties.code_repository import CodeRepositoryMetadata
 from src.properties.license import LicenseMetadata
 from src.properties.keywords import KeywordsMetadata
 from src.properties.programming_language import ProgrammingLanguageMetadata
+from src.properties.author import AuthorMetadata
 
 
 class CodemetaGenerator:
@@ -37,6 +38,7 @@ class CodemetaGenerator:
             LicenseMetadata,
             KeywordsMetadata,
             ProgrammingLanguageMetadata,
+            AuthorMetadata,
         ]
 
     def generate(self, repo_url: str) -> Dict[str, Any]:
