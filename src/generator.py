@@ -16,6 +16,7 @@ from src.properties.version import VersionMetadata
 from src.properties.code_repository import CodeRepositoryMetadata
 from src.properties.license import LicenseMetadata
 from src.properties.keywords import KeywordsMetadata
+from src.properties.programming_language import ProgrammingLanguageMetadata
 
 
 class CodemetaGenerator:
@@ -35,6 +36,7 @@ class CodemetaGenerator:
             CodeRepositoryMetadata,
             LicenseMetadata,
             KeywordsMetadata,
+            ProgrammingLanguageMetadata,
         ]
 
     def generate(self, repo_url: str) -> Dict[str, Any]:
@@ -102,12 +104,7 @@ class CodemetaGenerator:
                 errors.append(error_msg)
         
         # Keywords are now handled by KeywordsMetadata module
-        
-        # Add programming language if available
-        if raw_data.get('languages'):
-            codemeta['programmingLanguage'] = raw_data['languages']
-        elif raw_data.get('language'):
-            codemeta['programmingLanguage'] = [raw_data['language']]
+        # Programming languages are now handled by ProgrammingLanguageMetadata module
         
         # Add dateCreated (current date as fallback)
         codemeta['dateCreated'] = datetime.now().isoformat()
