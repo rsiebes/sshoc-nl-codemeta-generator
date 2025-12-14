@@ -3,35 +3,92 @@ Keywords Property Module
 
 Handles extraction and validation of the 'keywords' Codemeta property.
 Keywords are tags or terms that describe the software for discoverability.
+
+This module uses NLP techniques to extract meaningful keywords from repository
+content including description, README, and existing topics.
 """
 
 from typing import Dict, Any, Optional, List, Union
 from src.base_metadata import BaseMetadata
+from src.nlp_utils import KeywordExtractor
 
 
 class KeywordsMetadata(BaseMetadata):
-    """Handles keywords metadata extraction and validation."""
+    """Handles keywords metadata extraction and validation using NLP."""
 
     CODEMETA_PROPERTY = 'keywords'
     CODEMETA_TYPE = 'schema:Text'
     REQUIRED = False
 
+    def __init__(self, raw_data: Dict[str, Any]):
+        """
+        Initialize keywords metadata extractor.
+        
+        Args:
+            raw_data: Raw repository data
+        """
+        super().__init__(raw_data)
+        self.keyword_extractor = KeywordExtractor()
+
     def extract(self) -> Dict[str, Any]:
         """
-        Extract keywords from raw data.
+        Extract keywords from raw data using NLP analysis.
 
-        Keywords can come from:
-        1. Direct 'keywords' field (array or comma-separated string)
-        2. 'topics' field (GitHub topics)
-        3. 'tags' field
-        4. 'subjects' field
+        Keywords are extracted from:
+        1. Repository description (high priority)
+        2. README content (high priority)
+        3. Existing topics/tags (medium priority)
+        4. Repository name (low priority)
+
+        Uses TF-IDF and frequency analysis to identify meaningful keywords.
 
         Returns:
             Dictionary with 'keywords' key containing array of keywords
         """
+        # First try to get existing topics/keywords from metadata
+        existing_keywords = self._get_existing_keywords()
+        
+        # Use NLP to extract keywords from repository content
+        nlp_keywords = self.keyword_extractor.extract_from_repository_data(self.raw_data)
+        
+        # Combine existing and NLP-extracted keywords
+        all_keywords = []
+        
+        # Add existing keywords first (they're explicitly set by maintainers)
+        if existing_keywords:
+            all_keywords.extend(existing_keywords)
+        
+        # Add NLP-extracted keywords
+        if nlp_keywords:
+            for keyword in nlp_keywords:
+                # Avoid duplicates (case-insensitive)
+                if keyword.lower() not in [k.lower() for k in all_keywords]:
+                    all_keywords.append(keyword)
+        
+        if not all_keywords:
+            self.add_warning(f"Optional field '{self.CODEMETA_PROPERTY}' could not be extracted")
+            return {}
+        
+        # Limit to reasonable number of keywords
+        final_keywords = all_keywords[:15]
+        
+        if final_keywords:
+            self.metadata[self.CODEMETA_PROPERTY] = final_keywords
+            return self.metadata
+        else:
+            self.add_warning(f"'{self.CODEMETA_PROPERTY}' could not be processed")
+            return {}
+
+    def _get_existing_keywords(self) -> List[str]:
+        """
+        Get existing keywords from repository metadata.
+        
+        Returns:
+            List of existing keywords
+        """
         keywords = []
         
-        # Try to extract from different sources
+        # Try different sources for existing keywords
         raw_keywords = self._get_value('keywords')
         if raw_keywords:
             keywords.extend(self._process_keywords(raw_keywords))
@@ -48,31 +105,7 @@ class KeywordsMetadata(BaseMetadata):
             if tags:
                 keywords.extend(self._process_keywords(tags))
         
-        # Try subjects
-        if not keywords:
-            subjects = self._get_value('subjects')
-            if subjects:
-                keywords.extend(self._process_keywords(subjects))
-        
-        if not keywords:
-            self.add_warning(f"Optional field '{self.CODEMETA_PROPERTY}' could not be extracted")
-            return {}
-        
-        # Remove duplicates while preserving order
-        unique_keywords = []
-        seen = set()
-        for keyword in keywords:
-            keyword_lower = keyword.lower()
-            if keyword_lower not in seen:
-                seen.add(keyword_lower)
-                unique_keywords.append(keyword)
-        
-        if unique_keywords:
-            self.metadata[self.CODEMETA_PROPERTY] = unique_keywords
-            return self.metadata
-        else:
-            self.add_warning(f"'{self.CODEMETA_PROPERTY}' could not be processed")
-            return {}
+        return keywords
 
     def _process_keywords(self, value: Any) -> List[str]:
         """
@@ -125,8 +158,6 @@ class KeywordsMetadata(BaseMetadata):
         for keyword in keywords:
             # Remove extra whitespace
             keyword = ' '.join(keyword.split())
-            # Convert to lowercase for consistency (optional)
-            # keyword = keyword.lower()
             if keyword and len(keyword) <= 100:  # Reasonable max length
                 normalized.append(keyword)
         
