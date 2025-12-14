@@ -13,6 +13,7 @@ from .description import DescriptionMetadata
 from .url import UrlMetadata
 from .version import VersionMetadata
 from .code_repository import CodeRepositoryMetadata
+from .license import LicenseMetadata
 
 __all__ = [
     'NameMetadata',
@@ -20,4 +21,5 @@ __all__ = [
     'UrlMetadata',
     'VersionMetadata',
     'CodeRepositoryMetadata',
+    'LicenseMetadata',
 ]
