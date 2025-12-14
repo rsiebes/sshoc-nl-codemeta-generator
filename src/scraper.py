@@ -77,9 +77,9 @@ class GitHubScraper:
             print(f"Error fetching {url}: {e}")
             return None
 
-    def get_repo_metadata(self, repo_url: str) -> Dict:
+    def scrape_repository(self, repo_url: str) -> Dict:
         """
-        Extract metadata from a GitHub repository page.
+        Extract all metadata from a GitHub repository.
 
         Args:
             repo_url: GitHub repository URL
@@ -93,21 +93,21 @@ class GitHubScraper:
         metadata = {
             'owner': owner,
             'name': repo_name,
+            'repo_name': repo_name,
+            'code_repository': base_url,
             'url': base_url,
             'description': None,
+            'repo_description': None,
             'homepage': None,
             'topics': [],
+            'keywords': [],
             'language': None,
-            'stars': 0,
-            'forks': 0,
-            'watchers': 0,
+            'languages': [],
             'license': None,
-            'created_at': None,
-            'updated_at': None,
-            'pushed_at': None,
+            'license_identifier': None,
             'readme': None,
-            'contributors': [],
             'releases': [],
+            'version': None,
         }
 
         # Fetch main repository page
@@ -115,21 +115,22 @@ class GitHubScraper:
         if not soup:
             return metadata
 
-        # Extract basic metadata from main page
+        # Extract all metadata
         self._extract_basic_info(soup, metadata)
-        self._extract_dates(soup, metadata)
         self._extract_languages(soup, metadata)
         self._extract_topics(soup, metadata)
         self._extract_license(soup, metadata)
-
+        
         # Fetch README
-        metadata['readme'] = self._fetch_readme(base_url)
-
-        # Fetch contributors
-        metadata['contributors'] = self._fetch_contributors(base_url)
+        metadata['readme'] = self._fetch_readme(base_url, owner, repo_name)
 
         # Fetch releases
-        metadata['releases'] = self._fetch_releases(base_url)
+        releases = self._fetch_releases(base_url)
+        if releases:
+            metadata['releases'] = releases
+            # Set latest version
+            if releases and isinstance(releases, list) and len(releases) > 0:
+                metadata['version'] = releases[0].get('tag', '')
 
         return metadata
 
@@ -137,109 +138,105 @@ class GitHubScraper:
         """Extract basic repository information."""
         # Description
         desc_elem = soup.find('p', class_='f4')
+        if not desc_elem:
+            # Try alternative selectors
+            desc_elem = soup.find('p', {'data-pjax': '#repo-content-pjax-container'})
         if desc_elem:
-            metadata['description'] = desc_elem.get_text(strip=True)
+            desc_text = desc_elem.get_text(strip=True)
+            metadata['description'] = desc_text
+            metadata['repo_description'] = desc_text
 
-        # Homepage
-        homepage_elem = soup.find('a', {'data-test-selector': 'about-website-link'})
-        if homepage_elem:
-            metadata['homepage'] = homepage_elem.get('href')
-
-        # Stars, forks, watchers
-        try:
-            # Look for star count
-            star_elem = soup.find('a', {'href': re.compile(r'/stargazers$')})
-            if star_elem:
-                star_text = star_elem.get_text(strip=True)
-                metadata['stars'] = self._parse_count(star_text)
-
-            # Look for fork count
-            fork_elem = soup.find('a', {'href': re.compile(r'/network/members$')})
-            if fork_elem:
-                fork_text = fork_elem.get_text(strip=True)
-                metadata['forks'] = self._parse_count(fork_text)
-        except Exception as e:
-            print(f"Error extracting counts: {e}")
-
-    def _extract_dates(self, soup: BeautifulSoup, metadata: Dict) -> None:
-        """Extract creation and modification dates."""
-        try:
-            # Look for date information in the about section
-            date_elements = soup.find_all('relative-time')
-            if date_elements:
-                for elem in date_elements:
-                    datetime_str = elem.get('datetime')
-                    if datetime_str:
-                        # Try to parse as ISO format
-                        try:
-                            dt = datetime.fromisoformat(datetime_str.replace('Z', '+00:00'))
-                            if not metadata['updated_at']:
-                                metadata['updated_at'] = dt.isoformat()
-                        except ValueError:
-                            pass
-        except Exception as e:
-            print(f"Error extracting dates: {e}")
+        # Homepage URL
+        homepage_elem = soup.find('a', {'data-testid': 'home-page-url-link'})
+        if not homepage_elem:
+            homepage_elem = soup.find('a', class_='text-bold')
+        if homepage_elem and homepage_elem.get('href'):
+            homepage = homepage_elem.get('href')
+            if homepage and not homepage.startswith('#'):
+                metadata['homepage'] = homepage
 
     def _extract_languages(self, soup: BeautifulSoup, metadata: Dict) -> None:
         """Extract programming languages."""
         try:
+            # Primary language
             lang_elem = soup.find('span', {'itemprop': 'programmingLanguage'})
             if lang_elem:
-                metadata['language'] = lang_elem.get_text(strip=True)
+                lang = lang_elem.get_text(strip=True)
+                metadata['language'] = lang
+                metadata['languages'] = [lang]
+            
+            # Additional languages from language bar
+            lang_list = soup.find_all('a', {'data-ga-click': re.compile(r'Repository, language stats')})
+            if lang_list:
+                languages = []
+                for elem in lang_list:
+                    lang_text = elem.get_text(strip=True)
+                    if lang_text and len(lang_text) < 30:
+                        languages.append(lang_text)
+                if languages:
+                    metadata['languages'] = languages
+                    if not metadata['language']:
+                        metadata['language'] = languages[0]
+                        
         except Exception as e:
             print(f"Error extracting languages: {e}")
 
     def _extract_topics(self, soup: BeautifulSoup, metadata: Dict) -> None:
-        """Extract repository topics/tags."""
+        """Extract repository topics/keywords."""
         try:
-            topic_elems = soup.find_all('a', {'data-test-selector': 'topic-tag'})
-            metadata['topics'] = [elem.get_text(strip=True) for elem in topic_elems]
+            topic_elems = soup.find_all('a', class_='topic-tag')
+            topics = [elem.get_text(strip=True) for elem in topic_elems if elem.get_text(strip=True)]
+            metadata['topics'] = topics
+            metadata['keywords'] = topics
         except Exception as e:
             print(f"Error extracting topics: {e}")
 
     def _extract_license(self, soup: BeautifulSoup, metadata: Dict) -> None:
         """Extract license information."""
         try:
-            license_elem = soup.find('a', {'data-test-selector': 'license-link'})
+            # Find license link or text
+            license_elem = soup.find('a', href=re.compile(r'/blob/.*/LICENSE'))
+            if not license_elem:
+                license_elem = soup.find('a', string=re.compile(r'License', re.I))
+            if not license_elem:
+                # Try finding in sidebar
+                license_elem = soup.find('svg', class_='octicon-law')
+                if license_elem:
+                    license_elem = license_elem.find_parent('div')
+                    if license_elem:
+                        license_elem = license_elem.find('a')
+            
             if license_elem:
-                metadata['license'] = license_elem.get_text(strip=True)
+                license_text = license_elem.get_text(strip=True)
+                # Clean up license text
+                license_text = re.sub(r'^License:\s*', '', license_text, flags=re.I)
+                license_text = re.sub(r'\s+license$', '', license_text, flags=re.I)
+                metadata['license'] = license_text
+                metadata['license_identifier'] = license_text
+                
         except Exception as e:
             print(f"Error extracting license: {e}")
 
-    def _fetch_readme(self, repo_url: str) -> Optional[str]:
+    def _fetch_readme(self, repo_url: str, owner: str, repo_name: str) -> Optional[str]:
         """Fetch README content."""
         try:
-            readme_url = f"{repo_url}/blob/main/README.md"
-            soup = self.fetch_page(readme_url)
-            if soup:
-                # Try to find raw content
-                raw_url = readme_url.replace('/blob/', '/raw/')
-                response = self.session.get(raw_url, timeout=self.timeout)
-                if response.status_code == 200:
-                    return response.text
+            # Try multiple README locations and branches
+            branches = ['main', 'master']
+            readme_files = ['README.md', 'README.rst', 'README.txt', 'README']
+            
+            for branch in branches:
+                for readme_file in readme_files:
+                    raw_url = f"https://raw.githubusercontent.com/{owner}/{repo_name}/{branch}/{readme_file}"
+                    try:
+                        response = self.session.get(raw_url, timeout=self.timeout)
+                        if response.status_code == 200:
+                            return response.text
+                    except:
+                        continue
+                        
         except Exception as e:
             print(f"Error fetching README: {e}")
         return None
-
-    def _fetch_contributors(self, repo_url: str) -> List[Dict]:
-        """Fetch list of contributors."""
-        contributors = []
-        try:
-            contributors_url = f"{repo_url}/graphs/contributors-data"
-            # This endpoint returns JSON data
-            response = self.session.get(contributors_url, timeout=self.timeout)
-            if response.status_code == 200:
-                # Parse JSON response
-                data = response.json()
-                for contributor in data[:10]:  # Limit to top 10
-                    contributors.append({
-                        'name': contributor.get('name'),
-                        'url': contributor.get('url'),
-                        'contributions': contributor.get('contributions', 0)
-                    })
-        except Exception as e:
-            print(f"Error fetching contributors: {e}")
-        return contributors
 
     def _fetch_releases(self, repo_url: str) -> List[Dict]:
         """Fetch list of releases."""
@@ -248,12 +245,32 @@ class GitHubScraper:
             releases_url = f"{repo_url}/releases"
             soup = self.fetch_page(releases_url)
             if soup:
-                release_items = soup.find_all('a', {'data-test-selector': 'release-tag-link'})
-                for item in release_items[:10]:  # Limit to top 10
-                    releases.append({
-                        'tag': item.get_text(strip=True),
-                        'url': urljoin(releases_url, item.get('href', ''))
-                    })
+                # Find release tags
+                tag_links = soup.find_all('a', href=re.compile(r'/releases/tag/'))
+                for link in tag_links[:10]:  # Limit to top 10
+                    tag = link.get_text(strip=True)
+                    if tag:
+                        releases.append({
+                            'tag': tag,
+                            'version': tag,
+                            'url': urljoin(releases_url, link.get('href', ''))
+                        })
+            
+            # If no releases, try tags
+            if not releases:
+                tags_url = f"{repo_url}/tags"
+                soup = self.fetch_page(tags_url)
+                if soup:
+                    tag_links = soup.find_all('a', href=re.compile(r'/releases/tag/'))
+                    for link in tag_links[:10]:
+                        tag = link.get_text(strip=True)
+                        if tag:
+                            releases.append({
+                                'tag': tag,
+                                'version': tag,
+                                'url': urljoin(tags_url, link.get('href', ''))
+                            })
+                            
         except Exception as e:
             print(f"Error fetching releases: {e}")
         return releases
