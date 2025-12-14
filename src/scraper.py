@@ -142,6 +142,13 @@ class GitHubScraper:
         commit_info = self._fetch_commit_info(base_url)
         if commit_info:
             metadata['commit_authors'] = commit_info
+        
+        # Fetch repository dates
+        dates = self._fetch_repository_dates(owner, repo_name)
+        if dates['date_created']:
+            metadata['date_created'] = dates['date_created']
+        if dates['date_modified']:
+            metadata['date_modified'] = dates['date_modified']
 
         return metadata
 
@@ -423,3 +430,107 @@ class GitHubScraper:
         except Exception as e:
             print(f"Error fetching commit info: {e}")
             return None
+
+    def _fetch_repository_dates(self, owner: str, repo_name: str) -> Dict[str, Optional[str]]:
+        """
+        Fetch repository creation and modification dates from commits page.
+        
+        Returns:
+            Dict with 'date_created' and 'date_modified' keys containing ISO 8601 timestamps
+        """
+        dates = {
+            'date_created': None,
+            'date_modified': None
+        }
+        
+        try:
+            commits_url = f"https://github.com/{owner}/{repo_name}/commits"
+            response = self.session.get(commits_url, timeout=self.timeout)
+            
+            if response.status_code == 200:
+                html = response.text
+                
+                # Extract ISO 8601 dates from HTML using regex
+                # relative-time elements are rendered by JavaScript, so we extract from HTML source
+                import re
+                date_pattern = r'20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z'
+                found_dates = re.findall(date_pattern, html)
+                
+                if found_dates:
+                    # Remove duplicates while preserving order
+                    unique_dates = []
+                    seen = set()
+                    for date in found_dates:
+                        if date not in seen:
+                            unique_dates.append(date)
+                            seen.add(date)
+                    
+                    if unique_dates:
+                        # First unique date is typically the most recent (dateModified)
+                        dates['date_modified'] = unique_dates[0]
+                        
+                        # Last unique date is typically the oldest (dateCreated)
+                        dates['date_created'] = unique_dates[-1] if len(unique_dates) > 1 else unique_dates[0]
+                
+        except Exception as e:
+            print(f"Error fetching repository dates: {e}")
+        
+        return dates
+    
+    def _fetch_first_commit_date(self, owner: str, repo_name: str, commits_soup: BeautifulSoup) -> Optional[str]:
+        """
+        Try to fetch the first (oldest) commit date.
+        
+        This checks if there's pagination and tries to get the last page.
+        """
+        try:
+            # Check if there's pagination
+            pagination = commits_soup.find('div', class_='pagination')
+            if pagination:
+                # If there's pagination, we need to navigate to the last page
+                # For simplicity, we'll try to find the "Oldest" button or last page link
+                # GitHub doesn't always show this, so we'll use the API approach instead
+                pass
+            
+            # Alternative: Use the GitHub API endpoint (public, no auth needed)
+            # Get the first commit from the repository
+            api_url = f"https://api.github.com/repos/{owner}/{repo_name}/commits"
+            headers = {'Accept': 'application/vnd.github.v3+json'}
+            
+            # Get commits in ascending order (oldest first) with per_page=1
+            params = {'per_page': 1, 'sha': 'HEAD'}
+            
+            # First, get the total number of commits to calculate the last page
+            response = self.session.get(api_url, headers=headers, params={'per_page': 1}, timeout=self.timeout)
+            
+            if response.status_code == 200:
+                # Check if there's a Link header with pagination info
+                link_header = response.headers.get('Link', '')
+                
+                # Try to extract the last page number
+                import re
+                last_page_match = re.search(r'page=(\d+)>; rel="last"', link_header)
+                
+                if last_page_match:
+                    last_page = int(last_page_match.group(1))
+                    # Fetch the last page to get the first commit
+                    response = self.session.get(api_url, headers=headers, params={'per_page': 1, 'page': last_page}, timeout=self.timeout)
+                    
+                    if response.status_code == 200:
+                        commits = response.json()
+                        if commits and len(commits) > 0:
+                            # Get the commit date
+                            commit_date = commits[0].get('commit', {}).get('committer', {}).get('date')
+                            return commit_date
+                else:
+                    # Only one page of commits, so the last commit on the page is the first commit
+                    commits = response.json()
+                    if commits and len(commits) > 0:
+                        # This is actually the latest commit, we need to get all commits
+                        # Let's try a different approach: get commits with per_page=100 and navigate to last
+                        pass
+            
+        except Exception as e:
+            print(f"Error fetching first commit date: {e}")
+        
+        return None

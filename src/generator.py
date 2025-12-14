@@ -18,6 +18,8 @@ from src.properties.license import LicenseMetadata
 from src.properties.keywords import KeywordsMetadata
 from src.properties.programming_language import ProgrammingLanguageMetadata
 from src.properties.author import AuthorMetadata
+from src.properties.date_created import DateCreatedMetadata
+from src.properties.date_modified import DateModifiedMetadata
 
 
 class CodemetaGenerator:
@@ -39,6 +41,8 @@ class CodemetaGenerator:
             KeywordsMetadata,
             ProgrammingLanguageMetadata,
             AuthorMetadata,
+            DateCreatedMetadata,
+            DateModifiedMetadata,
         ]
 
     def generate(self, repo_url: str) -> Dict[str, Any]:
@@ -107,12 +111,7 @@ class CodemetaGenerator:
         
         # Keywords are now handled by KeywordsMetadata module
         # Programming languages are now handled by ProgrammingLanguageMetadata module
-        
-        # Add dateCreated (current date as fallback)
-        codemeta['dateCreated'] = datetime.now().isoformat()
-        
-        # Add dateModified (current date)
-        codemeta['dateModified'] = datetime.now().isoformat()
+        # Dates are now handled by DateCreatedMetadata and DateModifiedMetadata modules
         
         # Print validation results
         if errors:
