@@ -1,207 +1,87 @@
-# CodeMeta Generator
+# Codemeta 3.1 Generator
 
-A comprehensive toolkit for generating, enhancing, and managing CodeMeta files for research software projects. This repository provides tools to create standardized metadata for software repositories, with a focus on research software discoverability and citation.
+A comprehensive Python-based metadata generator that creates Codemeta 3.1 compliant JSON-LD files from GitHub repositories through web scraping.
 
 ## Overview
 
-CodeMeta is a standardized metadata schema for software, designed to improve software discoverability, citation, and preservation. This toolkit provides automated generation and enhancement of CodeMeta files, with support for both CodeMeta 2.0 and 3.0 schemas.
+This project implements a modular Python architecture where each metadata element is handled by a dedicated module. The generator scrapes GitHub repository information via web browsing (not the GitHub API) and produces rich, standards-compliant Codemeta 3.1 metadata files.
 
 ## Features
 
-- 🚀 **Automated CodeMeta Generation**: Generate comprehensive CodeMeta files from GitHub repositories
-- 📊 **Schema Support**: Full support for CodeMeta 2.0 and 3.0 schemas
-- 🔄 **Bulk Processing**: Process multiple repositories and CodeMeta files simultaneously
-- 🏢 **Organizational Context**: Add organizational information and project relationships
-- 📚 **Publication Integration**: Include reference publications with DOI links
-- 🔍 **Intelligent Categorization**: Automatic application categorization based on project characteristics
-- ✅ **Validation**: Ensure CodeMeta files comply with schema standards
+- **Modular Architecture**: Each metadata element has its own module for maintainability and extensibility
+- **Web Scraping**: Extracts repository information directly from GitHub web pages
+- **Codemeta 3.1 Compliant**: Generates metadata fully compliant with the Codemeta 3.1 JSON-LD standard
+- **Comprehensive Metadata**: Captures all available metadata elements from the schema
+- **Validation**: Built-in schema validation to ensure compliance
 
-## Use Cases
+## Project Structure
 
-This toolkit has been successfully used to generate and enhance CodeMeta files for:
+```
+src/
+├── __init__.py
+├── scraper.py              # GitHub web scraper
+├── core_metadata.py        # Basic metadata (name, description, version)
+├── dates.py               # Date-related metadata
+├── people.py              # Authors, contributors, maintainers
+├── technical.py           # Programming languages, OS, requirements
+├── licensing.py           # License and copyright information
+├── documentation.py       # README, help, release notes
+├── development.py         # Development status, CI, build instructions
+├── references.py          # Citations and related links
+├── categories.py          # Application categories and keywords
+├── validator.py           # Schema validation
+├── output.py              # JSON-LD output generation
+└── generator.py           # Main orchestrator
 
-- **SODA Science Projects**: 47+ research software projects from Utrecht University
-- **Individual Repositories**: Personal and academic software projects
-- **Research Organizations**: Multi-project software portfolios
-- **Academic Software**: Tools for computational research and data science
+tests/
+├── __init__.py
+├── test_scraper.py
+├── test_core_metadata.py
+├── test_people.py
+├── test_technical.py
+└── test_integration.py
 
-## Quick Start
+docs/
+├── ARCHITECTURE.md        # System design and module interactions
+├── MODULES.md            # Module documentation
+└── USAGE.md              # Usage guide
 
-### Installation
+examples/
+└── sample_codemeta.json  # Example output
+```
+
+## Installation
 
 ```bash
-git clone https://github.com/your-username/codemeta-generator.git
-cd codemeta-generator
+git clone https://github.com/rsiebes/sshoc-nl-codemeta-generator.git
+cd sshoc-nl-codemeta-generator
 pip install -r requirements.txt
 ```
 
-### Basic Usage
+## Usage
 
 ```python
-from src.codemeta_generator import CodeMetaGenerator
+from src.generator import CodeMetaGenerator
 
-# Generate CodeMeta for a single repository
+# Create generator instance
 generator = CodeMetaGenerator()
-codemeta = generator.generate_from_github("https://github.com/owner/repo")
 
-# Enhance existing CodeMeta files
-enhancer = CodeMetaEnhancer()
-enhancer.enhance_file("codemeta.json")
+# Generate metadata from GitHub repository
+codemeta = generator.generate("https://github.com/owner/repo")
 
-# Bulk process multiple files
-processor = BulkProcessor()
-processor.process_directory("./codemeta_files/")
+# Save to file
+codemeta.save("codemeta.json")
 ```
 
-### Command Line Interface
+## Development
 
-```bash
-# Generate CodeMeta for a repository
-python -m src.cli generate --repo https://github.com/owner/repo --output codemeta.json
-
-# Enhance existing CodeMeta files
-python -m src.cli enhance --input codemeta.json --schema 3.0
-
-# Bulk process files
-python -m src.cli bulk --directory ./examples/soda_science/ --output ./enhanced/
-```
-
-## Examples
-
-The `examples/` directory contains real-world examples from the SODA Science research group:
-
-- **SODA Science Collection**: 47 comprehensive CodeMeta files for research software projects
-- **Individual Projects**: Examples for different types of software (data analysis, web applications, educational materials)
-- **Publication Integration**: Examples with reference publications and DOI links
-
-### SODA Science Use Case
-
-The SODA Science research group at Utrecht University serves as a primary use case, demonstrating:
-
-- Organizational metadata integration
-- Multi-project software portfolios
-- Research software categorization
-- Publication and citation management
-
-## Repository Structure
-
-```
-codemeta-generator/
-├── src/                          # Core source code
-│   ├── codemeta_generator.py     # Main generation logic
-│   ├── enhancer.py              # Enhancement and validation
-│   ├── bulk_processor.py        # Batch processing tools
-│   ├── schema_validator.py      # Schema validation
-│   └── cli.py                   # Command line interface
-├── examples/                     # Example CodeMeta files
-│   ├── soda_science/            # SODA Science project examples
-│   ├── individual_repos/        # Single repository examples
-│   └── templates/               # CodeMeta templates
-├── docs/                        # Documentation
-│   ├── user_guide.md           # User guide and tutorials
-│   ├── api_reference.md        # API documentation
-│   └── schema_guide.md         # CodeMeta schema guide
-├── tests/                       # Test suite
-│   ├── test_generator.py       # Generation tests
-│   ├── test_enhancer.py        # Enhancement tests
-│   └── test_validation.py      # Validation tests
-├── requirements.txt             # Python dependencies
-├── setup.py                    # Package setup
-├── LICENSE                     # License file
-└── README.md                   # This file
-```
-
-## Documentation
-
-- **[User Guide](docs/user_guide.md)**: Comprehensive guide for using the toolkit
-- **[API Reference](docs/api_reference.md)**: Detailed API documentation
-- **[Schema Guide](docs/schema_guide.md)**: CodeMeta schema reference and best practices
-
-## CodeMeta Schema Support
-
-### CodeMeta 3.0 (Recommended)
-- Latest schema version with enhanced features
-- Improved organizational and publication metadata
-- Better support for research software contexts
-
-### CodeMeta 2.0 (Legacy Support)
-- Backward compatibility for existing files
-- Migration tools to upgrade to 3.0
-
-## Key Features in Detail
-
-### Automated Generation
-- Extract metadata from GitHub repositories
-- Analyze repository structure and dependencies
-- Generate comprehensive software requirements
-- Include author information with ORCID integration
-
-### Enhancement Capabilities
-- Add missing metadata fields
-- Update schema versions
-- Include organizational context
-- Integrate publication references
-
-### Organizational Integration
-- Support for research groups and institutions
-- Multi-project portfolio management
-- Hierarchical organizational structures
-- Institutional affiliation tracking
-
-### Publication Management
-- DOI integration for reference publications
-- Multiple publication types (articles, datasets, software)
-- Publisher information and metadata
-- Citation and impact tracking
-
-## Contributing
-
-We welcome contributions to improve the CodeMeta Generator toolkit:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+This project is developed iteratively, with each module being created, tested, and verified for both schema compliance and data accuracy.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - See LICENSE file for details
 
-## Citation
+## Author
 
-If you use this toolkit in your research, please cite:
-
-```bibtex
-@software{codemeta_generator,
-  title = {CodeMeta Generator: A Toolkit for Research Software Metadata},
-  author = {Siebes, Ronald},
-  year = {2025},
-  url = {https://github.com/your-username/codemeta-generator},
-  note = {Software toolkit for generating and managing CodeMeta files}
-}
-```
-
-## Maintainer
-
-**Ronald Siebes**  
-UCDS Group, VU Amsterdam  
-ORCID: [0000-0001-8772-7904](https://orcid.org/0000-0001-8772-7904)  
-Email: [r.m.siebes@vu.nl](mailto:r.m.siebes@vu.nl)
-
-## Acknowledgments
-
-- **SODA Science Research Group** (Utrecht University) for providing comprehensive use case examples
-- **CodeMeta Community** for developing and maintaining the metadata schema
-- **Research Software Engineering Community** for best practices and standards
-
-## Related Projects
-
-- [CodeMeta](https://codemeta.github.io/): The CodeMeta metadata schema
-- [SODA Science](https://sodascience.github.io/): Scalable Open Data Analytics research group
-- [Research Software Directory](https://research-software-directory.org/): Software discovery platform
-
----
-
-*This toolkit supports the FAIR (Findable, Accessible, Interoperable, Reusable) principles for research software by providing standardized, machine-readable metadata.*
-
+Ronald Siebes (r.m.siebes@vu.nl)
+ORCID: 0000-0001-8772-7904
