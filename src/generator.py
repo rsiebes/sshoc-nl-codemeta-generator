@@ -15,6 +15,7 @@ from src.properties.url import UrlMetadata
 from src.properties.version import VersionMetadata
 from src.properties.code_repository import CodeRepositoryMetadata
 from src.properties.license import LicenseMetadata
+from src.properties.keywords import KeywordsMetadata
 
 
 class CodemetaGenerator:
@@ -33,6 +34,7 @@ class CodemetaGenerator:
             VersionMetadata,
             CodeRepositoryMetadata,
             LicenseMetadata,
+            KeywordsMetadata,
         ]
 
     def generate(self, repo_url: str) -> Dict[str, Any]:
@@ -99,11 +101,7 @@ class CodemetaGenerator:
                 print(error_msg)
                 errors.append(error_msg)
         
-        # Add keywords if available
-        if raw_data.get('keywords'):
-            codemeta['keywords'] = raw_data['keywords']
-        elif raw_data.get('topics'):
-            codemeta['keywords'] = raw_data['topics']
+        # Keywords are now handled by KeywordsMetadata module
         
         # Add programming language if available
         if raw_data.get('languages'):
