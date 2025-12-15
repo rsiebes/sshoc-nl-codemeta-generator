@@ -640,7 +640,8 @@ class GitHubScraper:
             for branch in branches:
                 repo_url = f"https://github.com/{owner}/{repo_name}"
                 tree_url = f"{repo_url}/tree/{branch}"
-                soup = self.fetch_page(tree_url)
+                # Use silent=True to avoid 404 errors when trying different branches
+                soup = self.fetch_page(tree_url, silent=True)
                 
                 if not soup:
                     continue
