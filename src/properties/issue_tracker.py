@@ -1,93 +1,82 @@
 """
-Issue Tracker Property Module
+Issue Tracker property module for Codemeta 3.1 generator.
 
-Handles extraction and validation of the 'issue_tracker' Codemeta property.
-Issue tracker URL
+This module extracts the issue tracker URL from GitHub repositories.
 """
 
-from typing import Dict, Any, Optional, Union, List
+from typing import Dict, Optional
 from src.base_metadata import BaseMetadata
 
 
 class IssueTrackerMetadata(BaseMetadata):
-    """Handles issue_tracker metadata extraction and validation."""
-
-    CODEMETA_PROPERTY = 'iTracker'
-    CODEMETA_TYPE = 'schema:Text'
-    REQUIRED = False
-
-    def extract(self) -> Dict[str, Any]:
-        """
-        Extract issue_tracker from raw data.
-
-        Returns:
-            Dictionary with 'iTracker' key containing the extracted value
-        """
-        # Try to extract from raw data
-        value = self._get_value('iTracker')
+    """Extract issue tracker URL from repository metadata."""
+    
+    PROPERTY_NAME = "issueTracker"
+    SCHEMA_ORG_TYPE = "URL"
+    
+    def __init__(self, raw_data: Dict):
+        """Initialize the IssueTrackerMetadata extractor.
         
-        if not value:
-            # Try alternative field names
-            value = self._get_value('issue_tracker')
-        
-        if not value:
-            if self.REQUIRED:
-                self.add_error(f"Required field '{self.CODEMETA_PROPERTY}' could not be extracted")
-            else:
-                self.add_warning(f"Optional field '{self.CODEMETA_PROPERTY}' could not be extracted")
-            return {}
-        
-        # Process the value
-        processed_value = self._process_value(value)
-        
-        if processed_value is not None:
-            self.metadata[self.CODEMETA_PROPERTY] = processed_value
-            return self.metadata
-        else:
-            self.add_warning(f"'{self.CODEMETA_PROPERTY}' could not be processed")
-            return {}
-
-    def _process_value(self, value: Any) -> Optional[Any]:
-        """
-        Process and normalize the extracted value.
-
         Args:
-            value: Raw value from data source
-
-        Returns:
-            Processed value or None
+            raw_data: Raw repository metadata from scraper
         """
-        # TODO: Implement value processing logic
-        # This is a placeholder - implement specific logic for this property
-        return value
-
+        super().__init__(raw_data)
+    
+    def extract(self) -> Dict:
+        """
+        Extract issue tracker URL from repository metadata.
+        
+        Returns:
+            Dictionary with issueTracker URL or empty dict
+        """
+        issue_tracker_url = None
+        
+        # Try multiple sources in order of preference
+        # 1. Direct 'issueTracker' field
+        issue_tracker = self._get_value('issueTracker')
+        if issue_tracker:
+            issue_tracker_url = issue_tracker
+        
+        # 2. Construct from codeRepository URL (GitHub)
+        elif self._get_value('codeRepository'):
+            repo_url = self._get_value('codeRepository')
+            if 'github.com' in repo_url:
+                # Remove trailing slash and .git if present
+                repo_url = repo_url.rstrip('/').replace('.git', '')
+                issue_tracker_url = f"{repo_url}/issues"
+        
+        # 3. Construct from url field (GitHub)
+        elif self._get_value('url'):
+            repo_url = self._get_value('url')
+            if 'github.com' in repo_url:
+                repo_url = repo_url.rstrip('/').replace('.git', '')
+                issue_tracker_url = f"{repo_url}/issues"
+        
+        # Store in metadata
+        if issue_tracker_url:
+            self.metadata[self.PROPERTY_NAME] = issue_tracker_url
+        
+        return self.metadata
+    
     def _validate_metadata(self) -> None:
-        """Validate issue_tracker metadata."""
-        if not self.metadata:
-            if self.REQUIRED:
-                self.add_error(f"Required field '{self.CODEMETA_PROPERTY}' is missing")
-            return
-
-        value = self.metadata.get(self.CODEMETA_PROPERTY)
+        """
+        Validate the extracted issue tracker URL.
         
-        if not value:
-            if self.REQUIRED:
-                self.add_error(f"'{self.CODEMETA_PROPERTY}' is empty")
+        Raises:
+            ValueError: If issue tracker URL is invalid
+        """
+        if self.PROPERTY_NAME not in self.metadata:
             return
         
-        # TODO: Implement validation logic specific to this property type
-        # This is a placeholder - implement specific validation
-
-    def to_codemeta_dict(self) -> Dict[str, Any]:
-        """
-        Convert to Codemeta format.
-
-        Returns:
-            Dictionary in Codemeta format
-        """
-        if not self.metadata:
-            return {}
+        issue_tracker = self.metadata[self.PROPERTY_NAME]
         
-        return {
-            self.CODEMETA_PROPERTY: self.metadata[self.CODEMETA_PROPERTY]
-        }
+        # Check if it's a valid URL
+        if not isinstance(issue_tracker, str):
+            raise ValueError(f"Issue tracker must be a string, got {type(issue_tracker)}")
+        
+        if not issue_tracker.startswith(('http://', 'https://')):
+            raise ValueError(f"Issue tracker must be a valid URL starting with http:// or https://")
+        
+        # Warn if it doesn't look like a typical issue tracker URL
+        if not any(keyword in issue_tracker.lower() for keyword in ['issue', 'bug', 'tracker', 'jira', 'gitlab', 'github']):
+            self.warnings.append(f"Issue tracker URL may not be valid: {issue_tracker}")

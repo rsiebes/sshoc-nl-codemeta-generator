@@ -24,6 +24,7 @@ from src.properties.date_modified import DateModifiedMetadata
 from src.properties.readme import ReadmeMetadata
 from src.properties.maintainer import MaintainerMetadata
 from src.properties.build_instructions import BuildInstructionsMetadata
+from src.properties.issue_tracker import IssueTrackerMetadata
 
 
 class CodemetaGenerator:
@@ -51,6 +52,7 @@ class CodemetaGenerator:
             DateModifiedMetadata,
             ReadmeMetadata,
             BuildInstructionsMetadata,
+            IssueTrackerMetadata,
         ]
 
     def generate(self, repo_url: str) -> Dict[str, Any]:
