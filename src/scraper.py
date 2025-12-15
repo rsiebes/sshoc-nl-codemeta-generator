@@ -282,12 +282,15 @@ class GitHubScraper:
                 # Find release tags
                 tag_links = soup.find_all('a', href=re.compile(r'/releases/tag/'))
                 for link in tag_links[:10]:  # Limit to top 10
-                    tag = link.get_text(strip=True)
-                    if tag:
+                    href = link.get('href', '')
+                    # Extract tag from URL: /releases/tag/V1.0.0 -> V1.0.0
+                    tag_match = re.search(r'/releases/tag/([^/]+)', href)
+                    if tag_match:
+                        tag = tag_match.group(1)
                         releases.append({
                             'tag': tag,
                             'version': tag,
-                            'url': urljoin(releases_url, link.get('href', ''))
+                            'url': urljoin(releases_url, href)
                         })
             
             # If no releases, try tags
@@ -297,12 +300,15 @@ class GitHubScraper:
                 if soup:
                     tag_links = soup.find_all('a', href=re.compile(r'/releases/tag/'))
                     for link in tag_links[:10]:
-                        tag = link.get_text(strip=True)
-                        if tag:
+                        href = link.get('href', '')
+                        # Extract tag from URL: /releases/tag/V1.0.0 -> V1.0.0
+                        tag_match = re.search(r'/releases/tag/([^/]+)', href)
+                        if tag_match:
+                            tag = tag_match.group(1)
                             releases.append({
                                 'tag': tag,
                                 'version': tag,
-                                'url': urljoin(tags_url, link.get('href', ''))
+                                'url': urljoin(tags_url, href)
                             })
                             
         except Exception as e:
