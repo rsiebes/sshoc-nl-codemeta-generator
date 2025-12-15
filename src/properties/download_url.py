@@ -99,16 +99,11 @@ class DownloadUrlMetadata(BaseMetadata):
         
         # GitHub releases
         if 'github.com' in code_repo:
-            # Get latest release tag
-            latest_tag = self._get_value('version')
-            if latest_tag:
-                # Construct download URL for latest release
-                repo_url = code_repo.rstrip('/').replace('.git', '')
-                return f"{repo_url}/releases/download/{latest_tag}"
-            else:
-                # Return latest release page
-                repo_url = code_repo.rstrip('/').replace('.git', '')
-                return f"{repo_url}/releases/latest"
+            # Only construct /releases/download/ URL if we know there are assets
+            # Otherwise it will 404. Fall through to archive download instead.
+            # Note: releases data from scraper doesn't include asset info,
+            # so we can't reliably determine if assets exist.
+            pass
         
         # GitLab releases
         if 'gitlab' in code_repo:
