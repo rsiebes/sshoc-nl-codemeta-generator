@@ -22,6 +22,7 @@ from src.properties.contributor import ContributorMetadata
 from src.properties.date_created import DateCreatedMetadata
 from src.properties.date_modified import DateModifiedMetadata
 from src.properties.readme import ReadmeMetadata
+from src.properties.maintainer import MaintainerMetadata
 
 
 class CodemetaGenerator:
@@ -44,6 +45,7 @@ class CodemetaGenerator:
             ProgrammingLanguageMetadata,
             AuthorMetadata,
             ContributorMetadata,
+            MaintainerMetadata,
             DateCreatedMetadata,
             DateModifiedMetadata,
             ReadmeMetadata,

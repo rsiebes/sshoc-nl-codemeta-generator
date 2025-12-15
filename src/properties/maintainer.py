@@ -1,93 +1,277 @@
 """
-Maintainer Property Module
+Maintainer property implementation for Codemeta 3.1 metadata.
 
-Handles extraction and validation of the 'maintainer' Codemeta property.
-Maintainer(s) of the software
+This module handles the extraction and validation of maintainer information,
+representing the individual responsible for maintaining the software.
 """
 
-from typing import Dict, Any, Optional, Union, List
+from typing import Dict, List, Any, Optional
 from src.base_metadata import BaseMetadata
+from src.orcid_utils import ORCIDLookup
 
 
 class MaintainerMetadata(BaseMetadata):
-    """Handles maintainer metadata extraction and validation."""
-
+    """
+    Handles maintainer metadata extraction and validation.
+    
+    Maintainer represents the individual responsible for maintaining the software,
+    usually including an email contact address.
+    """
+    
     CODEMETA_PROPERTY = 'maintainer'
-    CODEMETA_TYPE = 'schema:ItemList'
+    CODEMETA_TYPE = 'schema:Person'
+    SCHEMA_ORG_TYPE = 'Person'
     REQUIRED = False
-
+    
+    def __init__(self, raw_data: Dict[str, Any]):
+        """
+        Initialize MaintainerMetadata.
+        
+        Args:
+            raw_data: Raw scraped data
+        """
+        super().__init__(raw_data)
+        self.orcid_lookup = ORCIDLookup()
+    
     def extract(self) -> Dict[str, Any]:
         """
         Extract maintainer from raw data.
-
+        
+        Maintainer can come from:
+        1. Direct 'maintainer' field
+        2. 'maintainers' field
+        3. Repository owner (if person, not organization)
+        4. Primary contributor (most commits)
+        5. Contact information from README
+        
         Returns:
-            Dictionary with 'maintainer' key containing the extracted value
+            Dictionary with 'maintainer' key containing Person object(s)
         """
-        # Try to extract from raw data
-        value = self._get_value('maintainer')
+        maintainers = []
         
-        if not value:
-            # Try alternative field names
-            value = self._get_value('maintainer')
+        # Try to extract from different sources
+        raw_maintainer = self._get_value('maintainer')
+        if raw_maintainer:
+            maintainers.extend(self._process_maintainers(raw_maintainer))
         
-        if not value:
-            if self.REQUIRED:
-                self.add_error(f"Required field '{self.CODEMETA_PROPERTY}' could not be extracted")
-            else:
-                self.add_warning(f"Optional field '{self.CODEMETA_PROPERTY}' could not be extracted")
+        # Try maintainers field
+        if not maintainers:
+            raw_maintainers = self._get_value('maintainers')
+            if raw_maintainers:
+                maintainers.extend(self._process_maintainers(raw_maintainers))
+        
+        # Try owner field (if person, not organization)
+        if not maintainers:
+            owner = self._get_value('owner')
+            if owner:
+                # If owner is a dict with a name, it's likely a person
+                if isinstance(owner, dict) and owner.get('name'):
+                    maintainer_obj = self._process_single_maintainer(owner)
+                    if maintainer_obj:
+                        maintainers.append(maintainer_obj)
+        
+        # Try primary contributor (first contributor with most commits)
+        if not maintainers:
+            contributors = self._get_value('contributors')
+            if contributors and isinstance(contributors, list) and len(contributors) > 0:
+                # Take the first contributor as potential maintainer
+                primary_contributor = contributors[0]
+                maintainer_obj = self._process_single_maintainer(primary_contributor)
+                if maintainer_obj:
+                    maintainers.append(maintainer_obj)
+        
+        if not maintainers:
+            self.add_warning(f"Optional field '{self.CODEMETA_PROPERTY}' could not be extracted")
             return {}
         
-        # Process the value
-        processed_value = self._process_value(value)
-        
-        if processed_value is not None:
-            self.metadata[self.CODEMETA_PROPERTY] = processed_value
-            return self.metadata
+        # Store in metadata - single maintainer or array based on count
+        if len(maintainers) == 1:
+            self.metadata[self.CODEMETA_PROPERTY] = maintainers[0]
         else:
-            self.add_warning(f"'{self.CODEMETA_PROPERTY}' could not be processed")
-            return {}
-
-    def _process_value(self, value: Any) -> Optional[Any]:
+            self.metadata[self.CODEMETA_PROPERTY] = maintainers
+        
+        return self.metadata
+    
+    def _process_maintainers(self, raw_maintainers: Any) -> List[Dict]:
         """
-        Process and normalize the extracted value.
-
+        Process raw maintainer data into structured Person objects.
+        
         Args:
-            value: Raw value from data source
-
+            raw_maintainers: Raw maintainer data (string, dict, or list)
+            
         Returns:
-            Processed value or None
+            List of Person dictionaries
         """
-        # TODO: Implement value processing logic
-        # This is a placeholder - implement specific logic for this property
-        return value
-
+        maintainers = []
+        
+        if isinstance(raw_maintainers, list):
+            for item in raw_maintainers:
+                maintainer = self._process_single_maintainer(item)
+                if maintainer:
+                    maintainers.append(maintainer)
+        else:
+            maintainer = self._process_single_maintainer(raw_maintainers)
+            if maintainer:
+                maintainers.append(maintainer)
+        
+        return maintainers
+    
+    def _process_single_maintainer(self, raw_maintainer: Any) -> Optional[Dict]:
+        """
+        Process a single maintainer into a Person object.
+        
+        Args:
+            raw_maintainer: Raw maintainer data (string or dict)
+            
+        Returns:
+            Person dictionary or None
+        """
+        if not raw_maintainer:
+            return None
+        
+        maintainer = {"@type": self.SCHEMA_ORG_TYPE}
+        
+        if isinstance(raw_maintainer, dict):
+            # Extract name
+            name = (raw_maintainer.get('name') or 
+                   raw_maintainer.get('username') or
+                   raw_maintainer.get('login'))
+            
+            if name:
+                maintainer['name'] = name
+            
+            # Extract given name and family name if available
+            given_name = raw_maintainer.get('givenName') or raw_maintainer.get('given_name')
+            family_name = raw_maintainer.get('familyName') or raw_maintainer.get('family_name')
+            
+            if given_name:
+                maintainer['givenName'] = given_name
+            if family_name:
+                maintainer['familyName'] = family_name
+            
+            # Extract email (important for maintainer)
+            email = raw_maintainer.get('email')
+            if email:
+                maintainer['email'] = email
+            
+            # Try to enrich with ORCID if we have a name
+            if self.orcid_lookup and name:
+                orcid_info = self.orcid_lookup.lookup_orcid(name, email)
+                if orcid_info:
+                    maintainer['@id'] = f"https://orcid.org/{orcid_info['orcid']}"
+                    # Update names if ORCID provides better data
+                    if orcid_info.get('given_name') and not given_name:
+                        maintainer['givenName'] = orcid_info['given_name']
+                    if orcid_info.get('family_name') and not family_name:
+                        maintainer['familyName'] = orcid_info['family_name']
+            
+            # Extract affiliation
+            affiliation = raw_maintainer.get('affiliation') or raw_maintainer.get('organization')
+            if affiliation:
+                maintainer['affiliation'] = {
+                    "@type": "Organization",
+                    "name": affiliation
+                }
+            
+            # Extract URL
+            url = raw_maintainer.get('url') or raw_maintainer.get('website')
+            if url:
+                maintainer['url'] = url
+                
+        elif isinstance(raw_maintainer, str):
+            # Simple string - could be name or email
+            if '@' in raw_maintainer:
+                # Looks like an email
+                maintainer['email'] = raw_maintainer
+                # Try to extract name from email
+                name_part = raw_maintainer.split('@')[0]
+                maintainer['name'] = name_part.replace('.', ' ').replace('_', ' ').title()
+            else:
+                # Assume it's a name
+                maintainer['name'] = raw_maintainer
+                
+                # Try ORCID lookup
+                if self.orcid_lookup:
+                    orcid_info = self.orcid_lookup.lookup_orcid(raw_maintainer)
+                    if orcid_info:
+                        maintainer['@id'] = f"https://orcid.org/{orcid_info['orcid']}"
+                        if orcid_info.get('given_name'):
+                            maintainer['givenName'] = orcid_info['given_name']
+                        if orcid_info.get('family_name'):
+                            maintainer['familyName'] = orcid_info['family_name']
+        
+        # Validate that we have at least a name
+        if 'name' not in maintainer:
+            return None
+        
+        return maintainer
+    
     def _validate_metadata(self) -> None:
-        """Validate maintainer metadata."""
+        """
+        Validate maintainer metadata.
+        """
         if not self.metadata:
-            if self.REQUIRED:
-                self.add_error(f"Required field '{self.CODEMETA_PROPERTY}' is missing")
             return
-
+        
         value = self.metadata.get(self.CODEMETA_PROPERTY)
         
         if not value:
-            if self.REQUIRED:
-                self.add_error(f"'{self.CODEMETA_PROPERTY}' is empty")
+            # Maintainer is optional
             return
         
-        # TODO: Implement validation logic specific to this property type
-        # This is a placeholder - implement specific validation
-
-    def to_codemeta_dict(self) -> Dict[str, Any]:
+        # Can be a single Person or array of Persons
+        if isinstance(value, dict):
+            self._validate_person(value)
+        elif isinstance(value, list):
+            if len(value) == 0:
+                self.add_warning(f"'{self.CODEMETA_PROPERTY}' array is empty")
+                return
+            
+            for person in value:
+                self._validate_person(person)
+        else:
+            self.add_warning(f"'{self.CODEMETA_PROPERTY}' must be a Person object or array of Person objects")
+    
+    def _validate_person(self, person: Dict) -> None:
         """
-        Convert to Codemeta format.
-
-        Returns:
-            Dictionary in Codemeta format
-        """
-        if not self.metadata:
-            return {}
+        Validate a Person object.
         
-        return {
-            self.CODEMETA_PROPERTY: self.metadata[self.CODEMETA_PROPERTY]
-        }
+        Args:
+            person: Person dictionary to validate
+        """
+        if not isinstance(person, dict):
+            self.add_warning(f"Person in '{self.CODEMETA_PROPERTY}' must be an object")
+            return
+        
+        # Check @type
+        if person.get('@type') != self.SCHEMA_ORG_TYPE:
+            self.add_warning(f"Person in '{self.CODEMETA_PROPERTY}' must have @type '{self.SCHEMA_ORG_TYPE}'")
+            return
+        
+        # Check required field: name
+        if 'name' not in person:
+            self.add_warning(f"Person in '{self.CODEMETA_PROPERTY}' must have 'name' field")
+            return
+        
+        # Validate name is not empty
+        if not person['name'] or not isinstance(person['name'], str):
+            self.add_warning(f"Person 'name' in '{self.CODEMETA_PROPERTY}' must be a non-empty string")
+            return
+        
+        # Warn if no email (maintainer should usually have email)
+        if 'email' not in person:
+            self.add_warning(f"Maintainer '{person['name']}' does not have an email address (recommended)")
+        
+        # Validate email format if present
+        if 'email' in person:
+            email = person['email']
+            if not isinstance(email, str) or '@' not in email:
+                self.add_warning(f"Invalid email format for maintainer '{person['name']}'")
+        
+        # Validate ORCID format if present
+        if '@id' in person:
+            orcid_id = person['@id']
+            if not isinstance(orcid_id, str) or 'orcid.org' not in orcid_id:
+                self.add_warning(f"Invalid ORCID format for maintainer '{person['name']}'")
+        
+
