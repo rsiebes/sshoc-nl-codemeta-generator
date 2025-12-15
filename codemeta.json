@@ -1,0 +1,75 @@
+{
+  "@context": "https://w3id.org/codemeta/3.1",
+  "@type": "SoftwareSourceCode",
+  "name": "amalgame",
+  "description": "Amalgame: a SKOS vocabulary alignment tool",
+  "url": "https://github.com/jrvosse/amalgame",
+  "version": "V1.0.0",
+  "codeRepository": "https://github.com/jrvosse/amalgame",
+  "license": {
+    "@id": "https://spdx.org/licenses/BSD-2-Clause",
+    "name": "BSD-2-Clause"
+  },
+  "keywords": [
+    "amalgame",
+    "skos vocabulary",
+    "skos",
+    "vocabulary",
+    "alignment",
+    "alignment tool",
+    "tool",
+    "vocabulary alignment",
+    "amalgame skos"
+  ],
+  "programmingLanguage": [
+    "Prolog",
+    "JavaScript",
+    "CSS"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Jacco van Ossenbruggen",
+      "givenName": "Jacco",
+      "familyName": "van Ossenbruggen",
+      "@id": "https://orcid.org/0000-0002-7748-4715",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "VU"
+      }
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "name": "Jacco van Ossenbruggen",
+      "givenName": "Jacco",
+      "familyName": "van Ossenbruggen",
+      "@id": "https://orcid.org/0000-0002-7748-4715",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "VU"
+      }
+    }
+  ],
+  "maintainer": {
+    "@type": "Person",
+    "name": "Jacco van Ossenbruggen",
+    "@id": "https://orcid.org/0000-0002-7748-4715",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "VU"
+    }
+  },
+  "dateCreated": "2014-05-10T12:10:52+00:00",
+  "dateModified": "2023-05-16T17:10:22+00:00",
+  "readme": "https://github.com/jrvosse/amalgame#readme",
+  "buildInstructions": "https://github.com/jrvosse/amalgame#installation",
+  "issueTracker": "https://github.com/jrvosse/amalgame/issues",
+  "downloadUrl": "https://github.com/jrvosse/amalgame/archive/refs/tags/V1.0.0.zip",
+  "datePublished": "2018-04-25",
+  "developmentStatus": "https://www.repostatus.org/#unsupported",
+  "softwareRequirements": [
+    "Installation"
+  ]
+}

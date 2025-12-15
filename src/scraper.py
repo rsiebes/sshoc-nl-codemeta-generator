@@ -190,7 +190,7 @@ class GitHubScraper:
                 metadata['homepage'] = homepage
 
     def _extract_languages(self, soup: BeautifulSoup, metadata: Dict) -> None:
-        """Extract programming languages."""
+        """Extract programming languages with percentages."""
         try:
             # Primary language
             lang_elem = soup.find('span', {'itemprop': 'programmingLanguage'})
@@ -204,13 +204,18 @@ class GitHubScraper:
             if lang_list:
                 languages = []
                 for elem in lang_list:
+                    # Get all text content including the percentage
                     lang_text = elem.get_text(strip=True)
-                    if lang_text and len(lang_text) < 30:
+                    if lang_text and len(lang_text) < 50:
+                        # The text should be like "Python 85.5 percent" or just "Python"
                         languages.append(lang_text)
                 if languages:
                     metadata['languages'] = languages
                     if not metadata['language']:
-                        metadata['language'] = languages[0]
+                        # Extract just the language name from the first entry
+                        first_lang = languages[0]
+                        lang_name = first_lang.split()[0] if first_lang else ''
+                        metadata['language'] = lang_name
                         
         except Exception as e:
             print(f"Error extracting languages: {e}")
