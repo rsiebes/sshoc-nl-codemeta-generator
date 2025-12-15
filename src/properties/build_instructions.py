@@ -145,8 +145,10 @@ class BuildInstructionsMetadata(BaseMetadata):
         # Look for section headers
         for section in self.README_SECTIONS:
             # Match markdown headers: ## Installation, # Building, etc.
+            # Also handle emoji and special characters before section names
             patterns = [
                 rf'^#{{1,6}}\s+{section}\s*$',  # ## Installation
+                rf'^#{{1,6}}\s+.*?{section}\s*$',  # ## ⚙️ Installation (with emoji)
                 rf'^#{{1,6}}\s+{section}\s+instructions?\s*$',  # ## Installation Instructions
                 rf'^#{{1,6}}\s+how\s+to\s+{section}\s*$',  # ## How to Install
             ]

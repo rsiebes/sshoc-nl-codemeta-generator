@@ -59,12 +59,13 @@ class GitHubScraper:
 
         raise ValueError(f"Invalid GitHub repository URL: {url}")
 
-    def fetch_page(self, url: str) -> Optional[BeautifulSoup]:
+    def fetch_page(self, url: str, silent: bool = False) -> Optional[BeautifulSoup]:
         """
         Fetch and parse a GitHub page.
 
         Args:
             url: URL to fetch
+            silent: If True, suppress error messages (useful for optional resources)
 
         Returns:
             BeautifulSoup object or None if fetch fails
@@ -74,7 +75,8 @@ class GitHubScraper:
             response.raise_for_status()
             return BeautifulSoup(response.content, 'html.parser')
         except requests.RequestException as e:
-            print(f"Error fetching {url}: {e}")
+            if not silent:
+                print(f"Error fetching {url}: {e}")
             return None
 
     def scrape_repository(self, repo_url: str) -> Dict:
@@ -658,7 +660,7 @@ class GitHubScraper:
                 doc_folders = ['docs', 'doc', 'documentation']
                 for folder in doc_folders:
                     folder_url = f"{repo_url}/tree/{branch}/{folder}"
-                    folder_soup = self.fetch_page(folder_url)
+                    folder_soup = self.fetch_page(folder_url, silent=True)
                     if folder_soup:
                         folder_links = folder_soup.find_all('a', class_='js-navigation-open')
                         for link in folder_links:
