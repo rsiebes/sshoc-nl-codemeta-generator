@@ -287,10 +287,28 @@ class GitHubScraper:
                     tag_match = re.search(r'/releases/tag/([^/]+)', href)
                     if tag_match:
                         tag = tag_match.group(1)
+                        # Try to find release date
+                        date = None
+                        # Method 1: Look for relative-time in broader context
+                        section = link.find_parent('section') or link.find_parent('div', class_=re.compile(r'Box|release'))
+                        if section:
+                            time_elem = section.find('relative-time')
+                            if time_elem and time_elem.get('datetime'):
+                                date = time_elem.get('datetime').split('T')[0]  # Get YYYY-MM-DD
+                        
+                        # Method 2: If no date found, fetch the individual release page
+                        if not date:
+                            release_page_url = urljoin(releases_url, href)
+                            release_soup = self.fetch_page(release_page_url, silent=True)
+                            if release_soup:
+                                time_elem = release_soup.find('relative-time')
+                                if time_elem and time_elem.get('datetime'):
+                                    date = time_elem.get('datetime').split('T')[0]
                         releases.append({
                             'tag': tag,
                             'version': tag,
-                            'url': urljoin(releases_url, href)
+                            'url': urljoin(releases_url, href),
+                            'date': date
                         })
             
             # If no releases, try tags

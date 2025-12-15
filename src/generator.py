@@ -27,6 +27,7 @@ from src.properties.build_instructions import BuildInstructionsMetadata
 from src.properties.issue_tracker import IssueTrackerMetadata
 from src.properties.identifier import IdentifierMetadata
 from src.properties.download_url import DownloadUrlMetadata
+from src.properties.date_published import DatePublishedMetadata
 
 
 class CodemetaGenerator:
@@ -57,6 +58,7 @@ class CodemetaGenerator:
             IssueTrackerMetadata,
             IdentifierMetadata,
             DownloadUrlMetadata,
+            DatePublishedMetadata,
         ]
 
     def generate(self, repo_url: str) -> Dict[str, Any]:
