@@ -149,6 +149,11 @@ class GitHubScraper:
             metadata['date_created'] = dates['date_created']
         if dates['date_modified']:
             metadata['date_modified'] = dates['date_modified']
+        
+        # Fetch contributors with profile enrichment
+        contributors = self._fetch_contributors(owner, repo_name)
+        if contributors:
+            metadata['contributors'] = contributors
 
         return metadata
 
@@ -534,3 +539,46 @@ class GitHubScraper:
             print(f"Error fetching first commit date: {e}")
         
         return None
+
+    def _fetch_contributors(self, owner: str, repo_name: str) -> List[Dict]:
+        """
+        Fetch contributors from GitHub contributors page and enrich with profile data.
+        
+        Args:
+            owner: Repository owner
+            repo_name: Repository name
+            
+        Returns:
+            List of contributor dictionaries with enriched profile data
+        """
+        contributors = []
+        contributors_url = f"https://github.com/{owner}/{repo_name}/graphs/contributors"
+        
+        try:
+            soup = self.fetch_page(contributors_url)
+            if not soup:
+                return contributors
+            
+            # Find contributor usernames from the page
+            # GitHub contributors page shows usernames in links
+            contributor_links = soup.find_all('a', href=re.compile(r'^/[^/]+$'))
+            
+            seen_usernames = set()
+            for link in contributor_links:
+                username = link.get('href', '').strip('/')
+                if username and username not in seen_usernames and len(username) < 40:
+                    seen_usernames.add(username)
+                    # Fetch profile for each contributor
+                    profile = self._fetch_user_profile(username)
+                    if profile:
+                        contributors.append(profile)
+                    
+                    # Limit to first 10 contributors to avoid too many requests
+                    if len(contributors) >= 10:
+                        break
+            
+            return contributors
+            
+        except Exception as e:
+            print(f"Error fetching contributors: {e}")
+            return contributors
