@@ -155,6 +155,11 @@ class ORCIDLookup:
                             # Get detailed info
                             return ORCIDLookup.get_orcid_details(orcid_id)
             
+            # If no results found and email was provided, retry without email
+            # This handles cases where email is not registered in ORCID profile
+            if email and data.get('num-found', 0) == 0:
+                return ORCIDLookup.lookup_orcid(name, email=None)
+            
             return None
             
         except Exception as e:

@@ -542,7 +542,7 @@ class GitHubScraper:
 
     def _fetch_contributors(self, owner: str, repo_name: str) -> List[Dict]:
         """
-        Fetch contributors from GitHub contributors page and enrich with profile data.
+        Fetch contributors from GitHub repository page sidebar and enrich with profile data.
         
         Args:
             owner: Repository owner
@@ -552,20 +552,48 @@ class GitHubScraper:
             List of contributor dictionaries with enriched profile data
         """
         contributors = []
-        contributors_url = f"https://github.com/{owner}/{repo_name}/graphs/contributors"
+        repo_url = f"https://github.com/{owner}/{repo_name}"
         
         try:
-            soup = self.fetch_page(contributors_url)
+            soup = self.fetch_page(repo_url)
             if not soup:
                 return contributors
             
-            # Find contributor usernames from the page
-            # GitHub contributors page shows usernames in links
-            contributor_links = soup.find_all('a', href=re.compile(r'^/[^/]+$'))
+            # Find contributor links from the sidebar
+            # GitHub shows contributors with data-hovercard-type="user" attribute
+            contributor_links = soup.find_all('a', {'data-hovercard-type': 'user'})
+            
+            # Also try to find avatar images with @username alt text
+            if not contributor_links:
+                avatar_imgs = soup.find_all('img', {'alt': re.compile(r'^@\w+')})
+                # Extract usernames from alt text
+                for img in avatar_imgs:
+                    alt = img.get('alt', '')
+                    username = alt.strip('@')
+                    if username:
+                        # Create a fake link structure for consistency
+                        contributor_links.append({'href': f'/{username}'})
             
             seen_usernames = set()
             for link in contributor_links:
-                username = link.get('href', '').strip('/')
+                # Handle both BeautifulSoup Tag and dict
+                if hasattr(link, 'get'):
+                    href = link.get('href', '')
+                else:
+                    href = link.get('href', '') if isinstance(link, dict) else ''
+                
+                # Extract username from href
+                if href and href.startswith('https://github.com/'):
+                    username = href.replace('https://github.com/', '').strip('/')
+                elif href and href.startswith('/'):
+                    username = href.strip('/')
+                else:
+                    continue
+                
+                # Skip if not a simple username (contains /)
+                if '/' in username or '?' in username:
+                    continue
+                
                 if username and username not in seen_usernames and len(username) < 40:
                     seen_usernames.add(username)
                     # Fetch profile for each contributor
