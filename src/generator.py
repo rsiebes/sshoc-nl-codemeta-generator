@@ -30,6 +30,8 @@ from src.properties.download_url import DownloadUrlMetadata
 from src.properties.date_published import DatePublishedMetadata
 from src.properties.development_status import DevelopmentStatusMetadata
 from src.properties.software_requirements import SoftwareRequirementsMetadata
+from src.properties.application_category import ApplicationCategoryMetadata
+from src.properties.application_sub_category import ApplicationSubCategoryMetadata
 
 
 class CodemetaGenerator:
@@ -63,6 +65,8 @@ class CodemetaGenerator:
             DatePublishedMetadata,
             DevelopmentStatusMetadata,
             SoftwareRequirementsMetadata,
+            ApplicationCategoryMetadata,
+            ApplicationSubCategoryMetadata,
         ]
 
     def generate(self, repo_url: str) -> Dict[str, Any]:
