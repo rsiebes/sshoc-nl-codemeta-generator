@@ -61,14 +61,17 @@ class AuthorMetadata(BaseMetadata):
                 authors.extend(self._process_authors(creator))
         
         # Try owner field (GitHub repository owner with profile data)
+        # Skip if owner is an organization (no name field indicates organization)
         if not authors:
             owner = self._get_value('owner')
             if owner:
-                # If owner is a dict (from enhanced scraper), it has profile data
+                # If owner is a dict (from enhanced scraper), check if it's a person
                 if isinstance(owner, dict):
-                    author_obj = self._process_single_author(owner)
-                    if author_obj:
-                        authors.append(author_obj)
+                    # Skip if owner has no name (indicates organization)
+                    if owner.get('name'):
+                        author_obj = self._process_single_author(owner)
+                        if author_obj:
+                            authors.append(author_obj)
                 else:
                     # Fallback to simple string
                     author_obj = self._process_single_author(owner)
