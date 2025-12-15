@@ -121,8 +121,17 @@ class GitHubScraper:
         self._extract_topics(soup, metadata)
         self._extract_license(soup, metadata)
         
-        # Fetch README
-        metadata['readme'] = self._fetch_readme(base_url, owner, repo_name)
+        # Fetch README and content
+        readme_content = self._fetch_readme(base_url, owner, repo_name)
+        if readme_content:
+            metadata['readme_content'] = readme_content
+            # Also construct README URL
+            metadata['readme'] = f"{base_url}#readme"
+        
+        # Fetch file list for build instructions
+        files = self._fetch_file_list(owner, repo_name)
+        if files:
+            metadata['files'] = files
 
         # Fetch releases
         releases = self._fetch_releases(base_url)
@@ -610,3 +619,58 @@ class GitHubScraper:
         except Exception as e:
             print(f"Error fetching contributors: {e}")
             return contributors
+
+    def _fetch_file_list(self, owner: str, repo_name: str) -> Optional[List[str]]:
+        """
+        Fetch list of files in the repository root.
+        
+        Args:
+            owner: Repository owner
+            repo_name: Repository name
+            
+        Returns:
+            List of file paths or None
+        """
+        try:
+            # Try main branch first, then master
+            branches = ['main', 'master']
+            
+            for branch in branches:
+                repo_url = f"https://github.com/{owner}/{repo_name}"
+                tree_url = f"{repo_url}/tree/{branch}"
+                soup = self.fetch_page(tree_url)
+                
+                if not soup:
+                    continue
+                
+                files = []
+                
+                # Find file links in the file list
+                # GitHub uses different selectors, try multiple approaches
+                file_links = soup.find_all('a', class_='js-navigation-open')
+                
+                for link in file_links:
+                    file_path = link.get_text(strip=True)
+                    if file_path:
+                        files.append(file_path)
+                
+                # Also check for files in common documentation folders
+                doc_folders = ['docs', 'doc', 'documentation']
+                for folder in doc_folders:
+                    folder_url = f"{repo_url}/tree/{branch}/{folder}"
+                    folder_soup = self.fetch_page(folder_url)
+                    if folder_soup:
+                        folder_links = folder_soup.find_all('a', class_='js-navigation-open')
+                        for link in folder_links:
+                            file_name = link.get_text(strip=True)
+                            if file_name:
+                                files.append(f"{folder}/{file_name}")
+                
+                if files:
+                    return files
+            
+            return None
+            
+        except Exception as e:
+            print(f"Error fetching file list: {e}")
+            return None
