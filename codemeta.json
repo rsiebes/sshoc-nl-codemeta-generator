@@ -15,8 +15,8 @@
     "skos vocabulary",
     "skos",
     "vocabulary",
-    "alignment",
     "alignment tool",
+    "alignment",
     "tool",
     "vocabulary alignment",
     "amalgame skos"
@@ -50,6 +50,17 @@
         "@type": "Organization",
         "name": "VU"
       }
+    },
+    {
+      "@type": "Person",
+      "name": "Jakob Voß",
+      "givenName": "Jakob",
+      "familyName": "Voß",
+      "@id": "https://orcid.org/0000-0002-7613-4123",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Verbundzentrale des GBV (VZG)"
+      }
     }
   ],
   "maintainer": {
@@ -70,6 +81,18 @@
   "datePublished": "2018-04-25",
   "developmentStatus": "https://www.repostatus.org/#unsupported",
   "softwareRequirements": [
-    "Installation"
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "Prolog",
+      "description": "Prolog runtime environment",
+      "language": "Prolog"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "Node.js",
+      "version": ">= 14.0",
+      "description": "Node.js runtime environment",
+      "language": "JavaScript"
+    }
   ]
 }

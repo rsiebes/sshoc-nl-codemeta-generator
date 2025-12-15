@@ -248,7 +248,7 @@ class SoftwareRequirementsMetadata(BaseMetadata):
         """
         Parse language name and percentage from string.
 
-        Handles: "Python 85.5%", "Python", "Jupyter Notebook"
+        Handles: "Python 85.5%", "Python85.5%", "Python", "Jupyter Notebook"
 
         Args:
             lang_str: Language string with optional percentage
@@ -261,8 +261,15 @@ class SoftwareRequirementsMetadata(BaseMetadata):
 
         lang_str = lang_str.strip()
 
-        # Try to match "Language XX.X%"
+        # Try to match "Language XX.X%" (with space)
         match = re.match(r'^(.+?)\s+(\d+\.\d+)%$', lang_str)
+        if match:
+            lang_name = match.group(1).strip()
+            percentage = float(match.group(2))
+            return lang_name, percentage
+
+        # Try to match "LanguageXX.X%" (without space)
+        match = re.match(r'^(.+?)(\d+\.\d+)%$', lang_str)
         if match:
             lang_name = match.group(1).strip()
             percentage = float(match.group(2))
