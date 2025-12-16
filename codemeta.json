@@ -1,160 +1,181 @@
 {
   "@context": "https://w3id.org/codemeta/3.1",
   "@type": "SoftwareSourceCode",
-  "name": "pytorch",
-  "description": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
-  "url": "https://github.com/pytorch/pytorch",
-  "version": "2.9.1",
-  "codeRepository": "https://github.com/pytorch/pytorch",
+  "name": "go",
+  "description": "The Go programming language",
+  "url": "https://github.com/golang/go",
+  "version": "go1.25.5",
+  "codeRepository": "https://github.com/golang/go",
   "license": {
-    "name": "View"
+    "@id": "https://spdx.org/licenses/BSD-3-Clause",
+    "name": "BSD-3-Clause"
   },
   "keywords": [
-    "python",
-    "machine-learning",
-    "deep-learning",
-    "neural-network",
-    "gpu",
-    "numpy",
-    "autograd",
-    "tensor",
-    "neural",
-    "tensors",
-    "dynamic neural",
-    "dynamic",
-    "neural networks",
-    "networks",
-    "strong gpu"
+    "go",
+    "language",
+    "programming-language",
+    "golang",
+    "programming",
+    "go programming",
+    "go language",
+    "language golang",
+    "programming language",
+    "language programming"
   ],
   "programmingLanguage": [
-    "Python",
-    "C++",
-    "Cuda",
+    "Go",
+    "Assembly",
+    "HTML",
     "C",
-    "Objective-C++",
-    "Cmake"
+    "Shell",
+    "Perl"
   ],
   "author": [
     {
       "@type": "Person",
-      "name": "pytorchmergebot"
+      "name": "Russ Cox",
+      "givenName": "Russ",
+      "familyName": "Cox",
+      "@id": "https://orcid.org/0009-0005-9120-1215",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Google"
+      }
     },
     {
       "@type": "Person",
-      "name": "Edward Z. Yang",
-      "givenName": "Edward",
-      "familyName": "Z. Yang"
+      "name": "Robert Griesemer",
+      "givenName": "Robert",
+      "familyName": "Griesemer",
+      "@id": "https://orcid.org/0009-0001-1887-043X",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Google"
+      }
     },
     {
       "@type": "Person",
-      "name": "Nikita Shulga",
-      "givenName": "Nikita",
-      "familyName": "Shulga",
-      "@id": "https://orcid.org/0000-0003-1046-6974"
+      "name": "Rob Pike",
+      "givenName": "Rob",
+      "familyName": "Pike"
     }
   ],
   "contributor": [
     {
       "@type": "Person",
-      "name": "pytorchmergebot"
-    },
-    {
-      "@type": "Person",
-      "name": "Edward Z. Yang",
-      "givenName": "Edward",
-      "familyName": "Z. Yang"
-    },
-    {
-      "@type": "Person",
-      "name": "Nikita Shulga",
-      "givenName": "Nikita",
-      "familyName": "Shulga",
-      "@id": "https://orcid.org/0000-0003-1046-6974"
-    },
-    {
-      "@type": "Person",
-      "name": "Richard Zou",
-      "givenName": "Richard",
-      "familyName": "Zou",
-      "@id": "https://orcid.org/0000-0002-0168-5967"
-    },
-    {
-      "@type": "Person",
-      "name": "Jerry Zhang",
-      "givenName": "Jerry",
-      "familyName": "Zhang",
-      "@id": "https://orcid.org/0000-0002-4442-5946",
+      "name": "Russ Cox",
+      "givenName": "Russ",
+      "familyName": "Cox",
+      "@id": "https://orcid.org/0009-0005-9120-1215",
       "affiliation": {
         "@type": "Organization",
-        "name": "@facebook"
+        "name": "Google"
       }
     },
     {
       "@type": "Person",
-      "name": "Yuanyuan Chen",
-      "givenName": "Yuanyuan",
-      "familyName": "Chen",
-      "@id": "https://orcid.org/0000-0001-8995-2881",
+      "name": "Robert Griesemer",
+      "givenName": "Robert",
+      "familyName": "Griesemer",
+      "@id": "https://orcid.org/0009-0001-1887-043X",
       "affiliation": {
         "@type": "Organization",
-        "name": "Nanyang Technological University"
+        "name": "Google"
       }
     },
     {
       "@type": "Person",
-      "name": "Soumith Chintala",
-      "givenName": "Soumith",
-      "familyName": "Chintala",
-      "@id": "https://orcid.org/0000-0003-2147-9850",
+      "name": "Rob Pike",
+      "givenName": "Rob",
+      "familyName": "Pike"
+    },
+    {
+      "@type": "Person",
+      "name": "Ian Lance Taylor",
+      "givenName": "Ian",
+      "familyName": "Lance Taylor"
+    },
+    {
+      "@type": "Person",
+      "name": "Brad Fitzpatrick",
+      "givenName": "Brad",
+      "familyName": "Fitzpatrick",
       "affiliation": {
         "@type": "Organization",
-        "name": "Meta"
+        "name": "Tailscale"
       }
     },
     {
       "@type": "Person",
-      "name": "gchanan"
-    },
-    {
-      "@type": "Person",
-      "name": "Animesh Jain",
-      "givenName": "Animesh",
-      "familyName": "Jain",
-      "@id": "https://orcid.org/0000-0001-5419-1170",
+      "name": "Austin Clements",
+      "givenName": "Austin",
+      "familyName": "Clements",
+      "@id": "https://orcid.org/0000-0002-2314-1581",
       "affiliation": {
         "@type": "Organization",
-        "name": "Meta Platforms"
+        "name": "Google"
       }
     },
     {
       "@type": "Person",
-      "name": "peterbell10",
+      "name": "Keith Randall",
+      "givenName": "Keith",
+      "familyName": "Randall",
+      "@id": "https://orcid.org/0009-0000-9075-1737",
       "affiliation": {
         "@type": "Organization",
-        "name": "OpenAI"
+        "name": "Google Inc"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Matthew Dempsky",
+      "givenName": "Matthew",
+      "familyName": "Dempsky"
+    },
+    {
+      "@type": "Person",
+      "name": "cherrymui"
+    },
+    {
+      "@type": "Person",
+      "name": "Josh Bleecher Snyder",
+      "givenName": "Josh",
+      "familyName": "Bleecher Snyder",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Startup"
       }
     }
   ],
   "maintainer": {
     "@type": "Person",
-    "name": "pytorchmergebot"
+    "name": "Russ Cox",
+    "@id": "https://orcid.org/0009-0005-9120-1215",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Google"
+    }
   },
-  "dateCreated": "2016-08-13T05:26:41+00:00",
-  "dateModified": "2025-12-16T00:12:21+00:00",
-  "readme": "https://github.com/pytorch/pytorch#readme",
-  "buildInstructions": "https://github.com/pytorch/pytorch#installation",
-  "issueTracker": "https://github.com/pytorch/pytorch/issues",
-  "downloadUrl": "https://github.com/pytorch/pytorch/archive/refs/tags/v2.9.1.zip",
-  "datePublished": "2025-01-29",
-  "developmentStatus": "https://www.repostatus.org/#active",
+  "dateCreated": "2014-08-19T04:33:40+00:00",
+  "dateModified": "2025-12-10T10:07:56+00:00",
+  "readme": "https://github.com/golang/go#readme",
+  "buildInstructions": "https://github.com/golang/go#install",
+  "issueTracker": "https://github.com/golang/go/issues",
+  "downloadUrl": "https://github.com/golang/go/archive/refs/tags/go1.25.5.zip",
+  "developmentStatus": "https://www.repostatus.org/#wip",
   "softwareRequirements": [
     {
       "@type": "SoftwareSourceCode",
-      "name": "Python",
-      "version": ">= 3.7",
-      "description": "Python runtime environment",
-      "language": "Python"
+      "name": "Go",
+      "version": ">= 1.16",
+      "description": "Go runtime environment",
+      "language": "Go"
     }
   ],
-  "applicationSubCategory": "python, machine-learning, deep-learning, neural-network, gpu"
+  "applicationCategory": "Go",
+  "applicationCategoryUrl": "https://www.wikidata.org/wiki/Q11019",
+  "applicationCategoryQID": "Q11019",
+  "applicationCategoryDescription": "Compiled programming language designed for simplicity and efficiency",
+  "applicationSubCategory": "language, programming-language, golang, the go, system"
 }

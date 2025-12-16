@@ -48,3 +48,8 @@ htmlcov/
 *.log
 .env
 .env.local
+
+# Codemeta cache (generated locally, not committed)
+.codemeta_cache/
+~/.codemeta_cache/
+codemeta.json

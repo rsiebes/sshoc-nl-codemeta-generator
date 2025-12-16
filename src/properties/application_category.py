@@ -1,19 +1,24 @@
 """
 Application Category Property Module
 
-This module detects the applicationCategory property for software by querying
-external vocabularies (Wikidata) to find the most specific software category.
+This module detects the applicationCategory property for software by using:
+1. Curated vocabulary of popular modern software (first priority)
+2. Pre-built Wikidata vocabulary (fallback)
+3. Local cache for previously found categories
+
+Returns both the category label and the Wikidata/reference URL for semantic linking.
 """
 
 import re
-import requests
-from typing import Optional, Tuple
+from typing import Optional, Dict, Any
 from src.base_metadata import BaseMetadata
 from src.vocabulary_cache import get_vocabulary_cache
+from src.wikidata_vocabulary_builder import WikidataVocabularyBuilder
+from src.curated_software_vocabulary import find_in_curated_vocabulary
 
 
 class ApplicationCategoryMetadata(BaseMetadata):
-    """Detects applicationCategory using external vocabulary lookup (Wikidata)."""
+    """Detects applicationCategory using curated and Wikidata vocabularies."""
 
     CODEMETA_PROPERTY = 'applicationCategory'
     CODEMETA_TYPE = 'schema:Text'
@@ -27,12 +32,18 @@ class ApplicationCategoryMetadata(BaseMetadata):
             raw_data: Raw metadata extracted from GitHub repository
         """
         super().__init__(raw_data)
-        self.wikidata_api = "https://www.wikidata.org/w/api.php"
+        self.vocab_builder = WikidataVocabularyBuilder()
+        # Store both the category metadata and the URL separately
+        self.category_metadata = None
 
     def extract(self) -> None:
         """
-        Extract applicationCategory by querying Wikidata for the software type.
-        Uses local caching to avoid repeated API calls.
+        Extract applicationCategory by searching vocabularies in priority order:
+        1. Curated vocabulary (modern software)
+        2. Wikidata vocabulary (well-known software)
+        3. Cache (previously found categories)
+        
+        Stores both the category label and reference URL.
         """
         # Get repository name and description
         repo_name = self._get_value('name') or ''
@@ -41,6 +52,7 @@ class ApplicationCategoryMetadata(BaseMetadata):
 
         if not repo_name:
             self.metadata = None
+            self.category_metadata = None
             return
 
         # Check cache first
@@ -48,20 +60,37 @@ class ApplicationCategoryMetadata(BaseMetadata):
         cached_category = cache.get_category(repo_name)
         if cached_category:
             self.metadata = cached_category
+            # Try to get full metadata from vocabularies
+            if isinstance(cached_category, str):
+                match = find_in_curated_vocabulary(cached_category)
+                if not match:
+                    match = self.vocab_builder.find_matching_category(cached_category)
+                if match:
+                    self.category_metadata = match
             return
 
-        # Try to find the software on Wikidata
-        category = self._query_wikidata(repo_name, description, readme_content)
+        # Try to find the software in the vocabularies
+        category_metadata = self._find_category_from_vocabularies(
+            repo_name, description, readme_content
+        )
         
-        # Cache the result
-        if category:
-            cache.set_category(repo_name, category)
-        
-        self.metadata = category
+        if category_metadata:
+            # Store the label as metadata (for backward compatibility)
+            self.metadata = category_metadata.get('label', '')
+            self.category_metadata = category_metadata
+            
+            # Cache the result
+            cache.set_category(repo_name, self.metadata)
+        else:
+            self.metadata = None
+            self.category_metadata = None
 
-    def _query_wikidata(self, repo_name: str, description: str, readme_content: str) -> Optional[str]:
+    def _find_category_from_vocabularies(
+        self, repo_name: str, description: str, readme_content: str
+    ) -> Optional[Dict[str, str]]:
         """
-        Query Wikidata to find the software category.
+        Find a matching category from curated and Wikidata vocabularies.
+        Tries curated vocabulary first (modern software), then Wikidata.
 
         Args:
             repo_name: Repository name
@@ -69,9 +98,9 @@ class ApplicationCategoryMetadata(BaseMetadata):
             readme_content: README content
 
         Returns:
-            Most specific software category, or None if not found
+            Category metadata dict with label, description, url, qid; or None if not found
         """
-        # Combine search terms from description and README
+        # Build search terms from description and README
         search_terms = self._extract_search_terms(description, readme_content)
 
         # Try searching with different terms
@@ -79,33 +108,15 @@ class ApplicationCategoryMetadata(BaseMetadata):
             if not term or len(term) < 2:
                 continue
 
-            try:
-                # Search for the software on Wikidata
-                params = {
-                    'action': 'query',
-                    'format': 'json',
-                    'list': 'search',
-                    'srsearch': f'{term} software',
-                    'srnamespace': 0,
-                    'srlimit': 5,
-                }
-
-                response = requests.get(self.wikidata_api, params=params, timeout=5)
-                response.raise_for_status()
-                data = response.json()
-
-                if data.get('query', {}).get('search'):
-                    # Get the first result's title
-                    result_title = data['query']['search'][0]['title']
-
-                    # Get the entity data and extract category
-                    category = self._get_entity_category(result_title)
-                    if category:
-                        return category
-
-            except Exception as e:
-                print(f"Warning: Error querying Wikidata for '{term}': {e}")
-                continue
+            # Try curated vocabulary first (modern software)
+            match = find_in_curated_vocabulary(term)
+            if match:
+                return match
+            
+            # Fall back to Wikidata vocabulary
+            match = self.vocab_builder.find_matching_category(term)
+            if match:
+                return match
 
         return None
 
@@ -127,6 +138,15 @@ class ApplicationCategoryMetadata(BaseMetadata):
             # Get first few words
             words = description.split()[:5]
             terms.append(' '.join(words))
+            
+            # Also add individual important words
+            important_words = [
+                w for w in description.split()
+                if len(w) > 4 and w.lower() not in [
+                    'the', 'and', 'for', 'with', 'from', 'that', 'this'
+                ]
+            ]
+            terms.extend(important_words[:3])
 
         # Extract from README first sentence
         if readme_content:
@@ -137,50 +157,7 @@ class ApplicationCategoryMetadata(BaseMetadata):
                 words = sentence.split()[:5]
                 terms.append(' '.join(words))
 
-        return terms
-
-    def _get_entity_category(self, entity_title: str) -> Optional[str]:
-        """
-        Get entity category from Wikidata.
-
-        Args:
-            entity_title: Entity title from Wikidata search
-
-        Returns:
-            Entity category/description, or None if not found
-        """
-        try:
-            params = {
-                'action': 'query',
-                'format': 'json',
-                'titles': entity_title,
-                'prop': 'extracts',
-                'explaintext': True,
-                'exintro': True,
-            }
-
-            response = requests.get(self.wikidata_api, params=params, timeout=5)
-            response.raise_for_status()
-            data = response.json()
-
-            pages = data.get('query', {}).get('pages', {})
-            if pages:
-                page_data = list(pages.values())[0]
-                extract = page_data.get('extract', '')
-
-                # Get the first sentence from the extract
-                if extract:
-                    # Find first sentence
-                    match = re.search(r'([^.!?]*[.!?])', extract)
-                    if match:
-                        first_sentence = match.group(1).strip()
-                        # Clean up and return
-                        return first_sentence
-
-        except Exception as e:
-            self.logger.debug(f"Error getting entity category for '{entity_title}': {e}")
-
-        return None
+        return [t for t in terms if t and len(t) > 2]
 
     def _validate_metadata(self) -> None:
         """Validate the extracted applicationCategory."""
@@ -193,7 +170,25 @@ class ApplicationCategoryMetadata(BaseMetadata):
             self.add_warning(f"Field '{self.CODEMETA_PROPERTY}' is very long ({len(self.metadata)} characters)")
 
     def to_codemeta_dict(self) -> dict:
-        """Convert to Codemeta format."""
-        if self.metadata:
-            return {self.CODEMETA_PROPERTY: self.metadata}
-        return {}
+        """
+        Convert to Codemeta format.
+        
+        Returns both the category label and the reference URL if available.
+        Includes QID for Wikidata entities.
+        """
+        if not self.metadata:
+            return {}
+        
+        # Return the category label as the main property
+        result = {self.CODEMETA_PROPERTY: self.metadata}
+        
+        # If we have full metadata with URL, add it as additional properties
+        if self.category_metadata:
+            if 'url' in self.category_metadata:
+                result['applicationCategoryUrl'] = self.category_metadata['url']
+            if 'qid' in self.category_metadata:
+                result['applicationCategoryQID'] = self.category_metadata['qid']
+            if 'description' in self.category_metadata and self.category_metadata['description']:
+                result['applicationCategoryDescription'] = self.category_metadata['description']
+        
+        return result
