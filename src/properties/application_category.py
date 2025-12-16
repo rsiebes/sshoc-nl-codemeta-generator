@@ -1,162 +1,195 @@
 """
 Application Category Property Module
 
-Handles extraction and validation of the 'applicationCategory' Codemeta property.
-Uses external vocabularies (schema.org, Google Play categories) and NLP techniques
-to detect software application categories from repository metadata.
+This module detects the applicationCategory property for software by querying
+external vocabularies (Wikidata) to find the most specific software category.
 """
 
-from typing import Optional, Tuple, Dict, List, Any
-from src.base_metadata import BaseMetadata
 import re
+import requests
+from typing import Optional, Tuple
+from src.base_metadata import BaseMetadata
+from src.vocabulary_cache import get_vocabulary_cache
 
 
 class ApplicationCategoryMetadata(BaseMetadata):
-    """Handles applicationCategory metadata extraction and validation using NLP and external vocabularies."""
+    """Detects applicationCategory using external vocabulary lookup (Wikidata)."""
 
     CODEMETA_PROPERTY = 'applicationCategory'
     CODEMETA_TYPE = 'schema:Text'
     REQUIRED = False
 
-    # Official schema.org and Google Play categories with keywords and identifiers
-    CATEGORY_KEYWORDS = {
-        'Game': {
-            'keywords': ['game', 'gaming', 'play', 'arcade', 'puzzle', 'strategy', 'rpg', 'action', 'sports'],
-            'identifier': 'https://schema.org/Game',
-            'wikidata': 'Q7889'
-        },
-        'Multimedia': {
-            'keywords': ['audio', 'video', 'media', 'player', 'editor', 'streaming', 'converter', 'ffmpeg', 'codec'],
-            'identifier': 'https://schema.org/MultimediaObject',
-            'wikidata': 'Q6004'
-        },
-        'Productivity': {
-            'keywords': ['productivity', 'office', 'document', 'spreadsheet', 'presentation', 'word processor', 'note', 'todo', 'task'],
-            'identifier': 'https://schema.org/SoftwareApplication',
-            'wikidata': 'Q7292'
-        },
-        'Business': {
-            'keywords': ['business', 'enterprise', 'crm', 'erp', 'accounting', 'invoice', 'billing', 'hr', 'management'],
-            'identifier': 'https://schema.org/SoftwareApplication',
-            'wikidata': 'Q4830453'
-        },
-        'Education': {
-            'keywords': ['education', 'learning', 'course', 'tutorial', 'training', 'school', 'university', 'language', 'math'],
-            'identifier': 'https://schema.org/EducationalApplication',
-            'wikidata': 'Q8434'
-        },
-        'DeveloperApplication': {
-            'keywords': ['library', 'framework', 'sdk', 'api', 'tool', 'compiler', 'debugger', 'ide', 'version control', 'build', 'testing', 'code', 'development'],
-            'identifier': 'https://schema.org/SoftwareApplication',
-            'wikidata': 'Q7397'
-        },
-        'Utilities': {
-            'keywords': ['utility', 'tool', 'file manager', 'compression', 'converter', 'monitor', 'system'],
-            'identifier': 'https://schema.org/SoftwareApplication',
-            'wikidata': 'Q7397'
-        },
-        'Communication': {
-            'keywords': ['communication', 'chat', 'email', 'messaging', 'voip', 'forum', 'social', 'collaboration'],
-            'identifier': 'https://schema.org/SoftwareApplication',
-            'wikidata': 'Q11027'
-        },
-        'DataScienceML': {
-            'keywords': ['machine learning', 'deep learning', 'neural network', 'ai', 'artificial intelligence', 'data science', 'tensorflow', 'pytorch', 'sklearn', 'nlp', 'computer vision'],
-            'identifier': 'https://schema.org/SoftwareApplication',
-            'wikidata': 'Q11019'
-        },
-        'WebApplication': {
-            'keywords': ['web', 'web application', 'web app', 'spa', 'progressive web', 'web-based', 'browser', 'html', 'javascript', 'react', 'vue', 'angular'],
-            'identifier': 'https://schema.org/WebApplication',
-            'wikidata': 'Q7397'
-        },
-        'SystemInfrastructure': {
-            'keywords': ['database', 'cache', 'message queue', 'container', 'kubernetes', 'docker', 'infrastructure', 'devops', 'ci/cd', 'cloud'],
-            'identifier': 'https://schema.org/SoftwareApplication',
-            'wikidata': 'Q7397'
-        },
-        'GraphicsDesign': {
-            'keywords': ['graphics', 'design', 'image editor', 'photo', 'vector', 'cad', '3d', 'animation', 'gimp', 'blender'],
-            'identifier': 'https://schema.org/SoftwareApplication',
-            'wikidata': 'Q11019'
-        },
-    }
+    def __init__(self, raw_data: dict):
+        """
+        Initialize the applicationCategory detector.
+
+        Args:
+            raw_data: Raw metadata extracted from GitHub repository
+        """
+        super().__init__(raw_data)
+        self.wikidata_api = "https://www.wikidata.org/w/api.php"
 
     def extract(self) -> None:
-        """Extract applicationCategory from repository metadata."""
-        # Try to detect category from content
-        result = self._detect_category()
-        if result:
-            self.metadata = result[0]
-            self.confidence = result[1]
-        else:
-            self.metadata = None
-
-    def _detect_category(self) -> Optional[Tuple[str, float]]:
         """
-        Detect application category using NLP and keyword matching.
-
-        Returns:
-            Tuple of (category, confidence) or None if not detected
+        Extract applicationCategory by querying Wikidata for the software type.
+        Uses local caching to avoid repeated API calls.
         """
-        # Collect text from multiple sources
+        # Get repository name and description
+        repo_name = self._get_value('name') or ''
         description = self._get_value('description') or ''
         readme_content = self._get_value('readme_content') or ''
-        topics = self._get_value('topics') or []
-        keywords = self._get_value('keywords') or []
-        programming_languages = self._get_value('programmingLanguage') or []
 
-        # Combine all text
-        all_text = f"{readme_content} {description} {' '.join(topics)} {' '.join(keywords)} {' '.join(programming_languages)}".lower()
+        if not repo_name:
+            self.metadata = None
+            return
 
-        if not all_text.strip():
-            return None
+        # Check cache first
+        cache = get_vocabulary_cache()
+        cached_category = cache.get_category(repo_name)
+        if cached_category:
+            self.metadata = cached_category
+            return
 
-        # Score categories
-        category_scores = {}
-        for category, config in self.CATEGORY_KEYWORDS.items():
-            score = self._score_category(all_text, config['keywords'])
-            if score > 0:
-                category_scores[category] = score
+        # Try to find the software on Wikidata
+        category = self._query_wikidata(repo_name, description, readme_content)
+        
+        # Cache the result
+        if category:
+            cache.set_category(repo_name, category)
+        
+        self.metadata = category
 
-        if not category_scores:
-            return None
+    def _query_wikidata(self, repo_name: str, description: str, readme_content: str) -> Optional[str]:
+        """
+        Query Wikidata to find the software category.
 
-        # Get best match
-        best_category = max(category_scores, key=category_scores.get)
-        confidence = min(category_scores[best_category], 1.0)
+        Args:
+            repo_name: Repository name
+            description: Repository description
+            readme_content: README content
 
-        # Only return if confidence is reasonable
-        if confidence >= 0.25:
-            return best_category, confidence
+        Returns:
+            Most specific software category, or None if not found
+        """
+        # Combine search terms from description and README
+        search_terms = self._extract_search_terms(description, readme_content)
+
+        # Try searching with different terms
+        for term in [repo_name] + search_terms:
+            if not term or len(term) < 2:
+                continue
+
+            try:
+                # Search for the software on Wikidata
+                params = {
+                    'action': 'query',
+                    'format': 'json',
+                    'list': 'search',
+                    'srsearch': f'{term} software',
+                    'srnamespace': 0,
+                    'srlimit': 5,
+                }
+
+                response = requests.get(self.wikidata_api, params=params, timeout=5)
+                response.raise_for_status()
+                data = response.json()
+
+                if data.get('query', {}).get('search'):
+                    # Get the first result's title
+                    result_title = data['query']['search'][0]['title']
+
+                    # Get the entity data and extract category
+                    category = self._get_entity_category(result_title)
+                    if category:
+                        return category
+
+            except Exception as e:
+                print(f"Warning: Error querying Wikidata for '{term}': {e}")
+                continue
 
         return None
 
-    def _score_category(self, text: str, keywords: List[str]) -> float:
+    def _extract_search_terms(self, description: str, readme_content: str) -> list:
         """
-        Score how well a category matches the given text.
+        Extract key search terms from description and README.
 
         Args:
-            text: Combined text from all sources (lowercase)
-            keywords: List of keywords for this category
+            description: Repository description
+            readme_content: README content
 
         Returns:
-            Score between 0 and 1
+            List of search terms
         """
-        if not keywords:
-            return 0.0
+        terms = []
 
-        matches = sum(1 for kw in keywords if kw in text)
-        return matches / len(keywords)
+        # Extract from description
+        if description:
+            # Get first few words
+            words = description.split()[:5]
+            terms.append(' '.join(words))
+
+        # Extract from README first sentence
+        if readme_content:
+            # Find first sentence (up to period, exclamation, or question mark)
+            match = re.search(r'([^.!?]*[.!?])', readme_content)
+            if match:
+                sentence = match.group(1).strip()
+                words = sentence.split()[:5]
+                terms.append(' '.join(words))
+
+        return terms
+
+    def _get_entity_category(self, entity_title: str) -> Optional[str]:
+        """
+        Get entity category from Wikidata.
+
+        Args:
+            entity_title: Entity title from Wikidata search
+
+        Returns:
+            Entity category/description, or None if not found
+        """
+        try:
+            params = {
+                'action': 'query',
+                'format': 'json',
+                'titles': entity_title,
+                'prop': 'extracts',
+                'explaintext': True,
+                'exintro': True,
+            }
+
+            response = requests.get(self.wikidata_api, params=params, timeout=5)
+            response.raise_for_status()
+            data = response.json()
+
+            pages = data.get('query', {}).get('pages', {})
+            if pages:
+                page_data = list(pages.values())[0]
+                extract = page_data.get('extract', '')
+
+                # Get the first sentence from the extract
+                if extract:
+                    # Find first sentence
+                    match = re.search(r'([^.!?]*[.!?])', extract)
+                    if match:
+                        first_sentence = match.group(1).strip()
+                        # Clean up and return
+                        return first_sentence
+
+        except Exception as e:
+            self.logger.debug(f"Error getting entity category for '{entity_title}': {e}")
+
+        return None
 
     def _validate_metadata(self) -> None:
-        """Validate applicationCategory metadata."""
+        """Validate the extracted applicationCategory."""
         if not self.metadata:
             if self.REQUIRED:
                 self.add_error(f"Required field '{self.CODEMETA_PROPERTY}' is missing")
         elif not isinstance(self.metadata, str):
             self.add_error(f"Field '{self.CODEMETA_PROPERTY}' must be a string")
-        elif len(self.metadata) > 200:
+        elif len(self.metadata) > 500:
             self.add_warning(f"Field '{self.CODEMETA_PROPERTY}' is very long ({len(self.metadata)} characters)")
 
     def to_codemeta_dict(self) -> Optional[str]:
