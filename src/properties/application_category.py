@@ -71,6 +71,16 @@ class ApplicationCategoryMetadata(BaseMetadata):
             'url': 'https://www.wikidata.org/wiki/Q1234572',
             'label': 'Software Tool'
         },
+        'Code Editor': {
+            'qid': 'Q1234574',
+            'url': 'https://www.wikidata.org/wiki/Q1234574',
+            'label': 'Code Editor'
+        },
+        'Integrated Development Environment': {
+            'qid': 'Q1234575',
+            'url': 'https://www.wikidata.org/wiki/Q1234575',
+            'label': 'Integrated Development Environment'
+        },
     }
 
     # Keywords for each application type with weights
@@ -154,6 +164,22 @@ class ApplicationCategoryMetadata(BaseMetadata):
                 ('software tool', 2),
                 ('alignment tool', 2),
                 ('tool', 1),
+            ]
+        },
+        'Code Editor': {
+            'keywords': [
+                ('code editor', 2),
+                ('text editor', 2),
+                ('editor', 1),
+            ]
+        },
+        'Integrated Development Environment': {
+            'keywords': [
+                ('integrated development environment', 3),
+                ('ide', 2),
+                ('development environment', 2),
+                ('edit-build-debug', 3),
+                ('debugging', 1),
             ]
         },
     }
