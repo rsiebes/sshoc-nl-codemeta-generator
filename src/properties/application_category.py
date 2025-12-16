@@ -192,8 +192,8 @@ class ApplicationCategoryMetadata(BaseMetadata):
         elif len(self.metadata) > 500:
             self.add_warning(f"Field '{self.CODEMETA_PROPERTY}' is very long ({len(self.metadata)} characters)")
 
-    def to_codemeta_dict(self) -> Optional[str]:
+    def to_codemeta_dict(self) -> dict:
         """Convert to Codemeta format."""
         if self.metadata:
-            return self.metadata
-        return None
+            return {self.CODEMETA_PROPERTY: self.metadata}
+        return {}

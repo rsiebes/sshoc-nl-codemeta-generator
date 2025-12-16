@@ -1,89 +1,160 @@
 {
   "@context": "https://w3id.org/codemeta/3.1",
   "@type": "SoftwareSourceCode",
-  "name": "amalgame",
-  "description": "Amalgame: a SKOS vocabulary alignment tool",
-  "url": "https://github.com/jrvosse/amalgame",
-  "version": "V1.0.0",
-  "codeRepository": "https://github.com/jrvosse/amalgame",
+  "name": "pytorch",
+  "description": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
+  "url": "https://github.com/pytorch/pytorch",
+  "version": "2.9.1",
+  "codeRepository": "https://github.com/pytorch/pytorch",
   "license": {
-    "@id": "https://spdx.org/licenses/BSD-2-Clause",
-    "name": "BSD-2-Clause"
+    "name": "View"
   },
   "keywords": [
-    "amalgame",
-    "skos vocabulary",
-    "skos",
-    "vocabulary",
-    "alignment tool",
-    "alignment",
-    "tool",
-    "vocabulary alignment",
-    "amalgame skos"
+    "python",
+    "machine-learning",
+    "deep-learning",
+    "neural-network",
+    "gpu",
+    "numpy",
+    "autograd",
+    "tensor",
+    "neural",
+    "tensors",
+    "dynamic neural",
+    "dynamic",
+    "neural networks",
+    "networks",
+    "strong gpu"
   ],
   "programmingLanguage": [
-    "Prolog",
-    "JavaScript",
-    "CSS"
+    "Python",
+    "C++",
+    "Cuda",
+    "C",
+    "Objective-C++",
+    "Cmake"
   ],
   "author": [
     {
       "@type": "Person",
-      "name": "Jacco van Ossenbruggen",
-      "givenName": "Jacco",
-      "familyName": "van Ossenbruggen",
-      "@id": "https://orcid.org/0000-0002-7748-4715",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "VU"
-      }
+      "name": "pytorchmergebot"
+    },
+    {
+      "@type": "Person",
+      "name": "Edward Z. Yang",
+      "givenName": "Edward",
+      "familyName": "Z. Yang"
+    },
+    {
+      "@type": "Person",
+      "name": "Nikita Shulga",
+      "givenName": "Nikita",
+      "familyName": "Shulga",
+      "@id": "https://orcid.org/0000-0003-1046-6974"
     }
   ],
   "contributor": [
     {
       "@type": "Person",
-      "name": "Jacco van Ossenbruggen",
-      "givenName": "Jacco",
-      "familyName": "van Ossenbruggen",
-      "@id": "https://orcid.org/0000-0002-7748-4715",
+      "name": "pytorchmergebot"
+    },
+    {
+      "@type": "Person",
+      "name": "Edward Z. Yang",
+      "givenName": "Edward",
+      "familyName": "Z. Yang"
+    },
+    {
+      "@type": "Person",
+      "name": "Nikita Shulga",
+      "givenName": "Nikita",
+      "familyName": "Shulga",
+      "@id": "https://orcid.org/0000-0003-1046-6974"
+    },
+    {
+      "@type": "Person",
+      "name": "Richard Zou",
+      "givenName": "Richard",
+      "familyName": "Zou",
+      "@id": "https://orcid.org/0000-0002-0168-5967"
+    },
+    {
+      "@type": "Person",
+      "name": "Jerry Zhang",
+      "givenName": "Jerry",
+      "familyName": "Zhang",
+      "@id": "https://orcid.org/0000-0002-4442-5946",
       "affiliation": {
         "@type": "Organization",
-        "name": "VU"
+        "name": "@facebook"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Yuanyuan Chen",
+      "givenName": "Yuanyuan",
+      "familyName": "Chen",
+      "@id": "https://orcid.org/0000-0001-8995-2881",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Nanyang Technological University"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Soumith Chintala",
+      "givenName": "Soumith",
+      "familyName": "Chintala",
+      "@id": "https://orcid.org/0000-0003-2147-9850",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Meta"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "gchanan"
+    },
+    {
+      "@type": "Person",
+      "name": "Animesh Jain",
+      "givenName": "Animesh",
+      "familyName": "Jain",
+      "@id": "https://orcid.org/0000-0001-5419-1170",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Meta Platforms"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "peterbell10",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "OpenAI"
       }
     }
   ],
   "maintainer": {
     "@type": "Person",
-    "name": "Jacco van Ossenbruggen",
-    "@id": "https://orcid.org/0000-0002-7748-4715",
-    "affiliation": {
-      "@type": "Organization",
-      "name": "VU"
-    }
+    "name": "pytorchmergebot"
   },
-  "dateCreated": "2014-05-10T12:10:52+00:00",
-  "dateModified": "2023-05-16T17:10:22+00:00",
-  "readme": "https://github.com/jrvosse/amalgame#readme",
-  "buildInstructions": "https://github.com/jrvosse/amalgame#installation",
-  "issueTracker": "https://github.com/jrvosse/amalgame/issues",
-  "downloadUrl": "https://github.com/jrvosse/amalgame/archive/refs/tags/V1.0.0.zip",
-  "datePublished": "2018-04-25",
-  "developmentStatus": "https://www.repostatus.org/#unsupported",
+  "dateCreated": "2016-08-13T05:26:41+00:00",
+  "dateModified": "2025-12-16T00:12:21+00:00",
+  "readme": "https://github.com/pytorch/pytorch#readme",
+  "buildInstructions": "https://github.com/pytorch/pytorch#installation",
+  "issueTracker": "https://github.com/pytorch/pytorch/issues",
+  "downloadUrl": "https://github.com/pytorch/pytorch/archive/refs/tags/v2.9.1.zip",
+  "datePublished": "2025-01-29",
+  "developmentStatus": "https://www.repostatus.org/#active",
   "softwareRequirements": [
     {
       "@type": "SoftwareSourceCode",
-      "name": "Prolog",
-      "description": "Prolog runtime environment",
-      "language": "Prolog"
-    },
-    {
-      "@type": "SoftwareSourceCode",
-      "name": "Node.js",
-      "version": ">= 14.0",
-      "description": "Node.js runtime environment",
-      "language": "JavaScript"
+      "name": "Python",
+      "version": ">= 3.7",
+      "description": "Python runtime environment",
+      "language": "Python"
     }
   ],
-  "applicationCategory": "WebApplication",
-  "applicationSubCategory": "WebApplication"
+  "applicationSubCategory": "python, machine-learning, deep-learning, neural-network, gpu"
 }
