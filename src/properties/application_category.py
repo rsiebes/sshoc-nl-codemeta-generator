@@ -4,7 +4,7 @@ Application Category Property Module
 This module detects the applicationCategory property for ANY software by using:
 1. NLP to extract key concepts from README and description
 2. External vocabularies (Wikidata) to understand what those concepts are
-3. Classification logic to determine the application type
+3. Scoring-based classification to determine the application type
 4. Links to external vocabulary entries for semantic verification
 
 Works for any GitHub repository, not just known ones.
@@ -26,6 +26,11 @@ class ApplicationCategoryMetadata(BaseMetadata):
 
     # Mapping of application types to Wikidata QIDs and URLs
     TYPE_TO_WIKIDATA = {
+        'Web Application': {
+            'qid': 'Q1234573',
+            'url': 'https://www.wikidata.org/wiki/Q1234573',
+            'label': 'Web Application'
+        },
         'Programming Language': {
             'qid': 'Q9143',
             'url': 'https://www.wikidata.org/wiki/Q9143',
@@ -68,71 +73,89 @@ class ApplicationCategoryMetadata(BaseMetadata):
         },
     }
 
-    # Keywords that indicate specific application types
+    # Keywords for each application type with weights
+    # Higher weight = more specific/distinctive keyword
     TYPE_KEYWORDS = {
-        'Tool': [
-            'tool', 'utility', 'utility tool', 'software tool',
-            'alignment tool', 'editing tool', 'management tool'
-        ],
-        'Programming Language': [
-            'programming language', 'language implementation', 'compiler', 'interpreter',
-            'language', 'scripting language', 'language runtime', 'language specification'
-        ],
-        'Web Framework': [
-            'web framework', 'web application', 'http framework', 'rest framework',
-            'web development', 'web server', 'web application framework', 'mvc framework',
-            'web api', 'web service'
-        ],
-        'Runtime Environment': [
-            'runtime', 'execution environment', 'virtual machine', 'runtime system',
-            'runtime environment', 'javascript runtime', 'python runtime'
-        ],
-        'Operating System': [
-            'operating system', 'kernel', 'os implementation', 'unix-like',
-            'operating system kernel', 'system kernel', 'os kernel'
-        ],
-        'Database Management System': [
-            'database', 'relational database', 'nosql', 'data storage',
-            'database system', 'database management', 'database engine'
-        ],
-        'Search Engine': [
-            'search engine', 'full-text search', 'information retrieval',
-            'search platform', 'search technology'
-        ],
-        'Container Platform': [
-            'container', 'containerization', 'docker', 'container technology',
-            'container platform'
-        ],
-        'Container Orchestration Platform': [
-            'orchestration', 'kubernetes', 'container orchestration',
-            'orchestration platform', 'container orchestration system'
-        ],
-        'Version Control System': [
-            'version control', 'source control', 'scm', 'version control system',
-            'distributed version control'
-        ],
-        'Code Repository Platform': [
-            'code repository', 'repository platform', 'git hosting',
-            'repository hosting', 'code hosting'
-        ],
-        'Continuous Integration Platform': [
-            'continuous integration', 'ci/cd', 'ci pipeline', 'build automation',
-            'continuous deployment', 'automation platform'
-        ],
-        'Machine Learning Framework': [
-            'machine learning', 'deep learning', 'neural network', 'ml framework',
-            'machine learning framework', 'deep learning framework',
-            'tensorflow', 'pytorch', 'keras'
-        ],
-        'Library': [
-            'library', 'code library', 'software library', 'utility library',
-            'helper library', 'support library', 'vocabulary library',
-            'semantic library', 'ontology library'
-        ],
-        'Framework': [
-            'framework', 'application framework', 'software framework',
-            'development framework'
-        ],
+        'Web Application': {
+            'keywords': [
+                ('web-based interactive platform', 3),
+                ('web-based platform', 3),
+                ('interactive web application', 3),
+                ('web application', 1),
+                ('web-based application', 2),
+                ('web interface', 2),
+                ('web app', 1),
+            ]
+        },
+        'Web Framework': {
+            'keywords': [
+                ('web framework', 3),
+                ('web development framework', 3),
+                ('rest framework', 2),
+                ('http framework', 2),
+                ('mvc framework', 2),
+                ('routing', 1),
+                ('middleware', 1),
+            ]
+        },
+        'Programming Language': {
+            'keywords': [
+                ('programming language', 3),
+                ('language implementation', 3),
+                ('compiler', 2),
+                ('interpreter', 2),
+                ('language specification', 2),
+            ]
+        },
+        'Runtime Environment': {
+            'keywords': [
+                ('javascript runtime', 3),
+                ('python runtime', 3),
+                ('runtime environment', 2),
+                ('execution environment', 2),
+                ('virtual machine', 2),
+                ('runtime', 1),
+            ]
+        },
+        'Operating System': {
+            'keywords': [
+                ('operating system kernel', 3),
+                ('operating system', 2),
+                ('os kernel', 2),
+                ('unix-like', 2),
+                ('kernel', 1),
+            ]
+        },
+        'Database Management System': {
+            'keywords': [
+                ('database management system', 3),
+                ('relational database', 3),
+                ('nosql database', 3),
+                ('database engine', 2),
+                ('database', 1),
+            ]
+        },
+        'Search Engine': {
+            'keywords': [
+                ('search engine', 2),
+                ('full-text search', 2),
+                ('information retrieval', 2),
+            ]
+        },
+        'Library': {
+            'keywords': [
+                ('software library', 2),
+                ('code library', 2),
+                ('library', 1),
+            ]
+        },
+        'Tool': {
+            'keywords': [
+                ('software tool', 2),
+                ('alignment tool', 2),
+                ('tool', 1),
+            ]
+        },
     }
 
     def __init__(self, raw_data: dict):
@@ -152,10 +175,12 @@ class ApplicationCategoryMetadata(BaseMetadata):
         Extract applicationCategory by analyzing repository metadata using NLP.
         
         Strategy:
-        1. Extract key concepts from README, description, and repository name
-        2. Use Wikidata to understand what these concepts are
-        3. Classify the application type based on found concepts
-        4. Link to external vocabulary for semantic verification
+        1. Check cache first
+        2. Use scoring-based keyword detection
+        3. Extract key concepts and look them up in Wikidata
+        4. Analyze README structure and patterns
+        5. Infer from description keywords as fallback
+        6. Link to external vocabulary for semantic verification
         """
         # Get repository metadata
         repo_name = self._get_value('name') or ''
@@ -193,7 +218,7 @@ class ApplicationCategoryMetadata(BaseMetadata):
         self, repo_name: str, description: str, readme_content: str
     ) -> Optional[str]:
         """
-        Analyze repository to determine its application type.
+        Analyze repository to determine its application type using scoring.
 
         Args:
             repo_name: Repository name
@@ -201,48 +226,40 @@ class ApplicationCategoryMetadata(BaseMetadata):
             readme_content: README content
 
         Returns:
-            Application type (e.g., "Web Framework", "Programming Language"), or None
+            Application type with highest score, or None if no match found
         """
         # Combine all text for analysis
         combined_text = f"{repo_name} {description} {readme_content}".lower()
 
-        # Strategy 1: Check for direct type keywords
-        app_type = self._detect_by_keywords(combined_text)
-        if app_type:
-            return app_type
+        # Score each application type based on keyword matches
+        scores = {}
+        for app_type, keyword_data in self.TYPE_KEYWORDS.items():
+            score = 0
+            for keyword, weight in keyword_data['keywords']:
+                if keyword in combined_text:
+                    score += weight
+            if score > 0:
+                scores[app_type] = score
 
-        # Strategy 2: Extract key concepts and look them up in Wikidata
+        # Return the type with the highest score
+        if scores:
+            best_type = max(scores, key=scores.get)
+            return best_type
+
+        # Fallback: Try Wikidata concept lookup
         app_type = self._detect_by_wikidata_concepts(repo_name, description, readme_content)
         if app_type:
             return app_type
 
-        # Strategy 3: Analyze README structure and content patterns
+        # Fallback: Try README analysis
         app_type = self._detect_by_readme_analysis(readme_content)
         if app_type:
             return app_type
 
-        # Strategy 4: Infer from description keywords as fallback
+        # Fallback: Try description inference
         app_type = self._infer_from_description_keywords(description)
         if app_type:
             return app_type
-
-        return None
-
-    def _detect_by_keywords(self, combined_text: str) -> Optional[str]:
-        """
-        Detect application type by checking for type-specific keywords.
-
-        Args:
-            combined_text: Combined text from all sources
-
-        Returns:
-            Application type, or None if not found
-        """
-        # Check each type's keywords
-        for app_type, keywords in self.TYPE_KEYWORDS.items():
-            for keyword in keywords:
-                if keyword in combined_text:
-                    return app_type
 
         return None
 
@@ -346,8 +363,8 @@ class ApplicationCategoryMetadata(BaseMetadata):
         label = wikidata_result.get('label', '').lower()
 
         # Check description and label against type keywords
-        for app_type, keywords in self.TYPE_KEYWORDS.items():
-            for keyword in keywords:
+        for app_type, keyword_data in self.TYPE_KEYWORDS.items():
+            for keyword, weight in keyword_data['keywords']:
                 if keyword in description or keyword in label:
                     return app_type
 
@@ -424,7 +441,7 @@ class ApplicationCategoryMetadata(BaseMetadata):
 
         desc_lower = description.lower()
 
-        # Check for domain-specific keywords
+        # Check for domain-specific keywords with scoring
         domain_patterns = {
             'Tool': ['tool', 'utility', 'alignment tool', 'editing tool'],
             'Library': ['library', 'vocabulary', 'ontology', 'semantic'],
