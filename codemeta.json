@@ -1,51 +1,100 @@
 {
   "@context": "https://w3id.org/codemeta/3.1",
   "@type": "SoftwareSourceCode",
-  "name": "go",
-  "description": "The Go programming language",
-  "url": "https://github.com/golang/go",
-  "version": "go1.25.5",
-  "codeRepository": "https://github.com/golang/go",
+  "name": "amalgame",
+  "description": "Amalgame: a SKOS vocabulary alignment tool",
+  "url": "https://github.com/jrvosse/amalgame",
+  "version": "V1.0.0",
+  "codeRepository": "https://github.com/jrvosse/amalgame",
   "license": {
-    "@id": "https://spdx.org/licenses/BSD-3-Clause",
-    "name": "BSD-3-Clause"
+    "@id": "https://spdx.org/licenses/BSD-2-Clause",
+    "name": "BSD-2-Clause"
   },
   "keywords": [
-    "go",
-    "language",
-    "programming-language",
-    "golang",
-    "programming",
-    "go programming",
-    "go language",
-    "language golang",
-    "programming language",
-    "language programming"
+    "amalgame",
+    "skos",
+    "skos vocabulary",
+    "vocabulary",
+    "alignment tool",
+    "alignment",
+    "tool",
+    "vocabulary alignment",
+    "amalgame skos"
   ],
   "programmingLanguage": [
-    "Go",
-    "Assembly",
-    "HTML",
-    "C",
-    "Shell",
-    "Perl"
+    "Prolog",
+    "JavaScript",
+    "CSS"
   ],
-  "dateCreated": "2014-08-19T04:33:40+00:00",
-  "dateModified": "2025-12-10T10:07:56+00:00",
-  "readme": "https://github.com/golang/go#readme",
-  "buildInstructions": "https://github.com/golang/go#install",
-  "issueTracker": "https://github.com/golang/go/issues",
-  "downloadUrl": "https://github.com/golang/go/archive/refs/tags/go1.25.5.zip",
-  "developmentStatus": "https://www.repostatus.org/#wip",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Jacco van Ossenbruggen",
+      "givenName": "Jacco",
+      "familyName": "van Ossenbruggen",
+      "@id": "https://orcid.org/0000-0002-7748-4715",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "VU"
+      }
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "name": "Jacco van Ossenbruggen",
+      "givenName": "Jacco",
+      "familyName": "van Ossenbruggen",
+      "@id": "https://orcid.org/0000-0002-7748-4715",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "VU"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Jakob Voß",
+      "givenName": "Jakob",
+      "familyName": "Voß",
+      "@id": "https://orcid.org/0000-0002-7613-4123",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Verbundzentrale des GBV (VZG)"
+      }
+    }
+  ],
+  "maintainer": {
+    "@type": "Person",
+    "name": "Jacco van Ossenbruggen",
+    "@id": "https://orcid.org/0000-0002-7748-4715",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "VU"
+    }
+  },
+  "dateCreated": "2014-05-10T12:10:52+00:00",
+  "dateModified": "2023-05-16T17:10:22+00:00",
+  "readme": "https://github.com/jrvosse/amalgame#readme",
+  "buildInstructions": "https://github.com/jrvosse/amalgame#installation",
+  "issueTracker": "https://github.com/jrvosse/amalgame/issues",
+  "downloadUrl": "https://github.com/jrvosse/amalgame/archive/refs/tags/V1.0.0.zip",
+  "datePublished": "2018-04-25",
+  "developmentStatus": "https://www.repostatus.org/#unsupported",
   "softwareRequirements": [
     {
       "@type": "SoftwareSourceCode",
-      "name": "Go",
-      "version": ">= 1.16",
-      "description": "Go runtime environment",
-      "language": "Go"
+      "name": "Prolog",
+      "description": "Prolog runtime environment",
+      "language": "Prolog"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "Node.js",
+      "version": ">= 14.0",
+      "description": "Node.js runtime environment",
+      "language": "JavaScript"
     }
   ],
-  "applicationCategory": "Go",
-  "applicationSubCategory": "language, programming-language, golang, the go, renee french"
+  "applicationCategory": "Tool",
+  "applicationSubCategory": "amalgame, tool, evidence, correspondence, prolog"
 }

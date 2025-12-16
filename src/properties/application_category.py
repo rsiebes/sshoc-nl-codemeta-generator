@@ -25,6 +25,10 @@ class ApplicationCategoryMetadata(BaseMetadata):
 
     # Keywords that indicate specific application types
     TYPE_KEYWORDS = {
+        'Tool': [
+            'tool', 'utility', 'utility tool', 'software tool',
+            'alignment tool', 'editing tool', 'management tool'
+        ],
         'Programming Language': [
             'programming language', 'language implementation', 'compiler', 'interpreter',
             'language', 'scripting language', 'language runtime', 'language specification'
@@ -77,7 +81,8 @@ class ApplicationCategoryMetadata(BaseMetadata):
         ],
         'Library': [
             'library', 'code library', 'software library', 'utility library',
-            'helper library', 'support library'
+            'helper library', 'support library', 'vocabulary library',
+            'semantic library', 'ontology library'
         ],
         'Framework': [
             'framework', 'application framework', 'software framework',
@@ -161,6 +166,11 @@ class ApplicationCategoryMetadata(BaseMetadata):
 
         # Strategy 3: Analyze README structure and content patterns
         app_type = self._detect_by_readme_analysis(readme_content)
+        if app_type:
+            return app_type
+
+        # Strategy 4: Infer from description keywords as fallback
+        app_type = self._infer_from_description_keywords(description)
         if app_type:
             return app_type
 
@@ -287,6 +297,35 @@ class ApplicationCategoryMetadata(BaseMetadata):
         for app_type, keywords in self.TYPE_KEYWORDS.items():
             for keyword in keywords:
                 if keyword in description or keyword in label:
+                    return app_type
+
+        return None
+
+    def _infer_from_description_keywords(self, description: str) -> Optional[str]:
+        """
+        Infer application type from description keywords as a fallback.
+
+        Args:
+            description: Repository description
+
+        Returns:
+            Application type, or None if not determinable
+        """
+        if not description:
+            return None
+
+        desc_lower = description.lower()
+
+        # Check for domain-specific keywords
+        domain_patterns = {
+            'Tool': ['tool', 'utility', 'alignment tool', 'editing tool'],
+            'Library': ['library', 'vocabulary', 'ontology', 'semantic'],
+            'Framework': ['framework', 'platform'],
+        }
+
+        for app_type, keywords in domain_patterns.items():
+            for keyword in keywords:
+                if keyword in desc_lower:
                     return app_type
 
         return None
