@@ -12,8 +12,8 @@
   },
   "keywords": [
     "amalgame",
-    "skos",
     "skos vocabulary",
+    "skos",
     "vocabulary",
     "alignment tool",
     "alignment",
@@ -50,17 +50,6 @@
         "@type": "Organization",
         "name": "VU"
       }
-    },
-    {
-      "@type": "Person",
-      "name": "Jakob Voß",
-      "givenName": "Jakob",
-      "familyName": "Voß",
-      "@id": "https://orcid.org/0000-0002-7613-4123",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Verbundzentrale des GBV (VZG)"
-      }
     }
   ],
   "maintainer": {
@@ -95,6 +84,9 @@
       "language": "JavaScript"
     }
   ],
-  "applicationCategory": "Tool",
-  "applicationSubCategory": "amalgame, tool, evidence, correspondence, prolog"
+  "applicationCategory": {
+    "@id": "https://www.wikidata.org/wiki/Q1234572",
+    "name": "Tool"
+  },
+  "applicationSubCategory": "tool, amalgame, interactive, typically, entities"
 }

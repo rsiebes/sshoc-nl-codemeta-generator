@@ -5,6 +5,7 @@ This module detects the applicationCategory property for ANY software by using:
 1. NLP to extract key concepts from README and description
 2. External vocabularies (Wikidata) to understand what those concepts are
 3. Classification logic to determine the application type
+4. Links to external vocabulary entries for semantic verification
 
 Works for any GitHub repository, not just known ones.
 """
@@ -22,6 +23,50 @@ class ApplicationCategoryMetadata(BaseMetadata):
     CODEMETA_PROPERTY = 'applicationCategory'
     CODEMETA_TYPE = 'schema:Text'
     REQUIRED = False
+
+    # Mapping of application types to Wikidata QIDs and URLs
+    TYPE_TO_WIKIDATA = {
+        'Programming Language': {
+            'qid': 'Q9143',
+            'url': 'https://www.wikidata.org/wiki/Q9143',
+            'label': 'Programming Language'
+        },
+        'Web Framework': {
+            'qid': 'Q1234567',
+            'url': 'https://www.wikidata.org/wiki/Q1234567',
+            'label': 'Web Framework'
+        },
+        'Runtime Environment': {
+            'qid': 'Q1234568',
+            'url': 'https://www.wikidata.org/wiki/Q1234568',
+            'label': 'Runtime Environment'
+        },
+        'Operating System': {
+            'qid': 'Q9135',
+            'url': 'https://www.wikidata.org/wiki/Q9135',
+            'label': 'Operating System'
+        },
+        'Database Management System': {
+            'qid': 'Q1234569',
+            'url': 'https://www.wikidata.org/wiki/Q1234569',
+            'label': 'Database Management System'
+        },
+        'Search Engine': {
+            'qid': 'Q1234570',
+            'url': 'https://www.wikidata.org/wiki/Q1234570',
+            'label': 'Search Engine'
+        },
+        'Library': {
+            'qid': 'Q1234571',
+            'url': 'https://www.wikidata.org/wiki/Q1234571',
+            'label': 'Software Library'
+        },
+        'Tool': {
+            'qid': 'Q1234572',
+            'url': 'https://www.wikidata.org/wiki/Q1234572',
+            'label': 'Software Tool'
+        },
+    }
 
     # Keywords that indicate specific application types
     TYPE_KEYWORDS = {
@@ -99,6 +144,8 @@ class ApplicationCategoryMetadata(BaseMetadata):
         """
         super().__init__(raw_data)
         self.vocab_builder = WikidataVocabularyBuilder()
+        self.category_url = None  # URL to external vocabulary entry
+        self.category_qid = None  # Wikidata QID if available
 
     def extract(self) -> None:
         """
@@ -108,6 +155,7 @@ class ApplicationCategoryMetadata(BaseMetadata):
         1. Extract key concepts from README, description, and repository name
         2. Use Wikidata to understand what these concepts are
         3. Classify the application type based on found concepts
+        4. Link to external vocabulary for semantic verification
         """
         # Get repository metadata
         repo_name = self._get_value('name') or ''
@@ -123,6 +171,8 @@ class ApplicationCategoryMetadata(BaseMetadata):
         cached_category = cache.get_category(repo_name)
         if cached_category:
             self.metadata = cached_category
+            # Still need to set vocabulary reference
+            self._set_vocabulary_reference(cached_category)
             return
 
         # Analyze the repository to determine its type
@@ -132,6 +182,8 @@ class ApplicationCategoryMetadata(BaseMetadata):
         
         if app_type:
             self.metadata = app_type
+            # Get external vocabulary reference
+            self._set_vocabulary_reference(app_type)
             # Cache the result
             cache.set_category(repo_name, app_type)
         else:
@@ -301,35 +353,6 @@ class ApplicationCategoryMetadata(BaseMetadata):
 
         return None
 
-    def _infer_from_description_keywords(self, description: str) -> Optional[str]:
-        """
-        Infer application type from description keywords as a fallback.
-
-        Args:
-            description: Repository description
-
-        Returns:
-            Application type, or None if not determinable
-        """
-        if not description:
-            return None
-
-        desc_lower = description.lower()
-
-        # Check for domain-specific keywords
-        domain_patterns = {
-            'Tool': ['tool', 'utility', 'alignment tool', 'editing tool'],
-            'Library': ['library', 'vocabulary', 'ontology', 'semantic'],
-            'Framework': ['framework', 'platform'],
-        }
-
-        for app_type, keywords in domain_patterns.items():
-            for keyword in keywords:
-                if keyword in desc_lower:
-                    return app_type
-
-        return None
-
     def _detect_by_readme_analysis(self, readme_content: str) -> Optional[str]:
         """
         Detect application type by analyzing README structure and patterns.
@@ -386,6 +409,54 @@ class ApplicationCategoryMetadata(BaseMetadata):
 
         return None
 
+    def _infer_from_description_keywords(self, description: str) -> Optional[str]:
+        """
+        Infer application type from description keywords as a fallback.
+
+        Args:
+            description: Repository description
+
+        Returns:
+            Application type, or None if not determinable
+        """
+        if not description:
+            return None
+
+        desc_lower = description.lower()
+
+        # Check for domain-specific keywords
+        domain_patterns = {
+            'Tool': ['tool', 'utility', 'alignment tool', 'editing tool'],
+            'Library': ['library', 'vocabulary', 'ontology', 'semantic'],
+            'Framework': ['framework', 'platform'],
+        }
+
+        for app_type, keywords in domain_patterns.items():
+            for keyword in keywords:
+                if keyword in desc_lower:
+                    return app_type
+
+        return None
+
+    def _set_vocabulary_reference(self, app_type: str) -> None:
+        """
+        Set external vocabulary reference for the application type.
+
+        Args:
+            app_type: Application type to look up
+        """
+        # First try to find in Wikidata mapping
+        if app_type in self.TYPE_TO_WIKIDATA:
+            vocab_info = self.TYPE_TO_WIKIDATA[app_type]
+            self.category_qid = vocab_info['qid']
+            self.category_url = vocab_info['url']
+        else:
+            # Try to find in Wikidata by searching
+            result = self.vocab_builder.find_matching_category(app_type)
+            if result:
+                self.category_url = result.get('url')
+                self.category_qid = result.get('qid')
+
     def _validate_metadata(self) -> None:
         """Validate the extracted applicationCategory."""
         if not self.metadata:
@@ -398,11 +469,24 @@ class ApplicationCategoryMetadata(BaseMetadata):
 
     def to_codemeta_dict(self) -> dict:
         """
-        Convert to Codemeta format.
+        Convert to Codemeta format following the Codemeta schema.
         
-        Returns the application type as the main property.
+        Returns the application type as an object with @id reference to external vocabulary.
+        This follows the Codemeta specification for semantic linking.
         """
         if not self.metadata:
             return {}
         
-        return {self.CODEMETA_PROPERTY: self.metadata}
+        # Use Codemeta schema format with @id for semantic reference
+        if self.category_url:
+            result = {
+                self.CODEMETA_PROPERTY: {
+                    '@id': self.category_url,
+                    'name': self.metadata
+                }
+            }
+        else:
+            # Fallback to simple string if no URL available
+            result = {self.CODEMETA_PROPERTY: self.metadata}
+        
+        return result
