@@ -50,17 +50,6 @@
         "@type": "Organization",
         "name": "VU"
       }
-    },
-    {
-      "@type": "Person",
-      "name": "Jakob Voß",
-      "givenName": "Jakob",
-      "familyName": "Voß",
-      "@id": "https://orcid.org/0000-0002-7613-4123",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Verbundzentrale des GBV (VZG)"
-      }
     }
   ],
   "maintainer": {
@@ -94,5 +83,7 @@
       "description": "Node.js runtime environment",
       "language": "JavaScript"
     }
-  ]
+  ],
+  "applicationCategory": "WebApplication",
+  "applicationSubCategory": "WebApplication"
 }

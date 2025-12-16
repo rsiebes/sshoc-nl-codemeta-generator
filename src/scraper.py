@@ -706,3 +706,49 @@ class GitHubScraper:
         except Exception as e:
             print(f"Error fetching file list: {e}")
             return None
+
+
+    def scrape_repository_fast(self, repo_url: str) -> Dict:
+        """
+        Extract minimal metadata for fast category detection.
+        Only fetches README, description, and topics - skips contributors, commits, etc.
+
+        Args:
+            repo_url: GitHub repository URL
+
+        Returns:
+            Dictionary containing essential metadata for category detection
+        """
+        owner, repo_name = self.parse_repo_url(repo_url)
+        base_url = f"https://github.com/{owner}/{repo_name}"
+
+        metadata = {
+            'owner': owner,
+            'name': repo_name,
+            'repo_name': repo_name,
+            'code_repository': base_url,
+            'url': base_url,
+            'description': None,
+            'repo_description': None,
+            'topics': [],
+            'keywords': [],
+            'languages': [],
+            'readme_content': None,
+        }
+
+        # Fetch main repository page (fast)
+        soup = self.fetch_page(base_url)
+        if not soup:
+            return metadata
+
+        # Extract only essential info for category detection
+        self._extract_basic_info(soup, metadata)
+        self._extract_languages(soup, metadata)
+        self._extract_topics(soup, metadata)
+        
+        # Fetch README content (most important for category detection)
+        readme_content = self._fetch_readme(base_url, owner, repo_name)
+        if readme_content:
+            metadata['readme_content'] = readme_content
+
+        return metadata
