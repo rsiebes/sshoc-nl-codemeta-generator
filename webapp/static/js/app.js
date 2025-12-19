@@ -99,13 +99,6 @@ function stopGeneration() {
 
 async function generateCodemeta(githubUrl) {
     return new Promise((resolve, reject) => {
-        // Create EventSource for Server-Sent Events
-        const eventSource = new EventSource(`/api/generate?github_url=${encodeURIComponent(githubUrl)}`);
-        
-        // This is a workaround for POST with EventSource
-        // We'll use fetch with POST instead
-        eventSource.close();
-        
         // Use fetch with streaming
         fetch('/api/generate', {
             method: 'POST',
@@ -195,58 +188,190 @@ function displayJsonResult(codemeta) {
 function buildEditForm(codemeta) {
     editForm.innerHTML = '';
     
-    // Create form fields for common metadata properties
-    const fields = [
-        { key: 'name', label: 'Name', type: 'text' },
-        { key: 'description', label: 'Description', type: 'textarea' },
-        { key: 'version', label: 'Version', type: 'text' },
-        { key: 'license', label: 'License', type: 'text' },
-        { key: 'author', label: 'Author', type: 'text' },
-        { key: 'codeRepository', label: 'Code Repository', type: 'text' },
-        { key: 'applicationCategory', label: 'Application Category', type: 'text' },
-        { key: 'programmingLanguage', label: 'Programming Language', type: 'text' },
-        { key: 'keywords', label: 'Keywords (comma-separated)', type: 'textarea' },
-    ];
+    // Recursively build form fields for all properties
+    buildFormFields(codemeta, editForm, '');
+}
+
+function buildFormFields(obj, container, prefix) {
+    // Sort keys to show them in a consistent order
+    const keys = Object.keys(obj).sort();
     
-    fields.forEach(field => {
-        const formGroup = document.createElement('div');
-        formGroup.className = 'form-group';
+    keys.forEach(key => {
+        const value = obj[key];
+        const fieldPath = prefix ? `${prefix}.${key}` : key;
         
-        const label = document.createElement('label');
-        label.textContent = field.label;
-        label.htmlFor = `edit-${field.key}`;
+        if (value === null || value === undefined) {
+            // Skip null/undefined values
+            return;
+        }
         
-        let input;
-        if (field.type === 'textarea') {
-            input = document.createElement('textarea');
+        if (Array.isArray(value)) {
+            // Handle arrays
+            buildArrayField(key, value, container, fieldPath);
+        } else if (typeof value === 'object') {
+            // Handle nested objects
+            buildNestedObjectField(key, value, container, fieldPath);
         } else {
-            input = document.createElement('input');
-            input.type = field.type;
+            // Handle primitive values (string, number, boolean)
+            buildPrimitiveField(key, value, container, fieldPath);
         }
-        
-        input.id = `edit-${field.key}`;
-        input.name = field.key;
-        
-        // Set value from codemeta
-        const value = getNestedValue(codemeta, field.key);
-        if (value !== undefined && value !== null) {
-            if (Array.isArray(value)) {
-                input.value = value.map(v => typeof v === 'object' ? v.name || JSON.stringify(v) : v).join(', ');
-            } else if (typeof value === 'object') {
-                input.value = value.name || JSON.stringify(value);
-            } else {
-                input.value = value;
-            }
-        }
-        
-        formGroup.appendChild(label);
-        formGroup.appendChild(input);
-        editForm.appendChild(formGroup);
     });
 }
 
-function getNestedValue(obj, key) {
-    return obj[key];
+function buildPrimitiveField(key, value, container, fieldPath) {
+    const formGroup = document.createElement('div');
+    formGroup.className = 'form-group';
+    
+    const label = document.createElement('label');
+    label.textContent = formatLabel(key);
+    label.htmlFor = `edit-${fieldPath}`;
+    
+    let input;
+    if (typeof value === 'string' && value.length > 100) {
+        input = document.createElement('textarea');
+        input.rows = 3;
+    } else {
+        input = document.createElement('input');
+        input.type = typeof value === 'number' ? 'number' : 'text';
+    }
+    
+    input.id = `edit-${fieldPath}`;
+    input.name = fieldPath;
+    input.value = value;
+    
+    formGroup.appendChild(label);
+    formGroup.appendChild(input);
+    container.appendChild(formGroup);
+}
+
+function buildArrayField(key, array, container, fieldPath) {
+    const formGroup = document.createElement('div');
+    formGroup.className = 'form-group array-field';
+    
+    const label = document.createElement('label');
+    label.textContent = formatLabel(key);
+    
+    const arrayContainer = document.createElement('div');
+    arrayContainer.className = 'array-container';
+    
+    // Check if array contains objects or primitives
+    if (array.length > 0 && typeof array[0] === 'object' && array[0] !== null) {
+        // Array of objects - create nested fields for each
+        array.forEach((item, index) => {
+            const itemContainer = document.createElement('div');
+            itemContainer.className = 'nested-object';
+            
+            const itemHeader = document.createElement('div');
+            itemHeader.className = 'nested-header';
+            itemHeader.textContent = `${formatLabel(key)} #${index + 1}`;
+            itemContainer.appendChild(itemHeader);
+            
+            buildFormFields(item, itemContainer, `${fieldPath}[${index}]`);
+            arrayContainer.appendChild(itemContainer);
+        });
+    } else {
+        // Array of primitives - create a textarea with comma-separated values
+        const textarea = document.createElement('textarea');
+        textarea.id = `edit-${fieldPath}`;
+        textarea.name = fieldPath;
+        textarea.rows = 2;
+        textarea.value = array.join(', ');
+        textarea.placeholder = 'Comma-separated values';
+        arrayContainer.appendChild(textarea);
+    }
+    
+    formGroup.appendChild(label);
+    formGroup.appendChild(arrayContainer);
+    container.appendChild(formGroup);
+}
+
+function buildNestedObjectField(key, obj, container, fieldPath) {
+    const formGroup = document.createElement('div');
+    formGroup.className = 'form-group nested-field';
+    
+    const nestedContainer = document.createElement('div');
+    nestedContainer.className = 'nested-object';
+    
+    const nestedHeader = document.createElement('div');
+    nestedHeader.className = 'nested-header';
+    nestedHeader.textContent = formatLabel(key);
+    nestedContainer.appendChild(nestedHeader);
+    
+    // Recursively build fields for nested object
+    buildFormFields(obj, nestedContainer, fieldPath);
+    
+    formGroup.appendChild(nestedContainer);
+    container.appendChild(formGroup);
+}
+
+function formatLabel(key) {
+    // Convert camelCase or snake_case to readable label
+    return key
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/_/g, ' ')
+        .replace(/^./, str => str.toUpperCase())
+        .trim();
+}
+
+function collectFormData() {
+    // Collect all form inputs and reconstruct the codemeta object
+    const formData = new FormData(editForm);
+    const result = {};
+    
+    formData.forEach((value, key) => {
+        setNestedValue(result, key, value);
+    });
+    
+    return result;
+}
+
+function setNestedValue(obj, path, value) {
+    const parts = path.split('.');
+    let current = obj;
+    
+    for (let i = 0; i < parts.length - 1; i++) {
+        const part = parts[i];
+        
+        // Handle array indices
+        const arrayMatch = part.match(/^(.+)\[(\d+)\]$/);
+        if (arrayMatch) {
+            const arrayKey = arrayMatch[1];
+            const index = parseInt(arrayMatch[2]);
+            
+            if (!current[arrayKey]) {
+                current[arrayKey] = [];
+            }
+            if (!current[arrayKey][index]) {
+                current[arrayKey][index] = {};
+            }
+            current = current[arrayKey][index];
+        } else {
+            if (!current[part]) {
+                current[part] = {};
+            }
+            current = current[part];
+        }
+    }
+    
+    const lastPart = parts[parts.length - 1];
+    const arrayMatch = lastPart.match(/^(.+)\[(\d+)\]$/);
+    
+    if (arrayMatch) {
+        const arrayKey = arrayMatch[1];
+        const index = parseInt(arrayMatch[2]);
+        
+        if (!current[arrayKey]) {
+            current[arrayKey] = [];
+        }
+        current[arrayKey][index] = value;
+    } else {
+        // Check if value looks like a comma-separated list
+        if (typeof value === 'string' && value.includes(',')) {
+            current[lastPart] = value.split(',').map(v => v.trim()).filter(v => v);
+        } else {
+            current[lastPart] = value;
+        }
+    }
 }
 
 // Clear terminal button
@@ -283,18 +408,8 @@ document.getElementById('download-json').addEventListener('click', () => {
 document.getElementById('save-edits').addEventListener('click', () => {
     if (!currentCodemetaData) return;
     
-    // Collect form data
-    const formData = new FormData(editForm);
-    const updatedCodemeta = { ...currentCodemetaData };
-    
-    formData.forEach((value, key) => {
-        if (key === 'keywords' || key === 'programmingLanguage') {
-            // Split comma-separated values
-            updatedCodemeta[key] = value.split(',').map(v => v.trim()).filter(v => v);
-        } else {
-            updatedCodemeta[key] = value;
-        }
-    });
+    // Collect form data and reconstruct the object
+    const updatedCodemeta = collectFormData();
     
     // Update current data and JSON display
     currentCodemetaData = updatedCodemeta;

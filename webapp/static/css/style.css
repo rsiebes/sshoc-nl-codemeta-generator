@@ -326,7 +326,7 @@ header p {
 }
 
 .form-group textarea {
-    min-height: 80px;
+    min-height: 60px;
     resize: vertical;
 }
 
@@ -334,6 +334,54 @@ header p {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
+}
+
+/* Nested Objects and Arrays */
+.nested-object {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.nested-header {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.array-container {
+    margin-top: 0.5rem;
+}
+
+.array-field .nested-object {
+    background-color: #f8fafc;
+    border-left: 3px solid var(--primary-color);
+}
+
+.nested-field {
+    margin-left: 0;
+}
+
+.nested-field .nested-object {
+    background-color: #fefce8;
+    border-left: 3px solid #eab308;
+}
+
+/* Nested levels styling */
+.nested-object .nested-object {
+    background-color: #f0f9ff;
+    border-left: 3px solid #0ea5e9;
+}
+
+.nested-object .nested-object .nested-object {
+    background-color: #fdf2f8;
+    border-left: 3px solid #ec4899;
 }
 
 /* Footer */
