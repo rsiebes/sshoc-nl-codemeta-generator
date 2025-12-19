@@ -384,6 +384,84 @@ header p {
     border-left: 3px solid #ec4899;
 }
 
+/* Remove Button */
+.btn-remove {
+    float: right;
+    padding: 0.375rem 0.75rem;
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-remove:hover {
+    background-color: #fecaca;
+    border-color: #dc2626;
+}
+
+/* Undo Notification */
+.undo-notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background-color: var(--text-primary);
+    color: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.undo-notification span {
+    font-weight: 500;
+}
+
+.btn-undo {
+    padding: 0.5rem 1rem;
+    background-color: white;
+    color: var(--text-primary);
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-undo:hover {
+    background-color: var(--bg-color);
+}
+
+/* Array Item */
+.array-item {
+    position: relative;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.array-item.removing {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
 /* Footer */
 footer {
     text-align: center;

@@ -2,6 +2,7 @@
 // Main JavaScript logic for handling UI interactions and API calls
 
 let currentCodemetaData = null;
+let undoStack = [];
 
 // DOM Elements
 const githubUrlInput = document.getElementById('github-url');
@@ -89,6 +90,7 @@ function startGeneration() {
     terminalOutput.innerHTML = '';
     jsonOutput.textContent = '';
     editForm.innerHTML = '';
+    undoStack = [];
 }
 
 function stopGeneration() {
@@ -247,6 +249,7 @@ function buildPrimitiveField(key, value, container, fieldPath) {
 function buildArrayField(key, array, container, fieldPath) {
     const formGroup = document.createElement('div');
     formGroup.className = 'form-group array-field';
+    formGroup.dataset.fieldPath = fieldPath;
     
     const label = document.createElement('label');
     label.textContent = formatLabel(key);
@@ -259,13 +262,26 @@ function buildArrayField(key, array, container, fieldPath) {
         // Array of objects - create nested fields for each
         array.forEach((item, index) => {
             const itemContainer = document.createElement('div');
-            itemContainer.className = 'nested-object';
+            itemContainer.className = 'nested-object array-item';
+            itemContainer.dataset.arrayPath = fieldPath;
+            itemContainer.dataset.arrayIndex = index;
             
             const itemHeader = document.createElement('div');
             itemHeader.className = 'nested-header';
-            itemHeader.textContent = `${formatLabel(key)} #${index + 1}`;
-            itemContainer.appendChild(itemHeader);
             
+            const headerText = document.createElement('span');
+            headerText.textContent = `${formatLabel(key)} #${index + 1}`;
+            itemHeader.appendChild(headerText);
+            
+            // Add remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn-remove';
+            removeBtn.textContent = '🗑️ Remove';
+            removeBtn.onclick = () => removeArrayItem(itemContainer, fieldPath, index);
+            itemHeader.appendChild(removeBtn);
+            
+            itemContainer.appendChild(itemHeader);
             buildFormFields(item, itemContainer, `${fieldPath}[${index}]`);
             arrayContainer.appendChild(itemContainer);
         });
@@ -311,6 +327,91 @@ function formatLabel(key) {
         .replace(/_/g, ' ')
         .replace(/^./, str => str.toUpperCase())
         .trim();
+}
+
+function removeArrayItem(itemContainer, arrayPath, index) {
+    // Save current state to undo stack
+    saveToUndoStack();
+    
+    // Remove the item from the DOM
+    itemContainer.style.opacity = '0.5';
+    itemContainer.style.transition = 'opacity 0.3s';
+    
+    setTimeout(() => {
+        itemContainer.remove();
+        
+        // Update the data and rebuild JSON
+        updateCurrentDataAndJson();
+        
+        // Show undo notification
+        showUndoNotification();
+    }, 300);
+}
+
+function saveToUndoStack() {
+    // Save a deep copy of the current state
+    undoStack.push(JSON.parse(JSON.stringify(currentCodemetaData)));
+    
+    // Limit undo stack to 10 items
+    if (undoStack.length > 10) {
+        undoStack.shift();
+    }
+}
+
+function undo() {
+    if (undoStack.length === 0) {
+        alert('Nothing to undo');
+        return;
+    }
+    
+    // Restore previous state
+    const previousState = undoStack.pop();
+    currentCodemetaData = previousState;
+    
+    // Rebuild the form and JSON display
+    buildEditForm(currentCodemetaData);
+    displayJsonResult(currentCodemetaData);
+    
+    // Hide undo notification
+    hideUndoNotification();
+}
+
+function showUndoNotification() {
+    let notification = document.getElementById('undo-notification');
+    
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.id = 'undo-notification';
+        notification.className = 'undo-notification';
+        notification.innerHTML = `
+            <span>Item removed</span>
+            <button onclick="undo()" class="btn-undo">↶ Undo</button>
+        `;
+        document.body.appendChild(notification);
+    }
+    
+    notification.style.display = 'flex';
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        hideUndoNotification();
+    }, 5000);
+}
+
+function hideUndoNotification() {
+    const notification = document.getElementById('undo-notification');
+    if (notification) {
+        notification.style.display = 'none';
+    }
+}
+
+// Make undo function globally accessible
+window.undo = undo;
+
+function updateCurrentDataAndJson() {
+    // Collect form data and update current codemeta
+    currentCodemetaData = collectFormData();
+    displayJsonResult(currentCodemetaData);
 }
 
 function collectFormData() {
@@ -407,6 +508,9 @@ document.getElementById('download-json').addEventListener('click', () => {
 // Save edits button
 document.getElementById('save-edits').addEventListener('click', () => {
     if (!currentCodemetaData) return;
+    
+    // Save current state to undo stack
+    saveToUndoStack();
     
     // Collect form data and reconstruct the object
     const updatedCodemeta = collectFormData();
