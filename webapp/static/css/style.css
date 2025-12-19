@@ -429,6 +429,63 @@ header p {
     background-color: #d97706;
 }
 
+/* Add Container */
+.add-container {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: #dbeafe;
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.btn-add {
+    padding: 0.5rem 1rem;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-add:hover {
+    background-color: #2563eb;
+}
+
+/* ORCID Lookup */
+.orcid-lookup-container {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.btn-orcid-lookup {
+    padding: 0.375rem 0.75rem;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-orcid-lookup:hover {
+    background-color: #059669;
+}
+
+.orcid-status {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
 /* Array Item */
 .array-item {
     position: relative;

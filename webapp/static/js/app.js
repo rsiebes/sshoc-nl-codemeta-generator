@@ -274,6 +274,19 @@ function buildArrayField(key, array, container, fieldPath) {
         undoContainer.appendChild(undoBtn);
         arrayContainer.appendChild(undoContainer);
         
+        // Add "Add" button container
+        const addContainer = document.createElement('div');
+        addContainer.className = 'add-container';
+        
+        const addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'btn-add';
+        addBtn.innerHTML = '+ Add ' + formatLabel(key).slice(0, -1); // Remove trailing 's' for singular
+        addBtn.onclick = () => addArrayItem(arrayContainer, fieldPath, key, array[0]);
+        
+        addContainer.appendChild(addBtn);
+        arrayContainer.appendChild(addContainer);
+        
         // Array of objects - create nested fields for each
         array.forEach((item, index) => {
             const itemContainer = document.createElement('div');
@@ -298,6 +311,12 @@ function buildArrayField(key, array, container, fieldPath) {
             
             itemContainer.appendChild(itemHeader);
             buildFormFields(item, itemContainer, `${fieldPath}[${index}]`);
+            
+            // Add ORCID lookup button if this is a contributor/author field
+            if (key.toLowerCase().includes('contributor') || key.toLowerCase().includes('author')) {
+                addOrcidLookupButton(itemContainer, fieldPath, index);
+            }
+            
             arrayContainer.appendChild(itemContainer);
         });
     } else {
@@ -342,6 +361,197 @@ function formatLabel(key) {
         .replace(/_/g, ' ')
         .replace(/^./, str => str.toUpperCase())
         .trim();
+}
+
+function addArrayItem(arrayContainer, arrayPath, arrayKey, templateItem) {
+    // Get the current number of items in this array
+    const existingItems = arrayContainer.querySelectorAll('.array-item');
+    const newIndex = existingItems.length;
+    
+    // Create a new item container
+    const itemContainer = document.createElement('div');
+    itemContainer.className = 'nested-object array-item';
+    itemContainer.dataset.arrayPath = arrayPath;
+    itemContainer.dataset.arrayIndex = newIndex;
+    
+    const itemHeader = document.createElement('div');
+    itemHeader.className = 'nested-header';
+    
+    const headerText = document.createElement('span');
+    headerText.textContent = `${formatLabel(arrayKey)} #${newIndex + 1}`;
+    itemHeader.appendChild(headerText);
+    
+    // Add remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn-remove';
+    removeBtn.textContent = '🗑️ Remove';
+    removeBtn.onclick = () => removeArrayItem(itemContainer, arrayPath, newIndex);
+    itemHeader.appendChild(removeBtn);
+    
+    itemContainer.appendChild(itemHeader);
+    
+    // Create empty fields based on the template item structure
+    const emptyItem = createEmptyItem(templateItem);
+    buildFormFields(emptyItem, itemContainer, `${arrayPath}[${newIndex}]`);
+    
+    // Add ORCID lookup button if this is a contributor/author field
+    if (arrayKey.toLowerCase().includes('contributor') || arrayKey.toLowerCase().includes('author')) {
+        addOrcidLookupButton(itemContainer, arrayPath, newIndex);
+    }
+    
+    // Append to array container
+    arrayContainer.appendChild(itemContainer);
+    
+    // Scroll to the new item
+    itemContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function createEmptyItem(templateItem) {
+    // Create an empty object with the same structure as the template
+    const emptyItem = {};
+    
+    for (const key in templateItem) {
+        const value = templateItem[key];
+        
+        if (Array.isArray(value)) {
+            emptyItem[key] = [];
+        } else if (typeof value === 'object' && value !== null) {
+            emptyItem[key] = createEmptyItem(value);
+        } else if (typeof value === 'number') {
+            emptyItem[key] = 0;
+        } else {
+            emptyItem[key] = '';
+        }
+    }
+    
+    return emptyItem;
+}
+
+function addOrcidLookupButton(itemContainer, arrayPath, index) {
+    // Find the @id field (ORCID URL)
+    const idInput = itemContainer.querySelector(`input[name="${arrayPath}[${index}].@id"]`);
+    
+    if (!idInput) return;
+    
+    // Create lookup button container
+    const lookupContainer = document.createElement('div');
+    lookupContainer.className = 'orcid-lookup-container';
+    lookupContainer.style.marginTop = '0.5rem';
+    
+    const lookupBtn = document.createElement('button');
+    lookupBtn.type = 'button';
+    lookupBtn.className = 'btn-orcid-lookup';
+    lookupBtn.innerHTML = '🔍 Auto-fill from ORCID';
+    lookupBtn.onclick = () => lookupOrcidData(itemContainer, arrayPath, index, idInput.value);
+    
+    const statusSpan = document.createElement('span');
+    statusSpan.className = 'orcid-status';
+    statusSpan.style.marginLeft = '1rem';
+    
+    lookupContainer.appendChild(lookupBtn);
+    lookupContainer.appendChild(statusSpan);
+    
+    // Insert after the @id field's form group
+    const idFormGroup = idInput.closest('.form-group');
+    if (idFormGroup && idFormGroup.nextSibling) {
+        idFormGroup.parentNode.insertBefore(lookupContainer, idFormGroup.nextSibling);
+    } else if (idFormGroup) {
+        idFormGroup.parentNode.appendChild(lookupContainer);
+    }
+}
+
+async function lookupOrcidData(itemContainer, arrayPath, index, orcidUrl) {
+    const statusSpan = itemContainer.querySelector('.orcid-status');
+    
+    if (!orcidUrl || !orcidUrl.includes('orcid.org')) {
+        statusSpan.textContent = '⚠️ Please enter a valid ORCID URL';
+        statusSpan.style.color = '#ef4444';
+        return;
+    }
+    
+    // Extract ORCID ID from URL
+    const orcidMatch = orcidUrl.match(/\d{4}-\d{4}-\d{4}-\d{3}[0-9X]/);
+    if (!orcidMatch) {
+        statusSpan.textContent = '⚠️ Invalid ORCID format';
+        statusSpan.style.color = '#ef4444';
+        return;
+    }
+    
+    const orcidId = orcidMatch[0];
+    statusSpan.textContent = '⏳ Looking up ORCID data...';
+    statusSpan.style.color = '#64748b';
+    
+    try {
+        // Call ORCID public API
+        const response = await fetch(`https://pub.orcid.org/v3.0/${orcidId}/person`, {
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('ORCID lookup failed');
+        }
+        
+        const data = await response.json();
+        
+        // Extract name
+        if (data.name) {
+            const givenNames = data.name['given-names']?.value || '';
+            const familyName = data.name['family-name']?.value || '';
+            const fullName = `${givenNames} ${familyName}`.trim();
+            
+            const nameInput = itemContainer.querySelector(`input[name="${arrayPath}[${index}].name"]`);
+            if (nameInput && fullName) {
+                nameInput.value = fullName;
+            }
+        }
+        
+        // Extract email (if public)
+        if (data.emails && data.emails.email && data.emails.email.length > 0) {
+            const email = data.emails.email[0].email;
+            const emailInput = itemContainer.querySelector(`input[name="${arrayPath}[${index}].email"]`);
+            if (emailInput && email) {
+                emailInput.value = email;
+            }
+        }
+        
+        // Extract affiliation (most recent employment or education)
+        if (data['employment-summary'] || data['education-summary']) {
+            const employments = data['employment-summary'] || [];
+            const educations = data['education-summary'] || [];
+            
+            let affiliationName = '';
+            
+            if (employments.length > 0) {
+                affiliationName = employments[0]['organization']?.name || '';
+            } else if (educations.length > 0) {
+                affiliationName = educations[0]['organization']?.name || '';
+            }
+            
+            if (affiliationName) {
+                // Try to find affiliation name field
+                const affiliationInput = itemContainer.querySelector(`input[name="${arrayPath}[${index}].affiliation.name"]`);
+                if (affiliationInput) {
+                    affiliationInput.value = affiliationName;
+                }
+            }
+        }
+        
+        statusSpan.textContent = '✅ Data loaded from ORCID';
+        statusSpan.style.color = '#10b981';
+        
+        // Clear status after 3 seconds
+        setTimeout(() => {
+            statusSpan.textContent = '';
+        }, 3000);
+        
+    } catch (error) {
+        console.error('ORCID lookup error:', error);
+        statusSpan.textContent = '❌ Failed to fetch ORCID data';
+        statusSpan.style.color = '#ef4444';
+    }
 }
 
 function removeArrayItem(itemContainer, arrayPath, index) {
