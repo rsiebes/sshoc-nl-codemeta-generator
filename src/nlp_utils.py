@@ -161,12 +161,12 @@ class KeywordExtractor:
         # Tokenize
         tokens = word_tokenize(text)
         
-        # Filter tokens
+        # Filter tokens - allow hyphens and underscores for compound keywords
         filtered_tokens = [
             token for token in tokens
             if token not in self.stop_words
             and len(token) > 2
-            and token.isalnum()
+            and (token.isalnum() or '-' in token or '_' in token)
         ]
         
         # Count frequencies

@@ -11,21 +11,88 @@
     "name": "MIT"
   },
   "keywords": [
-    "macos",
-    "wallpaper",
-    "ai",
-    "statusbar",
-    "widgets",
-    "pomodoro-timer",
-    "shortcuts",
-    "sonoma",
-    "dark-mode",
-    "widgetkit",
-    "notch",
-    "audioplayer",
-    "ai-agents",
-    "swiftui",
-    "swift5"
+    {
+      "@type": "DefinedTerm",
+      "name": "macos",
+      "url": "https://www.wikidata.org/wiki/Q14116",
+      "description": "operating system for Apple computers"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "wallpaper",
+      "url": "https://www.wikidata.org/wiki/Q3031192",
+      "description": "magazine"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "ai",
+      "url": "https://www.wikidata.org/wiki/Q11660",
+      "description": "field of computer science that develops and studies software enabling machines to exhibit intelligent behavior"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "statusbar"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "widgets",
+      "url": "https://www.wikidata.org/wiki/Q21679156",
+      "description": "MediaWiki extension that allows adding free-type widgets to the wiki by editing pages in Widget namespace"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "pomodoro-timer"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "shortcuts",
+      "url": "https://www.wikidata.org/wiki/Q30602204",
+      "description": "iOS scripting application"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "sonoma",
+      "url": "https://www.wikidata.org/wiki/Q83593353",
+      "description": "ship built in 2001"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "dark-mode",
+      "url": "https://www.wikidata.org/wiki/Q6545942",
+      "description": "color scheme that uses light-colored text and icons on a dark background"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "widgetkit"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "notch",
+      "url": "https://www.wikidata.org/wiki/Q20820497",
+      "description": "deliberately introduced defect in a planar material whereby stress is concentrated"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "audioplayer",
+      "url": "https://www.wikidata.org/wiki/Q758895",
+      "description": "software which could play audio files or audio data"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "ai-agents",
+      "url": "https://www.wikidata.org/wiki/Q1142726",
+      "description": "agent that perceives its environment, takes actions autonomously in order to achieve goals, and may improve its performance with learning or acquiring knowledge"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "swiftui",
+      "url": "https://www.wikidata.org/wiki/Q97455771",
+      "description": "software framework developed by Apple"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "swift5"
+    }
   ],
   "programmingLanguage": [
     "Swift",
