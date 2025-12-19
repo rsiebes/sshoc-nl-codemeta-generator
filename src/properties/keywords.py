@@ -5,19 +5,35 @@ Handles extraction and validation of the 'keywords' Codemeta property.
 Keywords are tags or terms that describe the software for discoverability.
 
 This module uses NLP techniques to extract meaningful keywords from repository
-content including description, README, and existing topics.
+content including description, README, and existing topics. Each keyword is
+enhanced with Wikidata URLs for semantic linking, with context-aware
+disambiguation for homonyms.
+
+Output format:
+{
+  "keywords": [
+    {
+      "@type": "DefinedTerm",
+      "name": "dark-mode",
+      "url": "https://www.wikidata.org/wiki/Q6545942",
+      "description": "Feature that reduces eye strain..."
+    },
+    ...
+  ]
+}
 """
 
 from typing import Dict, Any, Optional, List, Union
 from src.base_metadata import BaseMetadata
 from src.nlp_utils import KeywordExtractor
+from src.wikidata_keyword_resolver import WikidataKeywordResolver
 
 
 class KeywordsMetadata(BaseMetadata):
-    """Handles keywords metadata extraction and validation using NLP."""
+    """Handles keywords metadata extraction with Wikidata semantic linking."""
 
     CODEMETA_PROPERTY = 'keywords'
-    CODEMETA_TYPE = 'schema:Text'
+    CODEMETA_TYPE = 'schema:DefinedTerm'
     REQUIRED = False
 
     def __init__(self, raw_data: Dict[str, Any]):
@@ -29,6 +45,32 @@ class KeywordsMetadata(BaseMetadata):
         """
         super().__init__(raw_data)
         self.keyword_extractor = KeywordExtractor()
+        self.wikidata_resolver = WikidataKeywordResolver()
+        self.context = self._build_context()
+
+    def _build_context(self) -> str:
+        """
+        Build context from repository data for disambiguation.
+
+        Returns:
+            String containing repository context
+        """
+        parts = []
+        
+        if self.raw_data.get('description'):
+            parts.append(self.raw_data['description'])
+        
+        if self.raw_data.get('readme_content'):
+            # Take first 500 chars of README
+            readme = self.raw_data['readme_content'][:500]
+            parts.append(readme)
+        
+        if self.raw_data.get('topics'):
+            topics = self.raw_data.get('topics', [])
+            if isinstance(topics, list):
+                parts.extend(topics)
+        
+        return ' '.join(parts)
 
     def extract(self) -> Dict[str, Any]:
         """
@@ -40,7 +82,7 @@ class KeywordsMetadata(BaseMetadata):
         3. Existing topics/tags (medium priority)
         4. Repository name (low priority)
 
-        Uses TF-IDF and frequency analysis to identify meaningful keywords.
+        Each keyword is enhanced with Wikidata URL and description.
 
         Returns:
             Dictionary with 'keywords' key containing array of keywords
@@ -72,12 +114,57 @@ class KeywordsMetadata(BaseMetadata):
         # Limit to reasonable number of keywords
         final_keywords = all_keywords[:15]
         
-        if final_keywords:
-            self.metadata[self.CODEMETA_PROPERTY] = final_keywords
+        # Enhance keywords with Wikidata information
+        enhanced_keywords = []
+        for keyword in final_keywords:
+            enhanced = self._enhance_keyword(keyword)
+            enhanced_keywords.append(enhanced)
+        
+        if enhanced_keywords:
+            self.metadata[self.CODEMETA_PROPERTY] = enhanced_keywords
             return self.metadata
         else:
             self.add_warning(f"'{self.CODEMETA_PROPERTY}' could not be processed")
             return {}
+
+    def _enhance_keyword(self, keyword: str) -> Dict[str, Any]:
+        """
+        Enhance a keyword with Wikidata information.
+
+        Args:
+            keyword: The keyword to enhance
+
+        Returns:
+            Dictionary with keyword and optional Wikidata reference
+        """
+        # Try to resolve keyword to Wikidata entity
+        wikidata_info = self.wikidata_resolver.resolve_keyword(keyword, self.context)
+        
+        if wikidata_info:
+            # Validate that the resolved entity is appropriate
+            description = wikidata_info.get('description', '').lower()
+            
+            # Skip if description indicates it's not software-related
+            non_software_keywords = ['family name', 'given name', 'television', 'tv series', 
+                                    'film', 'movie', 'person', 'people', 'place', 'city', 
+                                    'country', 'band', 'music', 'song', 'album', 'animal skin',
+                                    'astronomical object', 'video game']
+            
+            is_non_software = any(kw in description for kw in non_software_keywords)
+            
+            if not is_non_software:
+                return {
+                    "@type": "DefinedTerm",
+                    "name": keyword,
+                    "url": wikidata_info['url'],
+                    "description": wikidata_info.get('description', '')
+                }
+        
+        # Return keyword without Wikidata reference if resolution failed or was non-software
+        return {
+            "@type": "DefinedTerm",
+            "name": keyword
+        }
 
     def _get_existing_keywords(self) -> List[str]:
         """
@@ -184,12 +271,20 @@ class KeywordsMetadata(BaseMetadata):
         
         # Validate each keyword
         for i, keyword in enumerate(keywords):
-            if not isinstance(keyword, str):
-                self.add_error(f"Keyword {i+1} must be a string, got {type(keyword).__name__}")
-            elif not keyword.strip():
-                self.add_error(f"Keyword {i+1} is empty")
-            elif len(keyword) > 100:
-                self.add_warning(f"Keyword {i+1} is very long ({len(keyword)} characters)")
+            if isinstance(keyword, dict):
+                # Check DefinedTerm structure
+                if '@type' not in keyword or keyword['@type'] != 'DefinedTerm':
+                    self.add_warning(f"Keyword {i+1} should have @type='DefinedTerm'")
+                if 'name' not in keyword:
+                    self.add_error(f"Keyword {i+1} must have 'name' field")
+            elif isinstance(keyword, str):
+                # Legacy string format
+                if not keyword.strip():
+                    self.add_error(f"Keyword {i+1} is empty")
+                elif len(keyword) > 100:
+                    self.add_warning(f"Keyword {i+1} is very long ({len(keyword)} characters)")
+            else:
+                self.add_error(f"Keyword {i+1} must be string or DefinedTerm object, got {type(keyword).__name__}")
         
         # Check for reasonable number of keywords
         if len(keywords) > 50:
@@ -199,10 +294,10 @@ class KeywordsMetadata(BaseMetadata):
 
     def to_codemeta_dict(self) -> Dict[str, Any]:
         """
-        Convert to Codemeta format.
+        Convert to Codemeta format with DefinedTerm objects.
 
         Returns:
-            Dictionary in Codemeta format
+            Dictionary in Codemeta format with keywords as DefinedTerm objects
         """
         if not self.metadata:
             return {}
