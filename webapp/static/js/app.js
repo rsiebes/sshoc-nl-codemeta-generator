@@ -281,7 +281,7 @@ function buildArrayField(key, array, container, fieldPath) {
         const addBtn = document.createElement('button');
         addBtn.type = 'button';
         addBtn.className = 'btn-add';
-        addBtn.innerHTML = '+ Add ' + formatLabel(key).slice(0, -1); // Remove trailing 's' for singular
+        addBtn.innerHTML = '+ Add ' + singularize(formatLabel(key));
         addBtn.onclick = () => addArrayItem(arrayContainer, fieldPath, key, array[0]);
         
         addContainer.appendChild(addBtn);
@@ -361,6 +361,26 @@ function formatLabel(key) {
         .replace(/_/g, ' ')
         .replace(/^./, str => str.toUpperCase())
         .trim();
+}
+
+function singularize(word) {
+    // Convert plural words to singular
+    // Handle common English pluralization rules
+    
+    if (word.endsWith('ies')) {
+        // categories -> category, properties -> property
+        return word.slice(0, -3) + 'y';
+    } else if (word.endsWith('sses') || word.endsWith('xes') || word.endsWith('ches') || word.endsWith('shes')) {
+        // classes -> class, boxes -> box, branches -> branch, dishes -> dish
+        return word.slice(0, -2);
+    } else if (word.endsWith('s') && !word.endsWith('ss')) {
+        // contributors -> contributor, authors -> author, keywords -> keyword
+        // but not: class -> clas
+        return word.slice(0, -1);
+    }
+    
+    // Already singular or unknown pattern
+    return word;
 }
 
 function addArrayItem(arrayContainer, arrayPath, arrayKey, templateItem) {
