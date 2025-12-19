@@ -20,12 +20,30 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 
 # Optional Playwright import for JavaScript rendering
-try:
-    from playwright.async_api import async_playwright
-    PLAYWRIGHT_AVAILABLE = True
-except ImportError:
-    PLAYWRIGHT_AVAILABLE = False
-    async_playwright = None
+async_playwright = None
+
+def _check_playwright_available():
+    """Check if Playwright is available at runtime."""
+    try:
+        from playwright.async_api import async_playwright as pw
+        return True, pw
+    except ImportError:
+        return False, None
+
+def _get_playwright():
+    """Get Playwright async_playwright function if available."""
+    global async_playwright
+    if async_playwright is None:
+        available, async_playwright = _check_playwright_available()
+    return async_playwright
+
+def is_playwright_available():
+    """Check if Playwright is available (dynamic check)."""
+    try:
+        import playwright
+        return True
+    except ImportError:
+        return False
 
 
 class GitHubContributorsScraper:
@@ -374,7 +392,7 @@ class GitHubContributorsScraper:
         Returns:
             BeautifulSoup object or None if fetch fails
         """
-        if not PLAYWRIGHT_AVAILABLE:
+        if not is_playwright_available():
             print(f"Warning: Playwright not available, falling back to regular HTTP request", file=sys.stderr)
             sys.stderr.flush()
             return self._fetch_page(url, use_playwright=False)
@@ -401,11 +419,12 @@ class GitHubContributorsScraper:
         Returns:
             HTML content or None if fetch fails
         """
-        if not PLAYWRIGHT_AVAILABLE:
+        if not is_playwright_available():
             return None
         
         try:
-            async with async_playwright() as p:
+            from playwright.async_api import async_playwright as pw
+            async with pw() as p:
                 browser = await p.chromium.launch(headless=True)
                 page = await browser.new_page()
                 
