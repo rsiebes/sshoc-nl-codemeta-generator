@@ -503,60 +503,79 @@ async function lookupOrcidData(itemContainer, arrayPath, index, orcidUrl) {
     statusSpan.style.color = '#64748b';
     
     try {
-        // Call ORCID public API
-        const response = await fetch(`https://pub.orcid.org/v3.0/${orcidId}/person`, {
+        // Call ORCID public API for person data (name, email)
+        const personResponse = await fetch(`https://pub.orcid.org/v3.0/${orcidId}/person`, {
             headers: {
                 'Accept': 'application/json'
             }
         });
         
-        if (!response.ok) {
+        if (!personResponse.ok) {
             throw new Error('ORCID lookup failed');
         }
         
-        const data = await response.json();
+        const personData = await personResponse.json();
+        console.log('ORCID person data:', personData);
         
         // Extract name
-        if (data.name) {
-            const givenNames = data.name['given-names']?.value || '';
-            const familyName = data.name['family-name']?.value || '';
+        if (personData.name) {
+            const givenNames = personData.name['given-names']?.value || '';
+            const familyName = personData.name['family-name']?.value || '';
             const fullName = `${givenNames} ${familyName}`.trim();
             
             const nameInput = itemContainer.querySelector(`input[name="${arrayPath}[${index}].name"]`);
             if (nameInput && fullName) {
                 nameInput.value = fullName;
+                console.log('Set name:', fullName);
             }
         }
         
         // Extract email (if public)
-        if (data.emails && data.emails.email && data.emails.email.length > 0) {
-            const email = data.emails.email[0].email;
+        if (personData.emails && personData.emails.email && personData.emails.email.length > 0) {
+            const emailData = personData.emails.email[0];
+            const email = emailData.email || emailData.value;
             const emailInput = itemContainer.querySelector(`input[name="${arrayPath}[${index}].email"]`);
             if (emailInput && email) {
                 emailInput.value = email;
+                console.log('Set email:', email);
             }
         }
         
-        // Extract affiliation (most recent employment or education)
-        if (data['employment-summary'] || data['education-summary']) {
-            const employments = data['employment-summary'] || [];
-            const educations = data['education-summary'] || [];
+        // Fetch employments separately
+        try {
+            const employmentsResponse = await fetch(`https://pub.orcid.org/v3.0/${orcidId}/employments`, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
             
-            let affiliationName = '';
-            
-            if (employments.length > 0) {
-                affiliationName = employments[0]['organization']?.name || '';
-            } else if (educations.length > 0) {
-                affiliationName = educations[0]['organization']?.name || '';
-            }
-            
-            if (affiliationName) {
-                // Try to find affiliation name field
-                const affiliationInput = itemContainer.querySelector(`input[name="${arrayPath}[${index}].affiliation.name"]`);
-                if (affiliationInput) {
-                    affiliationInput.value = affiliationName;
+            if (employmentsResponse.ok) {
+                const employmentsData = await employmentsResponse.json();
+                console.log('ORCID employments data:', employmentsData);
+                
+                // Extract most recent employment
+                const affiliationGroups = employmentsData['affiliation-group'] || [];
+                if (affiliationGroups.length > 0) {
+                    const firstGroup = affiliationGroups[0];
+                    const summaries = firstGroup.summaries || [];
+                    if (summaries.length > 0) {
+                        const employmentSummary = summaries[0]['employment-summary'];
+                        const affiliationName = employmentSummary?.organization?.name || '';
+                        
+                        if (affiliationName) {
+                            // Try to find affiliation name field
+                            const affiliationInput = itemContainer.querySelector(`input[name="${arrayPath}[${index}].affiliation.name"]`);
+                            if (affiliationInput) {
+                                affiliationInput.value = affiliationName;
+                                console.log('Set affiliation:', affiliationName);
+                            }
+                        }
+                    }
                 }
             }
+        } catch (empError) {
+            console.log('Could not fetch employments:', empError);
+            // Continue even if employments fail
         }
         
         statusSpan.textContent = '✅ Data loaded from ORCID';
