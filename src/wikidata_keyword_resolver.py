@@ -140,27 +140,43 @@ class WikidataKeywordResolver:
 
     def resolve_keyword(self, keyword: str, context: str = "") -> Optional[Dict[str, str]]:
         """
-        Resolve a keyword to a Wikidata entity using robust, generic disambiguation.
+        Resolve a keyword to a Wikidata entity.
+        
+        IMPORTANT: Keywords are NEVER split. For example:
+        - "machine-learning" → search for "machine learning" (normalized)
+        - "bayesian_inference" → search for "bayesian inference" (normalized)
+        - "creative commons" → search for "creative commons" (as-is)
+        
+        Never split into individual words like "machine" or "learning".
 
         Strategy:
-        1. Check critical keywords mapping first (for common software terms)
-        2. Fall back to Wikidata search with aggressive filtering
+        1. Normalize separators (dash/underscore → space)
+        2. Check critical keywords mapping
+        3. Search Wikidata with software context
+        4. Filter and score results for software relevance
+        5. Only return if confidence is high
 
         Args:
-            keyword: The keyword to resolve
+            keyword: The keyword to resolve (preserved as-is, never split)
             context: Repository context (description, README) for disambiguation
 
         Returns:
             Dictionary with 'qid', 'url', 'label', and 'description' or None
         """
+        # Normalize separators for Wikidata search (but preserve original keyword)
+        # "machine-learning" → "machine learning"
+        # "bayesian_inference" → "bayesian inference"
+        normalized_keyword = keyword.replace('-', ' ').replace('_', ' ')
+        normalized_keyword = ' '.join(normalized_keyword.split())  # Remove extra spaces
+        
         # Check cache first
-        cache_key = f"{keyword}:{context[:100]}"
+        cache_key = f"{normalized_keyword}:{context[:100]}"
         if cache_key in self._cache:
             return self._cache[cache_key]
 
         # Try critical keywords mapping first (for common software terms)
-        if is_critical_keyword(keyword):
-            critical_mapping = get_critical_keyword_mapping(keyword)
+        if is_critical_keyword(normalized_keyword):
+            critical_mapping = get_critical_keyword_mapping(normalized_keyword)
             if critical_mapping:
                 result = {
                     'qid': critical_mapping['qid'],
@@ -171,8 +187,8 @@ class WikidataKeywordResolver:
                 self._cache[cache_key] = result
                 return result
         
-        # Fall back to Wikidata search
-        result = self._search_wikidata(keyword, context)
+        # Search Wikidata with normalized keyword
+        result = self._search_wikidata(normalized_keyword, context)
         
         if result:
             self._cache[cache_key] = result

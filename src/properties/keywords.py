@@ -4,19 +4,18 @@ Keywords Property Module
 Handles extraction and validation of the 'keywords' Codemeta property.
 Keywords are tags or terms that describe the software for discoverability.
 
-This module uses NLP techniques to extract meaningful keywords from repository
-content including description, README, and existing topics. Each keyword is
-enhanced with Wikidata URLs for semantic linking, with context-aware
-disambiguation for homonyms.
+This module extracts keywords from repository content and enhances them with
+Wikidata URLs for semantic linking. Keywords with dashes, underscores, or spaces
+are treated as single phrases and never split into individual words.
 
 Output format:
 {
   "keywords": [
     {
       "@type": "DefinedTerm",
-      "name": "dark-mode",
-      "url": "https://www.wikidata.org/wiki/Q6545942",
-      "description": "Feature that reduces eye strain..."
+      "name": "machine-learning",
+      "url": "https://www.wikidata.org/wiki/Q2539",
+      "description": "Field of study in artificial intelligence"
     },
     ...
   ]
@@ -48,85 +47,6 @@ class KeywordsMetadata(BaseMetadata):
         self.wikidata_resolver = WikidataKeywordResolver()
         self.context = self._build_context()
 
-    def _detect_and_combine_phrases(self, keywords: List[str]) -> List[str]:
-        """
-        Detect and combine keywords that form meaningful phrases.
-        
-        For example, if keywords contain both "creative" and "commons",
-        combine them into "creative commons" if it's a known phrase.
-        
-        Args:
-            keywords: List of individual keywords
-            
-        Returns:
-            List of keywords with phrases combined
-        """
-        # Known multi-word tech phrases that should be combined
-        known_phrases = [
-            ('creative', 'commons'),
-            ('machine', 'learning'),
-            ('deep', 'learning'),
-            ('natural', 'language'),
-            ('artificial', 'intelligence'),
-            ('neural', 'network'),
-            ('web', 'scraping'),
-            ('web', 'crawler'),
-            ('data', 'science'),
-            ('computer', 'vision'),
-            ('version', 'control'),
-            ('open', 'source'),
-            ('software', 'engineering'),
-            ('web', 'development'),
-            ('mobile', 'development'),
-            ('cloud', 'computing'),
-            ('distributed', 'systems'),
-            ('operating', 'system'),
-            ('design', 'pattern'),
-            ('user', 'interface'),
-            ('command', 'line'),
-            ('real', 'time'),
-        ]
-        
-        # Convert keywords to lowercase for matching
-        keywords_lower = [k.lower() for k in keywords]
-        combined_keywords = []
-        used_indices = set()
-        
-        # Check for known phrase combinations
-        for i, keyword1 in enumerate(keywords):
-            if i in used_indices:
-                continue
-                
-            keyword1_lower = keyword1.lower()
-            matched_phrase = False
-            
-            # Check if this keyword is part of a known phrase
-            for phrase_parts in known_phrases:
-                if keyword1_lower == phrase_parts[0]:
-                    # Look for the second part
-                    for j, keyword2 in enumerate(keywords):
-                        if j != i and j not in used_indices:
-                            keyword2_lower = keyword2.lower()
-                            if keyword2_lower == phrase_parts[1]:
-                                # Found a match! Combine them
-                                combined = f"{phrase_parts[0]} {phrase_parts[1]}"
-                                combined_keywords.append(combined)
-                                used_indices.add(i)
-                                used_indices.add(j)
-                                matched_phrase = True
-                                print(f"Combined phrase detected: '{keyword1}' + '{keyword2}' → '{combined}'")
-                                break
-                
-                if matched_phrase:
-                    break
-            
-            # If not part of a phrase, keep as-is
-            if not matched_phrase:
-                combined_keywords.append(keyword1)
-                used_indices.add(i)
-        
-        return combined_keywords
-    
     def _build_context(self) -> str:
         """
         Build context from repository data for disambiguation.
@@ -153,45 +73,45 @@ class KeywordsMetadata(BaseMetadata):
 
     def extract(self) -> Dict[str, Any]:
         """
-        Extract keywords from raw data using NLP analysis.
+        Extract keywords from raw data.
 
         Keywords are extracted from:
-        1. Repository description (high priority)
-        2. README content (high priority)
-        3. Existing topics/tags (medium priority)
-        4. Repository name (low priority)
+        1. Repository topics/tags (high priority - set by maintainers)
+        2. NLP extraction from description and README (medium priority)
 
-        Each keyword is enhanced with Wikidata URL and description.
+        Each keyword is preserved as-is (no splitting on dashes/underscores/spaces)
+        and enhanced with Wikidata URL if a confident match is found.
 
         Returns:
             Dictionary with 'keywords' key containing array of keywords
         """
-        # First try to get existing topics/keywords from metadata
+        # Get existing topics/keywords from metadata (highest priority)
         existing_keywords = self._get_existing_keywords()
         
-        # Use NLP to extract keywords from repository content
+        # Use NLP to extract additional keywords from repository content
         nlp_keywords = self.keyword_extractor.extract_from_repository_data(self.raw_data)
         
-        # Combine existing and NLP-extracted keywords
+        # Combine keywords, avoiding duplicates
         all_keywords = []
+        seen_lower = set()
         
         # Add existing keywords first (they're explicitly set by maintainers)
-        if existing_keywords:
-            all_keywords.extend(existing_keywords)
+        for keyword in existing_keywords:
+            keyword_lower = keyword.lower()
+            if keyword_lower not in seen_lower:
+                all_keywords.append(keyword)
+                seen_lower.add(keyword_lower)
         
         # Add NLP-extracted keywords
-        if nlp_keywords:
-            for keyword in nlp_keywords:
-                # Avoid duplicates (case-insensitive)
-                if keyword.lower() not in [k.lower() for k in all_keywords]:
-                    all_keywords.append(keyword)
+        for keyword in nlp_keywords:
+            keyword_lower = keyword.lower()
+            if keyword_lower not in seen_lower:
+                all_keywords.append(keyword)
+                seen_lower.add(keyword_lower)
         
         if not all_keywords:
             self.add_warning(f"Optional field '{self.CODEMETA_PROPERTY}' could not be extracted")
             return {}
-        
-        # SMART PHRASE DETECTION: Combine related keywords into phrases
-        all_keywords = self._detect_and_combine_phrases(all_keywords)
         
         # Limit to reasonable number of keywords
         final_keywords = all_keywords[:15]
@@ -212,37 +132,31 @@ class KeywordsMetadata(BaseMetadata):
     def _enhance_keyword(self, keyword: str) -> Dict[str, Any]:
         """
         Enhance a keyword with Wikidata information.
+        
+        The keyword is preserved as-is and never split. For example:
+        - "machine-learning" is looked up as "machine learning" (normalized)
+        - "bayesian_inference" is looked up as "bayesian inference" (normalized)
+        - Never split into individual words like "machine" or "learning"
 
         Args:
-            keyword: The keyword to enhance
+            keyword: The keyword to enhance (preserved as-is)
 
         Returns:
             Dictionary with keyword and optional Wikidata reference
         """
         # Try to resolve keyword to Wikidata entity
+        # The resolver will normalize separators but never split the term
         wikidata_info = self.wikidata_resolver.resolve_keyword(keyword, self.context)
         
         if wikidata_info:
-            # Validate that the resolved entity is appropriate
-            description = wikidata_info.get('description', '').lower()
-            
-            # Skip if description indicates it's not software-related
-            non_software_keywords = ['family name', 'given name', 'television', 'tv series', 
-                                    'film', 'movie', 'person', 'people', 'place', 'city', 
-                                    'country', 'band', 'music', 'song', 'album', 'animal skin',
-                                    'astronomical object', 'video game']
-            
-            is_non_software = any(kw in description for kw in non_software_keywords)
-            
-            if not is_non_software:
-                return {
-                    "@type": "DefinedTerm",
-                    "name": keyword,
-                    "url": wikidata_info['url'],
-                    "description": wikidata_info.get('description', '')
-                }
+            return {
+                "@type": "DefinedTerm",
+                "name": keyword,  # Preserve original format
+                "url": wikidata_info['url'],
+                "description": wikidata_info.get('description', '')
+            }
         
-        # Return keyword without Wikidata reference if resolution failed or was non-software
+        # Return keyword without Wikidata reference if resolution failed
         return {
             "@type": "DefinedTerm",
             "name": keyword
@@ -279,6 +193,9 @@ class KeywordsMetadata(BaseMetadata):
     def _process_keywords(self, value: Any) -> List[str]:
         """
         Process and normalize keywords from various formats.
+        
+        IMPORTANT: This does NOT split keywords on dashes, underscores, or spaces.
+        Keywords are preserved as-is from the source.
 
         Args:
             value: Raw keywords value (string, list, or other)
@@ -292,16 +209,13 @@ class KeywordsMetadata(BaseMetadata):
             # Handle comma-separated string
             if ',' in value:
                 keywords = [k.strip() for k in value.split(',') if k.strip()]
-            # Handle space-separated string
-            elif ' ' in value and not any(sep in value for sep in [';', '|']):
-                keywords = [k.strip() for k in value.split() if k.strip()]
             # Handle semicolon-separated string
             elif ';' in value:
                 keywords = [k.strip() for k in value.split(';') if k.strip()]
             # Handle pipe-separated string
             elif '|' in value:
                 keywords = [k.strip() for k in value.split('|') if k.strip()]
-            # Single keyword
+            # Single keyword (may contain spaces, dashes, underscores)
             else:
                 keyword = value.strip()
                 if keyword:
@@ -322,10 +236,10 @@ class KeywordsMetadata(BaseMetadata):
                         if keyword:
                             keywords.append(keyword)
         
-        # Normalize keywords
+        # Normalize keywords (remove extra whitespace, but preserve structure)
         normalized = []
         for keyword in keywords:
-            # Remove extra whitespace
+            # Remove extra whitespace within the keyword
             keyword = ' '.join(keyword.split())
             if keyword and len(keyword) <= 100:  # Reasonable max length
                 normalized.append(keyword)
