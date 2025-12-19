@@ -3,19 +3,65 @@ Programming Language Property Module
 
 Handles extraction and validation of the 'programmingLanguage' Codemeta property.
 Extracts and formats the programming languages used in the software.
+
+Each language is enhanced with Wikidata URLs and descriptions for semantic linking.
+
+Output format:
+{
+  "programmingLanguage": [
+    {
+      "@type": "ComputerLanguage",
+      "name": "Python",
+      "url": "https://www.wikidata.org/wiki/Q28865",
+      "description": "interpreted, high-level programming language..."
+    },
+    ...
+  ]
+}
 """
 
 from typing import Dict, Any, Optional, List, Union
 import re
 from src.base_metadata import BaseMetadata
+from src.wikidata_keyword_resolver import WikidataKeywordResolver
 
 
 class ProgrammingLanguageMetadata(BaseMetadata):
-    """Handles programmingLanguage metadata extraction and validation."""
+    """Handles programmingLanguage metadata extraction with Wikidata semantic linking."""
 
     CODEMETA_PROPERTY = 'programmingLanguage'
     CODEMETA_TYPE = 'schema:ComputerLanguage'
     REQUIRED = False
+
+    def __init__(self, raw_data: Dict[str, Any]):
+        """
+        Initialize programming language metadata extractor.
+        
+        Args:
+            raw_data: Raw repository data
+        """
+        super().__init__(raw_data)
+        self.wikidata_resolver = WikidataKeywordResolver()
+        self.context = self._build_context()
+
+    def _build_context(self) -> str:
+        """
+        Build context from repository data for disambiguation.
+
+        Returns:
+            String containing repository context
+        """
+        parts = []
+        
+        if self.raw_data.get('description'):
+            parts.append(self.raw_data['description'])
+        
+        if self.raw_data.get('readme_content'):
+            # Take first 500 chars of README
+            readme = self.raw_data['readme_content'][:500]
+            parts.append(readme)
+        
+        return ' '.join(parts)
 
     def extract(self) -> Dict[str, Any]:
         """
@@ -26,6 +72,8 @@ class ProgrammingLanguageMetadata(BaseMetadata):
         2. 'languages' field (GitHub language statistics)
         3. 'language' field (primary language)
         4. 'programming_languages' field
+
+        Each language is enhanced with Wikidata URL and description.
 
         Returns:
             Dictionary with 'programmingLanguage' key containing array of languages
@@ -69,11 +117,50 @@ class ProgrammingLanguageMetadata(BaseMetadata):
                 unique_languages.append(lang)
         
         if unique_languages:
-            self.metadata[self.CODEMETA_PROPERTY] = unique_languages
+            # Enhance languages with Wikidata information
+            enhanced_languages = []
+            for lang in unique_languages:
+                enhanced = self._enhance_language(lang)
+                enhanced_languages.append(enhanced)
+            
+            self.metadata[self.CODEMETA_PROPERTY] = enhanced_languages
             return self.metadata
         else:
             self.add_warning(f"'{self.CODEMETA_PROPERTY}' could not be processed")
             return {}
+
+    def _enhance_language(self, language: str) -> Dict[str, Any]:
+        """
+        Enhance a programming language with Wikidata information.
+
+        Args:
+            language: The programming language name
+
+        Returns:
+            Dictionary with language and optional Wikidata reference
+        """
+        # Try to resolve language to Wikidata entity
+        wikidata_info = self.wikidata_resolver.resolve_keyword(language, self.context)
+        
+        if wikidata_info:
+            # Validate that the resolved entity is a programming language
+            description = wikidata_info.get('description', '').lower()
+            
+            # Check if it's actually a programming language
+            if 'programming language' in description or 'language' in description or \
+               'compiled' in description or 'interpreted' in description:
+                return {
+                    "@type": "ComputerLanguage",
+                    "name": language,
+                    "url": wikidata_info['url'],
+                    "description": wikidata_info.get('description', '')
+                }
+        
+        # Return language without Wikidata reference if resolution failed
+        return {
+            "@type": "ComputerLanguage",
+            "name": language
+        }
 
     def _process_languages(self, value: Any) -> List[str]:
         """
@@ -273,12 +360,20 @@ class ProgrammingLanguageMetadata(BaseMetadata):
         
         # Validate each language
         for i, lang in enumerate(languages):
-            if not isinstance(lang, str):
-                self.add_error(f"Language {i+1} must be a string, got {type(lang).__name__}")
-            elif not lang.strip():
-                self.add_error(f"Language {i+1} is empty")
-            elif len(lang) > 50:
-                self.add_warning(f"Language {i+1} is very long ({len(lang)} characters)")
+            if isinstance(lang, dict):
+                # Check ComputerLanguage structure
+                if '@type' not in lang or lang['@type'] != 'ComputerLanguage':
+                    self.add_warning(f"Language {i+1} should have @type='ComputerLanguage'")
+                if 'name' not in lang:
+                    self.add_error(f"Language {i+1} must have 'name' field")
+            elif isinstance(lang, str):
+                # Legacy string format
+                if not lang.strip():
+                    self.add_error(f"Language {i+1} is empty")
+                elif len(lang) > 50:
+                    self.add_warning(f"Language {i+1} is very long ({len(lang)} characters)")
+            else:
+                self.add_error(f"Language {i+1} must be string or ComputerLanguage object, got {type(lang).__name__}")
         
         # Check for reasonable number of languages
         if len(languages) > 20:
@@ -288,10 +383,10 @@ class ProgrammingLanguageMetadata(BaseMetadata):
 
     def to_codemeta_dict(self) -> Dict[str, Any]:
         """
-        Convert to Codemeta format.
+        Convert to Codemeta format with ComputerLanguage objects.
 
         Returns:
-            Dictionary in Codemeta format
+            Dictionary in Codemeta format with languages as ComputerLanguage objects
         """
         if not self.metadata:
             return {}
