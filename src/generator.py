@@ -5,6 +5,7 @@ Main orchestrator that coordinates scraping and metadata generation.
 """
 
 import json
+import sys
 from typing import Dict, Any, List
 from datetime import datetime
 
@@ -82,11 +83,13 @@ class CodemetaGenerator:
             Dictionary containing Codemeta metadata
         """
         print(f"Scraping repository: {repo_url}")
+        sys.stdout.flush()
         
         # Scrape repository data
         raw_data = self.scraper.scrape_repository(repo_url)
         
         print(f"Extracted data for: {raw_data.get('name', 'Unknown')}")
+        sys.stdout.flush()
         
         # Generate metadata using property modules
         codemeta = self._build_codemeta(raw_data)
@@ -133,6 +136,7 @@ class CodemetaGenerator:
             except Exception as e:
                 error_msg = f"Error processing {ModuleClass.__name__}: {e}"
                 print(error_msg)
+                sys.stdout.flush()
                 errors.append(error_msg)
         
         # Keywords are now handled by KeywordsMetadata module
@@ -142,11 +146,14 @@ class CodemetaGenerator:
         # Print validation results
         if errors:
             print(f"\n⚠️  Errors ({len(errors)}):")
+            sys.stdout.flush()
             for error in errors:
                 print(f"  - {error}")
+                sys.stdout.flush()
         
         if warnings:
             print(f"\n⚠️  Warnings ({len(warnings)}):")
+            sys.stdout.flush()
             for warning in warnings:
                 print(f"  - {warning}")
         

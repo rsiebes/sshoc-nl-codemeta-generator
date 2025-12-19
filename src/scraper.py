@@ -6,6 +6,7 @@ It uses requests and BeautifulSoup to parse GitHub pages without using the API.
 """
 
 import re
+import sys
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 import requests
@@ -77,6 +78,7 @@ class GitHubScraper:
         except requests.RequestException as e:
             if not silent:
                 print(f"Error fetching {url}: {e}")
+                sys.stdout.flush()
             return None
 
     def scrape_repository(self, repo_url: str) -> Dict:
@@ -219,6 +221,7 @@ class GitHubScraper:
                         
         except Exception as e:
             print(f"Error extracting languages: {e}")
+            sys.stdout.flush()
 
     def _extract_topics(self, soup: BeautifulSoup, metadata: Dict) -> None:
         """Extract repository topics/keywords."""
@@ -229,6 +232,7 @@ class GitHubScraper:
             metadata['keywords'] = topics
         except Exception as e:
             print(f"Error extracting topics: {e}")
+            sys.stdout.flush()
 
     def _extract_license(self, soup: BeautifulSoup, metadata: Dict) -> None:
         """Extract license information."""
@@ -255,6 +259,7 @@ class GitHubScraper:
                 
         except Exception as e:
             print(f"Error extracting license: {e}")
+            sys.stdout.flush()
 
     def _fetch_readme(self, repo_url: str, owner: str, repo_name: str) -> Optional[str]:
         """Fetch README content."""
@@ -275,6 +280,7 @@ class GitHubScraper:
                         
         except Exception as e:
             print(f"Error fetching README: {e}")
+            sys.stdout.flush()
         return None
 
     def _fetch_releases(self, repo_url: str) -> List[Dict]:
@@ -336,6 +342,7 @@ class GitHubScraper:
                             
         except Exception as e:
             print(f"Error fetching releases: {e}")
+            sys.stdout.flush()
         return releases
 
     @staticmethod
@@ -432,6 +439,7 @@ class GitHubScraper:
             
         except Exception as e:
             print(f"Error fetching user profile for {username}: {e}")
+            sys.stdout.flush()
             return None
     
     def _fetch_commit_info(self, repo_url: str) -> Optional[List[Dict]]:
@@ -474,6 +482,7 @@ class GitHubScraper:
             
         except Exception as e:
             print(f"Error fetching commit info: {e}")
+            sys.stdout.flush()
             return None
 
     def _fetch_repository_dates(self, owner: str, repo_name: str) -> Dict[str, Optional[str]]:
@@ -519,6 +528,7 @@ class GitHubScraper:
                 
         except Exception as e:
             print(f"Error fetching repository dates: {e}")
+            sys.stdout.flush()
         
         return dates
     
@@ -577,6 +587,7 @@ class GitHubScraper:
             
         except Exception as e:
             print(f"Error fetching first commit date: {e}")
+            sys.stdout.flush()
         
         return None
 
@@ -649,6 +660,7 @@ class GitHubScraper:
             
         except Exception as e:
             print(f"Error fetching contributors: {e}")
+            sys.stdout.flush()
             return contributors
 
     def _fetch_file_list(self, owner: str, repo_name: str) -> Optional[List[str]]:
@@ -705,6 +717,7 @@ class GitHubScraper:
             
         except Exception as e:
             print(f"Error fetching file list: {e}")
+            sys.stdout.flush()
             return None
 
 

@@ -58,15 +58,19 @@ def stream_codemeta_generation(github_url):
         # Send start event
         yield f"data: {json.dumps({'type': 'start', 'message': 'Starting codemeta generation...'})}\n\n"
         
-        # Execute the Python script
+        # Execute the Python script with unbuffered output
+        env = os.environ.copy()
+        env['PYTHONUNBUFFERED'] = '1'  # Force unbuffered output
+        
         process = subprocess.Popen(
-            [sys.executable, str(CODEMETA_SCRIPT), github_url],
+            [sys.executable, '-u', str(CODEMETA_SCRIPT), github_url],  # -u for unbuffered
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
             bufsize=1,
             universal_newlines=True,
-            cwd=str(ROOT_DIR)
+            cwd=str(ROOT_DIR),
+            env=env
         )
         
         # Stream output line by line
