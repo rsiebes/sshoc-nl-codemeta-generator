@@ -166,27 +166,43 @@ class KeywordsMetadata(BaseMetadata):
         """
         Get existing keywords from repository metadata.
         
+        Priority order:
+        1. GitHub topics (highest - explicitly set by maintainers)
+        2. Existing keywords field
+        3. Tags
+        
         Returns:
-            List of existing keywords
+            List of existing keywords (combined from all sources, no duplicates)
         """
         keywords = []
+        seen_lower = set()
         
-        # Try different sources for existing keywords
+        # HIGHEST PRIORITY: GitHub topics (like "geospatial", "balltree", "spatial-analysis")
+        topics = self._get_value('topics')
+        if topics:
+            for kw in self._process_keywords(topics):
+                kw_lower = kw.lower()
+                if kw_lower not in seen_lower:
+                    keywords.append(kw)
+                    seen_lower.add(kw_lower)
+        
+        # MEDIUM PRIORITY: Existing keywords field
         raw_keywords = self._get_value('keywords')
         if raw_keywords:
-            keywords.extend(self._process_keywords(raw_keywords))
+            for kw in self._process_keywords(raw_keywords):
+                kw_lower = kw.lower()
+                if kw_lower not in seen_lower:
+                    keywords.append(kw)
+                    seen_lower.add(kw_lower)
         
-        # Try topics (GitHub topics)
-        if not keywords:
-            topics = self._get_value('topics')
-            if topics:
-                keywords.extend(self._process_keywords(topics))
-        
-        # Try tags
-        if not keywords:
-            tags = self._get_value('tags')
-            if tags:
-                keywords.extend(self._process_keywords(tags))
+        # LOW PRIORITY: Tags
+        tags = self._get_value('tags')
+        if tags:
+            for kw in self._process_keywords(tags):
+                kw_lower = kw.lower()
+                if kw_lower not in seen_lower:
+                    keywords.append(kw)
+                    seen_lower.add(kw_lower)
         
         return keywords
 

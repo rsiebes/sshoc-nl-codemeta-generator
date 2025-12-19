@@ -113,23 +113,33 @@ class KeywordExtractor:
     
     def _extract_tfidf_keywords(self, texts: List[str], max_keywords: int) -> List[str]:
         """
-        Extract keywords using TF-IDF.
+        Extract keywords using TF-IDF with support for technical compound terms.
+        
+        Preserves hyphenated and underscore terms like:
+        - "spatial-analysis", "neighbor-search", "balltree"
+        - "machine_learning", "data_science"
         
         Args:
             texts: List of cleaned text strings
             max_keywords: Maximum number of keywords
             
         Returns:
-            List of keywords
+            List of keywords (including preserved compound terms)
         """
         try:
+            # Custom token pattern that preserves hyphenated and underscore terms
+            # Matches: word, word-word, word_word, word-word-word, etc.
+            token_pattern = r'\b[a-z]+(?:[-_][a-z]+)*\b'
+            
             # Use TF-IDF to find important terms
             vectorizer = TfidfVectorizer(
                 max_features=max_keywords * 3,
-                ngram_range=(1, 2),  # Unigrams and bigrams
+                ngram_range=(1, 3),  # Unigrams, bigrams, and trigrams
                 stop_words=list(self.stop_words),
                 min_df=1,
-                max_df=0.8
+                max_df=0.8,
+                token_pattern=token_pattern,  # Preserve hyphenated/underscore terms
+                lowercase=True
             )
             
             tfidf_matrix = vectorizer.fit_transform(texts)
@@ -140,11 +150,12 @@ class KeywordExtractor:
             keywords_scores = list(zip(feature_names, avg_scores))
             keywords_scores.sort(key=lambda x: x[1], reverse=True)
             
-            # Return top keywords
+            # Return top keywords (normalize underscores to hyphens for consistency)
             keywords = [kw.replace('_', '-') for kw, score in keywords_scores[:max_keywords] if score > 0]
             return keywords
         except Exception as e:
             print(f"TF-IDF extraction error: {e}")
+            sys.stdout.flush()
             return []
     
     def _extract_frequency_keywords(self, text: str, max_keywords: int) -> List[str]:
