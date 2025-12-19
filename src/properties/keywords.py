@@ -48,6 +48,85 @@ class KeywordsMetadata(BaseMetadata):
         self.wikidata_resolver = WikidataKeywordResolver()
         self.context = self._build_context()
 
+    def _detect_and_combine_phrases(self, keywords: List[str]) -> List[str]:
+        """
+        Detect and combine keywords that form meaningful phrases.
+        
+        For example, if keywords contain both "creative" and "commons",
+        combine them into "creative commons" if it's a known phrase.
+        
+        Args:
+            keywords: List of individual keywords
+            
+        Returns:
+            List of keywords with phrases combined
+        """
+        # Known multi-word tech phrases that should be combined
+        known_phrases = [
+            ('creative', 'commons'),
+            ('machine', 'learning'),
+            ('deep', 'learning'),
+            ('natural', 'language'),
+            ('artificial', 'intelligence'),
+            ('neural', 'network'),
+            ('web', 'scraping'),
+            ('web', 'crawler'),
+            ('data', 'science'),
+            ('computer', 'vision'),
+            ('version', 'control'),
+            ('open', 'source'),
+            ('software', 'engineering'),
+            ('web', 'development'),
+            ('mobile', 'development'),
+            ('cloud', 'computing'),
+            ('distributed', 'systems'),
+            ('operating', 'system'),
+            ('design', 'pattern'),
+            ('user', 'interface'),
+            ('command', 'line'),
+            ('real', 'time'),
+        ]
+        
+        # Convert keywords to lowercase for matching
+        keywords_lower = [k.lower() for k in keywords]
+        combined_keywords = []
+        used_indices = set()
+        
+        # Check for known phrase combinations
+        for i, keyword1 in enumerate(keywords):
+            if i in used_indices:
+                continue
+                
+            keyword1_lower = keyword1.lower()
+            matched_phrase = False
+            
+            # Check if this keyword is part of a known phrase
+            for phrase_parts in known_phrases:
+                if keyword1_lower == phrase_parts[0]:
+                    # Look for the second part
+                    for j, keyword2 in enumerate(keywords):
+                        if j != i and j not in used_indices:
+                            keyword2_lower = keyword2.lower()
+                            if keyword2_lower == phrase_parts[1]:
+                                # Found a match! Combine them
+                                combined = f"{phrase_parts[0]} {phrase_parts[1]}"
+                                combined_keywords.append(combined)
+                                used_indices.add(i)
+                                used_indices.add(j)
+                                matched_phrase = True
+                                print(f"Combined phrase detected: '{keyword1}' + '{keyword2}' → '{combined}'")
+                                break
+                
+                if matched_phrase:
+                    break
+            
+            # If not part of a phrase, keep as-is
+            if not matched_phrase:
+                combined_keywords.append(keyword1)
+                used_indices.add(i)
+        
+        return combined_keywords
+    
     def _build_context(self) -> str:
         """
         Build context from repository data for disambiguation.
@@ -110,6 +189,9 @@ class KeywordsMetadata(BaseMetadata):
         if not all_keywords:
             self.add_warning(f"Optional field '{self.CODEMETA_PROPERTY}' could not be extracted")
             return {}
+        
+        # SMART PHRASE DETECTION: Combine related keywords into phrases
+        all_keywords = self._detect_and_combine_phrases(all_keywords)
         
         # Limit to reasonable number of keywords
         final_keywords = all_keywords[:15]
