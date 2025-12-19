@@ -492,6 +492,177 @@ header p {
     transition: opacity 0.3s, transform 0.3s;
 }
 
+/* Wikidata Button */
+.btn-wikidata {
+    padding: 0.5rem 1rem;
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 0.5rem;
+}
+
+.btn-wikidata:hover {
+    background-color: #7c3aed;
+}
+
+/* Wikidata Modal */
+.wikidata-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.2s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.wikidata-modal-content {
+    background-color: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    animation: slideUp 0.3s;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.wikidata-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.wikidata-modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.wikidata-close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.wikidata-close:hover {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+.wikidata-modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+#wikidata-search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+#wikidata-search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.wikidata-results {
+    margin-top: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.wikidata-result-item {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.wikidata-result-item:hover {
+    background-color: var(--bg-color);
+    border-color: var(--primary-color);
+    transform: translateX(4px);
+}
+
+.wikidata-result-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.wikidata-result-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.wikidata-result-id {
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    font-family: monospace;
+}
+
+.wikidata-loading,
+.wikidata-no-results,
+.wikidata-error {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+.wikidata-error {
+    color: var(--error-color);
+}
+
 /* Footer */
 footer {
     text-align: center;

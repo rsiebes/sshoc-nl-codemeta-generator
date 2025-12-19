@@ -285,6 +285,17 @@ function buildArrayField(key, array, container, fieldPath) {
         addBtn.onclick = () => addArrayItem(arrayContainer, fieldPath, key, array[0]);
         
         addContainer.appendChild(addBtn);
+        
+        // Add Wikidata lookup button for keywords
+        if (key.toLowerCase().includes('keyword')) {
+            const wikidataBtn = document.createElement('button');
+            wikidataBtn.type = 'button';
+            wikidataBtn.className = 'btn-wikidata';
+            wikidataBtn.innerHTML = '🔍 Add Keyword via Wikidata';
+            wikidataBtn.onclick = () => openWikidataSearch(arrayContainer, fieldPath, key, array[0]);
+            addContainer.appendChild(wikidataBtn);
+        }
+        
         arrayContainer.appendChild(addContainer);
         
         // Array of objects - create nested fields for each
@@ -802,3 +813,187 @@ githubUrlInput.addEventListener('keypress', (e) => {
         generateBtn.click();
     }
 });
+
+// Wikidata Search Functionality
+function openWikidataSearch(arrayContainer, arrayPath, arrayKey, templateItem) {
+    // Create modal overlay
+    const modal = document.createElement('div');
+    modal.className = 'wikidata-modal';
+    modal.innerHTML = `
+        <div class="wikidata-modal-content">
+            <div class="wikidata-modal-header">
+                <h3>Search Wikidata for Keywords</h3>
+                <button class="wikidata-close" onclick="closeWikidataModal()">&times;</button>
+            </div>
+            <div class="wikidata-modal-body">
+                <input type="text" id="wikidata-search-input" placeholder="Type to search Wikidata..." />
+                <div id="wikidata-results" class="wikidata-results"></div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Store context for later use
+    modal.dataset.arrayContainer = arrayContainer;
+    modal.dataset.arrayPath = arrayPath;
+    modal.dataset.arrayKey = arrayKey;
+    modal.dataset.templateItem = JSON.stringify(templateItem);
+    
+    // Focus on search input
+    const searchInput = document.getElementById('wikidata-search-input');
+    searchInput.focus();
+    
+    // Add search event listener with debounce
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) {
+            document.getElementById('wikidata-results').innerHTML = '';
+            return;
+        }
+        
+        searchTimeout = setTimeout(() => {
+            searchWikidata(query);
+        }, 300);
+    });
+    
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeWikidataModal();
+        }
+    });
+}
+
+function closeWikidataModal() {
+    const modal = document.querySelector('.wikidata-modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+window.closeWikidataModal = closeWikidataModal;
+
+async function searchWikidata(query) {
+    const resultsDiv = document.getElementById('wikidata-results');
+    resultsDiv.innerHTML = '<div class="wikidata-loading">⏳ Searching Wikidata...</div>';
+    
+    try {
+        // Use Wikidata search API
+        const response = await fetch(
+            `https://www.wikidata.org/w/api.php?` +
+            `action=wbsearchentities&` +
+            `search=${encodeURIComponent(query)}&` +
+            `language=en&` +
+            `limit=10&` +
+            `format=json&` +
+            `origin=*`
+        );
+        
+        if (!response.ok) {
+            throw new Error('Wikidata search failed');
+        }
+        
+        const data = await response.json();
+        const results = data.search || [];
+        
+        if (results.length === 0) {
+            resultsDiv.innerHTML = '<div class="wikidata-no-results">No results found</div>';
+            return;
+        }
+        
+        // Display results
+        resultsDiv.innerHTML = '';
+        results.forEach(result => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'wikidata-result-item';
+            resultItem.innerHTML = `
+                <div class="wikidata-result-title">${result.label}</div>
+                <div class="wikidata-result-description">${result.description || 'No description'}</div>
+                <div class="wikidata-result-id">${result.id}</div>
+            `;
+            
+            resultItem.onclick = () => selectWikidataResult(result);
+            resultsDiv.appendChild(resultItem);
+        });
+        
+    } catch (error) {
+        console.error('Wikidata search error:', error);
+        resultsDiv.innerHTML = '<div class="wikidata-error">❌ Error searching Wikidata</div>';
+    }
+}
+
+function selectWikidataResult(result) {
+    const modal = document.querySelector('.wikidata-modal');
+    if (!modal) return;
+    
+    // Get stored context
+    const arrayPath = modal.dataset.arrayPath;
+    const arrayKey = modal.dataset.arrayKey;
+    const templateItem = JSON.parse(modal.dataset.templateItem);
+    
+    // Find the array container (need to search in the DOM)
+    const arrayContainers = document.querySelectorAll('.array-container');
+    let targetContainer = null;
+    
+    for (const container of arrayContainers) {
+        const parent = container.closest('.array-field');
+        if (parent && parent.dataset.fieldPath === arrayPath) {
+            targetContainer = container;
+            break;
+        }
+    }
+    
+    if (!targetContainer) {
+        console.error('Could not find array container');
+        closeWikidataModal();
+        return;
+    }
+    
+    // Create new keyword item
+    const existingItems = targetContainer.querySelectorAll('.array-item');
+    const newIndex = existingItems.length;
+    
+    const itemContainer = document.createElement('div');
+    itemContainer.className = 'nested-object array-item';
+    itemContainer.dataset.arrayPath = arrayPath;
+    itemContainer.dataset.arrayIndex = newIndex;
+    
+    const itemHeader = document.createElement('div');
+    itemHeader.className = 'nested-header';
+    
+    const headerText = document.createElement('span');
+    headerText.textContent = `${formatLabel(arrayKey)} #${newIndex + 1}`;
+    itemHeader.appendChild(headerText);
+    
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn-remove';
+    removeBtn.textContent = '🗑️ Remove';
+    removeBtn.onclick = () => removeArrayItem(itemContainer, arrayPath, newIndex);
+    itemHeader.appendChild(removeBtn);
+    
+    itemContainer.appendChild(itemHeader);
+    
+    // Create fields with Wikidata data
+    const keywordData = {
+        '@type': 'DefinedTerm',
+        '@id': `http://www.wikidata.org/entity/${result.id}`,
+        'name': result.label,
+        'description': result.description || ''
+    };
+    
+    buildFormFields(keywordData, itemContainer, `${arrayPath}[${newIndex}]`);
+    
+    // Append to container
+    targetContainer.appendChild(itemContainer);
+    
+    // Scroll to new item
+    itemContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    // Close modal
+    closeWikidataModal();
+}
