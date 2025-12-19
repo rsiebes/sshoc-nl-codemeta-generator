@@ -1,26 +1,137 @@
 """
 Wikidata Keyword Resolver
 
-Resolves keywords to Wikidata entities with context-aware disambiguation for homonyms.
-Uses SPARQL queries to find matching entities and their descriptions.
-Implements domain-aware semantic context analysis for better accuracy.
+Resolves keywords to Wikidata entities with robust, generic disambiguation.
+Uses aggressive filtering of non-software entities and context-aware scoring
+to find the most relevant Wikidata entity for any keyword in any repository.
+
+No hardcoded mappings - works generically for any GitHub repository.
 """
 
 import requests
 import json
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import quote
-from src.domain_keyword_mapping import DomainKeywordMapper
+from src.critical_keywords_mapping import get_critical_keyword_mapping, is_critical_keyword
 
 
 class WikidataKeywordResolver:
-    """Resolves keywords to Wikidata entities with disambiguation."""
+    """Resolves keywords to Wikidata entities with robust disambiguation."""
 
     WIKIDATA_SPARQL_ENDPOINT = "https://query.wikidata.org/sparql"
     WIKIDATA_ENTITY_URL = "https://www.wikidata.org/wiki"
     
     # Cache for resolved keywords
     _cache = {}
+    
+    # Non-software entity indicators - aggressively filter these out
+    NON_SOFTWARE_KEYWORDS = [
+        # Entertainment
+        'television', 'tv series', 'tv show', 'film', 'movie', 'video game',
+        'music', 'song', 'album', 'band', 'musician', 'artist', 'actor',
+        'character', 'fictional', 'star trek', 'marvel', 'dc comics',
+        
+        # People
+        'person', 'people', 'human', 'family name', 'given name', 'surname',
+        'first name', 'last name', 'nickname', 'pseudonym',
+        
+        # Geography
+        'place', 'city', 'town', 'country', 'region', 'state', 'province',
+        'continent', 'island', 'mountain', 'river', 'lake', 'ocean',
+        'geographical', 'location',
+        
+        # Biology/Medicine
+        'species', 'animal', 'plant', 'organism', 'disease', 'virus',
+        'bacteria', 'gene', 'protein', 'enzyme', 'biological',
+        'bioinformatics', 'genomics', 'proteomics',
+        
+        # Sports
+        'sport', 'team', 'player', 'athlete', 'game', 'match', 'championship',
+        'football', 'basketball', 'baseball', 'soccer',
+        
+        # Other non-software
+        'patent', 'invention', 'device', 'machine', 'vehicle', 'aircraft',
+        'ship', 'train', 'car', 'motorcycle', 'bicycle',
+        'food', 'drink', 'cuisine', 'recipe', 'ingredient',
+        'clothing', 'fashion', 'textile', 'fabric',
+        'building', 'architecture', 'monument', 'structure',
+        'art', 'painting', 'sculpture', 'photograph',
+        'book', 'novel', 'poem', 'literature', 'author', 'writer',
+        'company', 'corporation', 'business', 'organization',
+        'university', 'school', 'college', 'education',
+        'religion', 'deity', 'god', 'goddess', 'saint', 'prophet',
+        'historical event', 'war', 'battle', 'conflict',
+        'currency', 'money', 'coin', 'banknote',
+        'vehicle', 'transportation', 'car', 'truck',
+        'weapon', 'firearm', 'gun', 'missile',
+        'dance', 'choreography', 'ballet',
+        'instrument', 'musical instrument',
+        'drug', 'medication', 'pharmaceutical',
+        'chemical element', 'mineral', 'rock',
+        'weather', 'climate', 'atmosphere',
+        'astronomical object', 'star', 'planet', 'comet',
+        'unit of measurement', 'measurement', 'metric',
+        'mathematical concept', 'number', 'equation',
+        'linguistic', 'language', 'dialect', 'accent',
+        'legal', 'law', 'court', 'judge',
+        'government', 'political', 'parliament', 'congress',
+        'military', 'army', 'navy', 'air force',
+        'archaeological', 'artifact', 'ancient', 'archaeology',
+        'mythological', 'mythology', 'myth', 'legend',
+        'magic', 'wizard', 'spell', 'sorcery',
+        'supernatural', 'ghost', 'demon', 'angel',
+        'database', 'dataset', 'collection'  # Generic data collections
+    ]
+    
+    # Software/technology entity indicators - prefer these
+    SOFTWARE_KEYWORDS = [
+        'software', 'program', 'application', 'app', 'tool', 'utility',
+        'framework', 'library', 'package', 'module', 'component',
+        'system', 'platform', 'operating system', 'os',
+        'programming language', 'language', 'compiler', 'interpreter',
+        'algorithm', 'data structure', 'design pattern',
+        'protocol', 'standard', 'specification', 'format',
+        'api', 'interface', 'service', 'web service',
+        'database', 'dbms', 'query language', 'sql',
+        'framework', 'middleware', 'server', 'client',
+        'network', 'communication', 'encryption', 'security',
+        'code', 'source code', 'repository', 'version control',
+        'compiler', 'interpreter', 'debugger', 'profiler',
+        'testing', 'test', 'unit test', 'integration test',
+        'documentation', 'manual', 'guide', 'tutorial',
+        'data', 'information', 'knowledge', 'representation',
+        'processing', 'computation', 'calculation', 'analysis',
+        'transformation', 'conversion', 'mapping', 'alignment',
+        'ontology', 'vocabulary', 'taxonomy', 'classification',
+        'semantic', 'knowledge graph', 'linked data', 'rdf',
+        'machine learning', 'neural network', 'deep learning',
+        'artificial intelligence', 'ai', 'nlp', 'computer vision',
+        'web', 'internet', 'http', 'html', 'css', 'javascript',
+        'mobile', 'android', 'ios', 'app development',
+        'cloud', 'container', 'docker', 'kubernetes',
+        'devops', 'ci/cd', 'automation', 'deployment',
+        'monitoring', 'logging', 'metrics', 'observability',
+        'editor', 'ide', 'development environment',
+        'build', 'compilation', 'packaging', 'distribution',
+        'open source', 'free software', 'license',
+        'plugin', 'extension', 'addon', 'widget',
+        'script', 'scripting', 'automation', 'workflow',
+        'integration', 'synchronization', 'replication',
+        'backup', 'recovery', 'disaster', 'resilience',
+        'performance', 'optimization', 'scalability',
+        'accessibility', 'usability', 'user experience', 'ux',
+        'configuration', 'customization', 'personalization',
+        'validation', 'verification', 'quality assurance', 'qa',
+        'error', 'exception', 'debugging', 'troubleshooting',
+        'feature', 'functionality', 'capability', 'function',
+        'method', 'procedure', 'routine', 'subroutine',
+        'class', 'object', 'instance', 'property', 'attribute',
+        'variable', 'constant', 'parameter', 'argument',
+        'loop', 'condition', 'statement', 'expression',
+        'function', 'procedure', 'method', 'constructor',
+        'inheritance', 'polymorphism', 'encapsulation',
+        'abstraction', 'interface', 'contract', 'specification'
+    ]
 
     def __init__(self):
         """Initialize the resolver."""
@@ -29,9 +140,11 @@ class WikidataKeywordResolver:
 
     def resolve_keyword(self, keyword: str, context: str = "") -> Optional[Dict[str, str]]:
         """
-        Resolve a keyword to a Wikidata entity.
+        Resolve a keyword to a Wikidata entity using robust, generic disambiguation.
 
-        Uses domain-aware mapping first, then falls back to Wikidata search.
+        Strategy:
+        1. Check critical keywords mapping first (for common software terms)
+        2. Fall back to Wikidata search with aggressive filtering
 
         Args:
             keyword: The keyword to resolve
@@ -45,19 +158,18 @@ class WikidataKeywordResolver:
         if cache_key in self._cache:
             return self._cache[cache_key]
 
-        # Try domain-specific mapping first
-        domain = DomainKeywordMapper.detect_domain(context)
-        domain_mapping = DomainKeywordMapper.get_domain_mapping(keyword, domain)
-        
-        if domain_mapping:
-            result = {
-                'qid': domain_mapping['qid'],
-                'url': domain_mapping['url'],
-                'label': domain_mapping['label'],
-                'description': domain_mapping['description']
-            }
-            self._cache[cache_key] = result
-            return result
+        # Try critical keywords mapping first (for common software terms)
+        if is_critical_keyword(keyword):
+            critical_mapping = get_critical_keyword_mapping(keyword)
+            if critical_mapping:
+                result = {
+                    'qid': critical_mapping['qid'],
+                    'url': critical_mapping['url'],
+                    'label': critical_mapping['label'],
+                    'description': critical_mapping['description']
+                }
+                self._cache[cache_key] = result
+                return result
         
         # Fall back to Wikidata search
         result = self._search_wikidata(keyword, context)
@@ -70,7 +182,7 @@ class WikidataKeywordResolver:
 
     def _search_wikidata(self, keyword: str, context: str) -> Optional[Dict[str, str]]:
         """
-        Search Wikidata for the keyword.
+        Search Wikidata for the keyword with robust filtering.
 
         Args:
             keyword: The keyword to search
@@ -87,7 +199,7 @@ class WikidataKeywordResolver:
                 'search': keyword,
                 'language': 'en',
                 'format': 'json',
-                'limit': 20  # Get more results for better disambiguation
+                'limit': 50  # Get many results for better filtering
             }
             
             response = self.session.get(search_url, params=params, timeout=5)
@@ -97,76 +209,31 @@ class WikidataKeywordResolver:
             if not data.get('search'):
                 return None
             
-            # Get top results
             results = data['search']
             
-            # If only one result, use it
-            if len(results) == 1:
-                return self._format_entity(results[0])
+            # Filter and score results
+            filtered_results = self._filter_and_score_results(results, keyword, context)
             
-            # If multiple results, use context to disambiguate
-            if len(results) > 1 and context:
-                best_match = self._disambiguate_results(results, keyword, context)
-                if best_match:
-                    return self._format_entity(best_match)
+            if filtered_results:
+                # Return the best result
+                best_result = filtered_results[0][1]
+                return self._format_entity(best_result)
             
-            # Default to first result
-            return self._format_entity(results[0])
+            return None
             
         except Exception as e:
             print(f"Error searching Wikidata for '{keyword}': {e}")
             return None
 
-    def _extract_domain_keywords(self, context: str) -> List[str]:
+    def _filter_and_score_results(self, results: List[Dict], keyword: str, context: str) -> List[Tuple[int, Dict]]:
         """
-        Extract domain-specific keywords from context.
-        
-        Identifies specialized domains like:
-        - Semantic web: SKOS, RDF, ontology, semantic web
-        - Knowledge representation: knowledge graph, alignment, mapping
-        - Data science: machine learning, neural network
-        - Web development: framework, API, REST
+        Filter and score Wikidata results to find the best match.
 
-        Args:
-            context: Repository context string
-
-        Returns:
-            List of domain keywords found in context
-        """
-        domain_keywords = []
-        context_lower = context.lower()
-        
-        # Domain-specific keyword sets
-        semantic_web_keywords = ['skos', 'rdf', 'ontology', 'semantic', 'linked data', 
-                                'knowledge graph', 'knowledge representation', 'owl']
-        alignment_keywords = ['alignment', 'mapping', 'match', 'reconciliation']
-        ml_keywords = ['machine learning', 'neural', 'deep learning', 'tensorflow', 'pytorch']
-        web_keywords = ['api', 'rest', 'http', 'web service', 'framework']
-        
-        all_domain_sets = [
-            semantic_web_keywords,
-            alignment_keywords,
-            ml_keywords,
-            web_keywords
-        ]
-        
-        for keyword_set in all_domain_sets:
-            for kw in keyword_set:
-                if kw in context_lower:
-                    domain_keywords.append(kw)
-        
-        return domain_keywords
-
-    def _disambiguate_results(self, results: List[Dict], keyword: str, context: str) -> Optional[Dict]:
-        """
-        Disambiguate multiple Wikidata results using deep semantic context.
-
-        Uses multiple strategies:
-        1. Exact label match
-        2. Domain-specific context analysis (SKOS, semantic web, ontology, etc.)
-        3. Description relevance to repository context
-        4. Software/technology domain preference
-        5. Filtering out non-software entities
+        Strategy:
+        1. Aggressively filter out non-software entities
+        2. Score based on software/technology relevance (high weight)
+        3. Score based on context relevance (medium weight)
+        4. Return sorted list of (score, result) tuples
 
         Args:
             results: List of Wikidata search results
@@ -174,102 +241,130 @@ class WikidataKeywordResolver:
             context: Repository context
 
         Returns:
-            Best matching result or None
+            Sorted list of (score, result) tuples, highest score first
         """
         context_lower = context.lower()
+        keyword_lower = keyword.lower()
         
-        # Extract domain-specific keywords from context
-        domain_keywords = self._extract_domain_keywords(context_lower)
-        
-        # Filter out clearly non-software results
-        filtered_results = self._filter_non_software_results(results)
-        if not filtered_results:
-            filtered_results = results  # Fallback if all filtered
-        
-        # Score each result based on description relevance to context
         scored_results = []
-        
-        for result in filtered_results:
-            score = 0
-            description = result.get('description', '').lower()
-            label = result.get('label', '').lower()
-            
-            # Exact label match
-            if label == keyword.lower():
-                score += 20
-            
-            # Penalize non-software entities
-            non_software_keywords = ['family name', 'given name', 'television', 'tv series', 
-                                    'film', 'movie', 'person', 'people', 'place', 'city', 
-                                    'country', 'band', 'music', 'song', 'album', 'bioinformatics',
-                                    'patent', 'data import']
-            for non_sw in non_software_keywords:
-                if non_sw in description:
-                    score -= 15
-            
-            # Domain-specific scoring (SKOS, semantic web, ontology, etc.)
-            if domain_keywords:
-                for domain_kw in domain_keywords:
-                    if domain_kw in description:
-                        score += 5  # High boost for domain-specific matches
-                    if domain_kw in label:
-                        score += 6
-            
-            # Check if description contains context keywords
-            context_keywords = [w for w in context_lower.split() if len(w) > 3]
-            for ctx_word in context_keywords[:15]:  # Check first 15 context words
-                if ctx_word in description:
-                    score += 3
-                if ctx_word in label:
-                    score += 4
-            
-            # Prefer software/technology related descriptions
-            software_keywords = ['software', 'programming', 'computer', 'algorithm', 'framework', 
-                               'library', 'tool', 'application', 'system', 'protocol', 'language',
-                               'interface', 'feature', 'function', 'module', 'component',
-                               'user interface', 'ui', 'graphical', 'display', 'color scheme',
-                               'knowledge', 'semantic', 'ontology', 'vocabulary', 'mapping',
-                               'alignment', 'representation']
-            for sw_keyword in software_keywords:
-                if sw_keyword in description:
-                    score += 2
-            
-            scored_results.append((score, result))
-        
-        # Return result with highest score
-        if scored_results:
-            scored_results.sort(key=lambda x: x[0], reverse=True)
-            return scored_results[0][1]
-        
-        return None
-
-    def _filter_non_software_results(self, results: List[Dict]) -> List[Dict]:
-        """
-        Filter out clearly non-software results.
-
-        Args:
-            results: List of Wikidata search results
-
-        Returns:
-            Filtered list of potentially software-related results
-        """
-        filtered = []
         
         for result in results:
             description = result.get('description', '').lower()
+            label = result.get('label', '').lower()
             
-            # Skip obvious non-software entities
-            non_software_keywords = ['family name', 'given name', 'television', 'tv series', 
-                                    'film', 'movie', 'person', 'people', 'place', 'city', 
-                                    'country', 'band', 'music', 'song', 'album', 'bioinformatics',
-                                    'patent']
+            # AGGRESSIVE FILTERING: Skip obvious non-software entities
+            if self._is_non_software_entity(description, label):
+                continue
             
-            is_non_software = any(keyword in description for keyword in non_software_keywords)
+            # Score this result
+            score = 0
             
-            if not is_non_software:
-                filtered.append(result)
+            # Exact label match (high priority)
+            if label == keyword_lower:
+                score += 100
+            
+            # Partial label match
+            elif keyword_lower in label:
+                score += 50
+            
+            # Software/technology relevance (VERY HIGH WEIGHT - this is key)
+            software_score = self._score_software_relevance(description)
+            score += software_score * 3  # Triple the weight of software relevance
+            
+            # Context relevance (medium weight)
+            context_score = self._score_context_relevance(description, context_lower)
+            score += context_score
+            
+            # Penalize very generic descriptions
+            if len(description) < 20:
+                score -= 10
+            
+            scored_results.append((score, result))
         
-        return filtered
+        # Sort by score (highest first)
+        scored_results.sort(key=lambda x: x[0], reverse=True)
+        
+        return scored_results
+
+    def _is_non_software_entity(self, description: str, label: str) -> bool:
+        """
+        Aggressively filter out non-software entities.
+
+        Args:
+            description: Entity description from Wikidata
+            label: Entity label from Wikidata
+
+        Returns:
+            True if this is clearly a non-software entity, False otherwise
+        """
+        desc_lower = description.lower()
+        label_lower = label.lower()
+        
+        # Check for non-software keywords
+        for non_sw_keyword in self.NON_SOFTWARE_KEYWORDS:
+            if non_sw_keyword in desc_lower or non_sw_keyword in label_lower:
+                return True
+        
+        return False
+
+    def _score_software_relevance(self, description: str) -> int:
+        """
+        Score how relevant this entity is to software/technology.
+
+        Args:
+            description: Entity description from Wikidata
+
+        Returns:
+            Score (0-50) - will be multiplied by 3 in filter_and_score_results
+        """
+        desc_lower = description.lower()
+        score = 0
+        
+        # Count software keyword matches
+        for sw_keyword in self.SOFTWARE_KEYWORDS:
+            if sw_keyword in desc_lower:
+                score += 2
+        
+        # Strong bonuses for specific software concepts
+        if 'computer' in desc_lower or 'program' in desc_lower:
+            score += 10
+        if 'software' in desc_lower:
+            score += 15
+        if 'application' in desc_lower or 'app' in desc_lower:
+            score += 12
+        if 'algorithm' in desc_lower or 'data structure' in desc_lower:
+            score += 8
+        if 'programming' in desc_lower or 'language' in desc_lower:
+            score += 10
+        if 'framework' in desc_lower or 'library' in desc_lower:
+            score += 10
+        
+        return min(score, 50)  # Cap at 50
+
+    def _score_context_relevance(self, description: str, context: str) -> int:
+        """
+        Score how relevant this entity is to the repository context.
+
+        Args:
+            description: Entity description from Wikidata
+            context: Repository context
+
+        Returns:
+            Score (0-30)
+        """
+        desc_lower = description.lower()
+        score = 0
+        
+        # Extract key context words (length > 4 to avoid noise)
+        context_words = [w for w in context.split() if len(w) > 4]
+        
+        # Check for context word matches
+        for word in context_words[:20]:  # Check first 20 words
+            word_lower = word.lower()
+            if word_lower in desc_lower:
+                score += 2
+        
+        return min(score, 30)  # Cap at 30
 
     def _format_entity(self, entity: Dict) -> Dict[str, str]:
         """
@@ -296,8 +391,3 @@ class WikidataKeywordResolver:
     def clear_cache():
         """Clear the resolution cache."""
         WikidataKeywordResolver._cache.clear()
-
-    @staticmethod
-    def get_domain_mapper() -> DomainKeywordMapper:
-        """Get the domain keyword mapper."""
-        return DomainKeywordMapper()

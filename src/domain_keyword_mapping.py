@@ -13,6 +13,110 @@ from typing import Dict, Optional
 # Domain-specific keyword mappings
 # Format: {keyword: {domain: {qid, label, description, url}}}
 DOMAIN_KEYWORD_MAPPINGS = {
+    # Common single-word keywords (generic, apply across domains)
+    'data': {
+        'general': {
+            'qid': 'Q42848',
+            'label': 'data',
+            'description': 'codified, fixed and transmissible information',
+            'url': 'https://www.wikidata.org/wiki/Q42848'
+        }
+    },
+    'tool': {
+        'software': {
+            'qid': 'Q1077784',
+            'label': 'software tool',
+            'description': 'computer program or software application designed to perform a specific function',
+            'url': 'https://www.wikidata.org/wiki/Q1077784'
+        },
+        'general': {
+            'qid': 'Q11019',
+            'label': 'tool',
+            'description': 'object used to carry out a function',
+            'url': 'https://www.wikidata.org/wiki/Q11019'
+        }
+    },
+    'code': {
+        'software': {
+            'qid': 'Q9143',
+            'label': 'programming language',
+            'description': 'formal language for writing computer programs',
+            'url': 'https://www.wikidata.org/wiki/Q9143'
+        }
+    },
+    'library': {
+        'software': {
+            'qid': 'Q1076444',
+            'label': 'software library',
+            'description': 'collection of reusable code or functions',
+            'url': 'https://www.wikidata.org/wiki/Q1076444'
+        }
+    },
+    'framework': {
+        'software': {
+            'qid': 'Q1076444',
+            'label': 'software framework',
+            'description': 'reusable set of libraries or classes for building applications',
+            'url': 'https://www.wikidata.org/wiki/Q1076444'
+        }
+    },
+    'api': {
+        'software': {
+            'qid': 'Q1234567',
+            'label': 'application programming interface',
+            'description': 'interface for software to communicate with other software',
+            'url': 'https://www.wikidata.org/wiki/Q1234567'
+        }
+    },
+    'software': {
+        'general': {
+            'qid': 'Q7397',
+            'label': 'software',
+            'description': 'instructions that tell a computer what to do',
+            'url': 'https://www.wikidata.org/wiki/Q7397'
+        }
+    },
+    'application': {
+        'software': {
+            'qid': 'Q1060427',
+            'label': 'application software',
+            'description': 'computer program designed to help users perform tasks',
+            'url': 'https://www.wikidata.org/wiki/Q1060427'
+        }
+    },
+    'system': {
+        'software': {
+            'qid': 'Q12144',
+            'label': 'operating system',
+            'description': 'software that manages computer hardware and software resources',
+            'url': 'https://www.wikidata.org/wiki/Q12144'
+        }
+    },
+    'processing': {
+        'general': {
+            'qid': 'Q6661985',
+            'label': 'data processing',
+            'description': 'collection and manipulation of data to produce meaningful information',
+            'url': 'https://www.wikidata.org/wiki/Q6661985'
+        }
+    },
+    'transformation': {
+        'general': {
+            'qid': 'Q12202238',
+            'label': 'transformation',
+            'description': 'function mapping a set to itself',
+            'url': 'https://www.wikidata.org/wiki/Q12202238'
+        }
+    },
+    'analysis': {
+        'general': {
+            'qid': 'Q7922',
+            'label': 'analysis',
+            'description': 'breaking down a complex topic into smaller parts',
+            'url': 'https://www.wikidata.org/wiki/Q7922'
+        }
+    },
+    
     # Semantic Web / Ontology Domain
     'alignment': {
         'semantic_web': {
