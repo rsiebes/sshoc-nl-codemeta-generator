@@ -27,6 +27,7 @@ def check_and_install_dependencies():
     required_packages = {
         'requests': 'requests>=2.28.0',
         'bs4': 'beautifulsoup4>=4.11.0',
+        'playwright': 'playwright>=1.40.0',
         'lxml': 'lxml>=4.9.0',
         'nltk': 'nltk>=3.8.0',
         'sklearn': 'scikit-learn>=1.3.0'
@@ -89,6 +90,55 @@ def check_and_install_dependencies():
             print()
     except Exception as e:
         print(f"⚠️  Warning: Could not download NLTK data: {e}")
+        print()
+    
+    # Install Playwright browsers if needed
+    try:
+        import playwright
+        
+        print("🌐 Checking Playwright browsers...")
+        
+        # Check if browsers are installed by trying to launch
+        try:
+            import asyncio
+            from playwright.async_api import async_playwright
+            
+            async def check_browsers():
+                try:
+                    async with async_playwright() as p:
+                        browser = await p.chromium.launch(headless=True)
+                        await browser.close()
+                        return True
+                except Exception:
+                    return False
+            
+            browsers_installed = asyncio.run(check_browsers())
+            
+            if not browsers_installed:
+                print("   Installing Playwright browsers (this may take a minute)...")
+                try:
+                    subprocess.check_call(
+                        [sys.executable, '-m', 'playwright', 'install', 'chromium'],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.PIPE
+                    )
+                    print("✅ Playwright browsers installed successfully")
+                    print()
+                except subprocess.CalledProcessError as e:
+                    print(f"⚠️  Warning: Could not install Playwright browsers: {e}")
+                    print("   The scraper will fall back to HTTP requests without JavaScript rendering")
+                    print()
+            else:
+                print("✅ Playwright browsers already installed")
+                print()
+        except Exception as e:
+            print(f"⚠️  Warning: Could not check Playwright browsers: {e}")
+            print()
+    except ImportError:
+        # Playwright not installed, will be installed by pip
+        pass
+    except Exception as e:
+        print(f"⚠️  Warning: Could not setup Playwright: {e}")
         print()
 
 

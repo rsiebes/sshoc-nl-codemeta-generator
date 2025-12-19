@@ -18,7 +18,14 @@ from typing import Dict, List, Optional, Set, Tuple
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
-from playwright.async_api import async_playwright
+
+# Optional Playwright import for JavaScript rendering
+try:
+    from playwright.async_api import async_playwright
+    PLAYWRIGHT_AVAILABLE = True
+except ImportError:
+    PLAYWRIGHT_AVAILABLE = False
+    async_playwright = None
 
 
 class GitHubContributorsScraper:
@@ -367,6 +374,11 @@ class GitHubContributorsScraper:
         Returns:
             BeautifulSoup object or None if fetch fails
         """
+        if not PLAYWRIGHT_AVAILABLE:
+            print(f"Warning: Playwright not available, falling back to regular HTTP request", file=sys.stderr)
+            sys.stderr.flush()
+            return self._fetch_page(url, use_playwright=False)
+        
         try:
             # Run the async function
             html_content = asyncio.run(self._async_fetch_with_playwright(url))
@@ -376,7 +388,8 @@ class GitHubContributorsScraper:
         except Exception as e:
             print(f"Error fetching {url} with Playwright: {e}", file=sys.stderr)
             sys.stderr.flush()
-            return None
+            # Fallback to regular HTTP request
+            return self._fetch_page(url, use_playwright=False)
 
     async def _async_fetch_with_playwright(self, url: str) -> Optional[str]:
         """
@@ -388,6 +401,9 @@ class GitHubContributorsScraper:
         Returns:
             HTML content or None if fetch fails
         """
+        if not PLAYWRIGHT_AVAILABLE:
+            return None
+        
         try:
             async with async_playwright() as p:
                 browser = await p.chromium.launch(headless=True)
