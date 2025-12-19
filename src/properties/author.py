@@ -8,6 +8,7 @@ Extracts author information including ORCID lookup and organization affiliation.
 from typing import Dict, Any, Optional, List, Union
 from src.base_metadata import BaseMetadata
 from src.orcid_utils import ORCIDLookup
+from src.organization_url_resolver import OrganizationURLResolver
 
 
 class AuthorMetadata(BaseMetadata):
@@ -26,6 +27,7 @@ class AuthorMetadata(BaseMetadata):
         """
         super().__init__(raw_data)
         self.orcid_lookup = ORCIDLookup()
+        self.org_url_resolver = OrganizationURLResolver()
 
     def extract(self) -> Dict[str, Any]:
         """
@@ -285,10 +287,17 @@ class AuthorMetadata(BaseMetadata):
         
         # Add affiliation as Organization object
         if affiliation:
-            person["affiliation"] = {
+            org_obj = {
                 "@type": "Organization",
                 "name": affiliation.strip()
             }
+            
+            # Try to resolve organization URL
+            org_url = self.org_url_resolver.resolve_organization_url(affiliation)
+            if org_url:
+                org_obj["url"] = org_url
+            
+            person["affiliation"] = org_obj
         
         return person
 
