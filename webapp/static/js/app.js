@@ -877,6 +877,96 @@ function closeWikidataModal() {
 
 window.closeWikidataModal = closeWikidataModal;
 
+async function checkPhraseConfidence(phrase) {
+    try {
+        // Search for the exact phrase
+        const response = await fetch(
+            `https://www.wikidata.org/w/api.php?` +
+            `action=wbsearchentities&` +
+            `search=${encodeURIComponent(phrase)}&` +
+            `language=en&` +
+            `limit=3&` +
+            `format=json&` +
+            `origin=*`
+        );
+        
+        if (!response.ok) {
+            return { isHighConfidence: false, reason: 'API error' };
+        }
+        
+        const data = await response.json();
+        const results = data.search || [];
+        
+        if (results.length === 0) {
+            return { isHighConfidence: false, reason: 'No results' };
+        }
+        
+        const topResult = results[0];
+        const label = (topResult.label || '').toLowerCase();
+        const description = (topResult.description || '').toLowerCase();
+        const phraseNormalized = phrase.toLowerCase();
+        
+        // Calculate confidence score
+        let confidence = 0;
+        
+        // Exact label match is very strong indicator
+        if (label === phraseNormalized) {
+            confidence += 50;
+        } else if (label.includes(phraseNormalized) || phraseNormalized.includes(label)) {
+            confidence += 30;
+        }
+        
+        // Has a meaningful description
+        if (description && description.length > 20) {
+            confidence += 20;
+        }
+        
+        // Check for well-known software/tech terms
+        const knownPhrases = [
+            'creative commons', 'machine learning', 'deep learning', 'web scraping',
+            'web crawler', 'natural language', 'artificial intelligence', 'neural network',
+            'open source', 'version control', 'data science', 'computer vision',
+            'software engineering', 'web development', 'mobile development',
+            'cloud computing', 'distributed systems', 'operating system'
+        ];
+        
+        if (knownPhrases.includes(phraseNormalized)) {
+            confidence += 30;
+        }
+        
+        // Check if description contains software-related terms
+        const softwareTerms = [
+            'software', 'programming', 'computer', 'technology', 'license',
+            'organization', 'framework', 'library', 'language', 'tool',
+            'application', 'system', 'protocol', 'algorithm', 'method'
+        ];
+        
+        for (const term of softwareTerms) {
+            if (description.includes(term)) {
+                confidence += 10;
+                break; // Only count once
+            }
+        }
+        
+        // High confidence threshold
+        const isHighConfidence = confidence >= 60;
+        
+        console.log(`Phrase confidence for "${phrase}": ${confidence} (${isHighConfidence ? 'HIGH' : 'LOW'})`);
+        console.log(`  Top result: ${topResult.label} - ${topResult.description}`);
+        
+        return {
+            isHighConfidence,
+            confidence,
+            topResult,
+            reason: isHighConfidence ? 'Strong match found' : 'Weak or ambiguous match'
+        };
+        
+    } catch (error) {
+        console.error('Error checking phrase confidence:', error);
+        return { isHighConfidence: false, reason: 'Error' };
+    }
+}
+
 function scoreAndSortResults(results, query) {
     // Software-related keywords to boost relevance
     const softwareKeywords = [
@@ -944,12 +1034,40 @@ async function searchWikidata(query) {
     resultsDiv.innerHTML = '<div class="wikidata-loading">⏳ Searching Wikidata...</div>';
     
     try {
-        // Perform multiple searches with different contexts
-        const searches = [
-            query, // Original query
-            `${query} software`, // Add software context
-            `${query} programming`, // Add programming context
-        ];
+        // Check if query is a multi-word phrase
+        const isPhrase = query.trim().split(/\s+/).length > 1;
+        
+        let searches = [];
+        
+        if (isPhrase) {
+            // For phrases, first check if the exact phrase has a strong match
+            const phraseConfidence = await checkPhraseConfidence(query);
+            
+            if (phraseConfidence.isHighConfidence) {
+                // High confidence phrase match - only search the full phrase
+                searches = [
+                    query,
+                    `${query} software`,
+                    `${query} programming`
+                ];
+                console.log(`High confidence phrase detected: "${query}" - skipping individual words`);
+            } else {
+                // Low confidence - include individual word searches
+                searches = [
+                    query,
+                    `${query} software`,
+                    `${query} programming`
+                ];
+                console.log(`Low confidence phrase: "${query}" - using standard search`);
+            }
+        } else {
+            // Single word - use standard multi-context search
+            searches = [
+                query,
+                `${query} software`,
+                `${query} programming`
+            ];
+        }
         
         // Collect all results from multiple searches
         const allResults = [];
