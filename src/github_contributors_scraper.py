@@ -13,10 +13,12 @@ Strategies:
 
 import re
 import sys
+import asyncio
 from typing import Dict, List, Optional, Set, Tuple
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
+from playwright.async_api import async_playwright
 
 
 class GitHubContributorsScraper:
@@ -120,7 +122,8 @@ class GitHubContributorsScraper:
         repo_url = f"https://github.com/{owner}/{repo_name}"
 
         try:
-            soup = self._fetch_page(repo_url)
+            # Use Playwright to render JavaScript content
+            soup = self._fetch_page(repo_url, use_playwright=True)
             if not soup:
                 return contributors
 
@@ -130,11 +133,17 @@ class GitHubContributorsScraper:
             seen_usernames = set()
             for link in user_links:
                 href = link.get('href', '')
-                if not href or not href.startswith('/'):
+                # Accept both relative paths (/username) and absolute URLs (https://github.com/username)
+                if not href or (not href.startswith('/') and not href.startswith('http')):
                     continue
 
-                # Extract username from href
-                username = href.strip('/').split('/')[0]
+                # Extract username from href (e.g., "/jgarciab" or "https://github.com/jgarciab")
+                if href.startswith('http'):
+                    # Full URL
+                    username = href.rstrip('/').split('/')[-1]
+                else:
+                    # Relative path
+                    username = href.strip('/').split('/')[-1]
 
                 # Skip non-usernames (e.g., login, signup)
                 if not username or username in ['login', 'signup', 'search', 'notifications']:
@@ -143,8 +152,24 @@ class GitHubContributorsScraper:
                 if username not in seen_usernames:
                     seen_usernames.add(username)
                     
-                    # Try to get display name from link text or title
-                    display_name = link.get_text(strip=True)
+                    # Try to get display name from parent element
+                    display_name = ''
+                    parent = link.parent
+                    if parent:
+                        # Look for span with display name (usually the second span)
+                        spans = parent.find_all('span', recursive=False)
+                        if len(spans) > 1:
+                            # The second span usually contains the display name
+                            display_name = spans[-1].get_text(strip=True)
+                        elif len(spans) == 1:
+                            # If only one span, get all text from parent except username
+                            parent_text = parent.get_text(strip=True)
+                            # Remove username from parent text
+                            display_name = parent_text.replace(username, '').strip()
+                    
+                    # Fallback to link text or title
+                    if not display_name:
+                        display_name = link.get_text(strip=True)
                     if not display_name:
                         display_name = link.get('title', '')
 
@@ -190,7 +215,8 @@ class GitHubContributorsScraper:
             seen_usernames = set()
             for link in user_links:
                 href = link.get('href', '')
-                if not href or not href.startswith('/'):
+                # Accept both relative paths (/username) and absolute URLs (https://github.com/username)
+                if not href or (not href.startswith('/') and not href.startswith('http')):
                     continue
 
                 username = href.strip('/').split('/')[0]
@@ -279,7 +305,7 @@ class GitHubContributorsScraper:
             seen_usernames = set()
             for link in author_links:
                 href = link.get('href', '')
-                if not href or not href.startswith('/'):
+                if not href or (not href.startswith('/') and not href.startswith('http')):
                     continue
 
                 username = href.strip('/').split('/')[0]
@@ -308,16 +334,20 @@ class GitHubContributorsScraper:
 
         return contributors
 
-    def _fetch_page(self, url: str) -> Optional[BeautifulSoup]:
+    def _fetch_page(self, url: str, use_playwright: bool = False) -> Optional[BeautifulSoup]:
         """
         Fetch and parse a GitHub page.
 
         Args:
             url: URL to fetch
+            use_playwright: If True, use Playwright to render JavaScript content
 
         Returns:
             BeautifulSoup object or None if fetch fails
         """
+        if use_playwright:
+            return self._fetch_page_with_playwright(url)
+        
         try:
             response = self.session.get(url, timeout=self.timeout)
             response.raise_for_status()
@@ -326,6 +356,55 @@ class GitHubContributorsScraper:
             print(f"Error fetching {url}: {e}", file=sys.stderr)
             sys.stderr.flush()
             return None
+
+    def _fetch_page_with_playwright(self, url: str) -> Optional[BeautifulSoup]:
+        """
+        Fetch and parse a GitHub page using Playwright for JavaScript rendering.
+
+        Args:
+            url: URL to fetch
+
+        Returns:
+            BeautifulSoup object or None if fetch fails
+        """
+        try:
+            # Run the async function
+            html_content = asyncio.run(self._async_fetch_with_playwright(url))
+            if html_content:
+                return BeautifulSoup(html_content, 'html.parser')
+            return None
+        except Exception as e:
+            print(f"Error fetching {url} with Playwright: {e}", file=sys.stderr)
+            sys.stderr.flush()
+            return None
+
+    async def _async_fetch_with_playwright(self, url: str) -> Optional[str]:
+        """
+        Async function to fetch page content using Playwright.
+
+        Args:
+            url: URL to fetch
+
+        Returns:
+            HTML content or None if fetch fails
+        """
+        try:
+            async with async_playwright() as p:
+                browser = await p.chromium.launch(headless=True)
+                page = await browser.new_page()
+                
+                try:
+                    await page.goto(url, wait_until="networkidle", timeout=30000)
+                    await page.wait_for_timeout(1000)
+                    html_content = await page.content()
+                    return html_content
+                finally:
+                    await browser.close()
+        except Exception as e:
+            print(f"Playwright error for {url}: {e}", file=sys.stderr)
+            sys.stderr.flush()
+            return None
+
 
 
     def _scrape_pull_requests(self, owner: str, repo_name: str) -> List[Dict[str, str]]:
@@ -353,7 +432,7 @@ class GitHubContributorsScraper:
             seen_usernames = set()
             for link in author_links:
                 href = link.get('href', '')
-                if not href or not href.startswith('/'):
+                if not href or (not href.startswith('/') and not href.startswith('http')):
                     continue
 
                 username = href.strip('/').split('/')[0]
@@ -407,7 +486,7 @@ class GitHubContributorsScraper:
             seen_usernames = set()
             for link in author_links:
                 href = link.get('href', '')
-                if not href or not href.startswith('/'):
+                if not href or (not href.startswith('/') and not href.startswith('http')):
                     continue
 
                 username = href.strip('/').split('/')[0]
