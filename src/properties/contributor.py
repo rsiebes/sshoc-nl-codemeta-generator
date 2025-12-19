@@ -9,6 +9,7 @@ Reuses the logic from the author module.
 from typing import Dict, Any, Optional, List, Union
 from src.base_metadata import BaseMetadata
 from src.orcid_utils import ORCIDLookup
+from src.organization_url_resolver import OrganizationURLResolver
 
 
 class ContributorMetadata(BaseMetadata):
@@ -27,6 +28,7 @@ class ContributorMetadata(BaseMetadata):
         """
         super().__init__(raw_data)
         self.orcid_lookup = ORCIDLookup()
+        self.org_url_resolver = OrganizationURLResolver()
 
     def extract(self) -> Dict[str, Any]:
         """
@@ -187,10 +189,17 @@ class ContributorMetadata(BaseMetadata):
         
         # Add affiliation if available
         if affiliation:
-            person['affiliation'] = {
+            org_obj = {
                 "@type": "Organization",
                 "name": affiliation
             }
+            
+            # Try to resolve organization URL
+            org_url = self.org_url_resolver.resolve_organization_url(affiliation)
+            if org_url:
+                org_obj["url"] = org_url
+            
+            person['affiliation'] = org_obj
         
         return person
 
