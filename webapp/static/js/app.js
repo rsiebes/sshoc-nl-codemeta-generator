@@ -877,41 +877,129 @@ function closeWikidataModal() {
 
 window.closeWikidataModal = closeWikidataModal;
 
+function scoreAndSortResults(results, query) {
+    // Software-related keywords to boost relevance
+    const softwareKeywords = [
+        'software', 'programming', 'language', 'library', 'framework', 'tool',
+        'application', 'code', 'computer', 'algorithm', 'data', 'web',
+        'api', 'database', 'system', 'technology', 'development', 'computing',
+        'digital', 'internet', 'network', 'protocol', 'format', 'standard',
+        'method', 'technique', 'process', 'function', 'module', 'package',
+        'platform', 'service', 'interface', 'architecture', 'design pattern',
+        'machine learning', 'artificial intelligence', 'neural network',
+        'open source', 'repository', 'version control', 'git'
+    ];
+    
+    // Keywords to penalize (non-software contexts)
+    const penaltyKeywords = [
+        'person', 'human', 'family name', 'given name', 'surname',
+        'town', 'city', 'place', 'location', 'country', 'region',
+        'song', 'album', 'music', 'band', 'artist', 'film', 'movie',
+        'book', 'novel', 'author', 'writer', 'painting', 'artwork',
+        'sport', 'game', 'player', 'team', 'athlete', 'swimming',
+        'physical', 'biological', 'medical', 'anatomical', 'disease'
+    ];
+    
+    results.forEach(result => {
+        let score = 0;
+        const description = (result.description || '').toLowerCase();
+        const label = (result.label || '').toLowerCase();
+        const combined = `${label} ${description}`;
+        
+        // Boost score for software-related terms
+        for (const keyword of softwareKeywords) {
+            if (combined.includes(keyword)) {
+                score += 20;
+            }
+        }
+        
+        // Penalize non-software contexts
+        for (const keyword of penaltyKeywords) {
+            if (combined.includes(keyword)) {
+                score -= 30;
+            }
+        }
+        
+        // Boost if label closely matches query
+        if (label === query.toLowerCase()) {
+            score += 15;
+        } else if (label.includes(query.toLowerCase())) {
+            score += 10;
+        }
+        
+        // Boost if description exists (more informative)
+        if (description && description.length > 10) {
+            score += 5;
+        }
+        
+        result.relevanceScore = Math.max(0, score);
+    });
+    
+    // Sort by relevance score (descending)
+    return results.sort((a, b) => b.relevanceScore - a.relevanceScore);
+}
+
 async function searchWikidata(query) {
     const resultsDiv = document.getElementById('wikidata-results');
     resultsDiv.innerHTML = '<div class="wikidata-loading">⏳ Searching Wikidata...</div>';
     
     try {
-        // Use Wikidata search API
-        const response = await fetch(
-            `https://www.wikidata.org/w/api.php?` +
-            `action=wbsearchentities&` +
-            `search=${encodeURIComponent(query)}&` +
-            `language=en&` +
-            `limit=10&` +
-            `format=json&` +
-            `origin=*`
-        );
+        // Perform multiple searches with different contexts
+        const searches = [
+            query, // Original query
+            `${query} software`, // Add software context
+            `${query} programming`, // Add programming context
+        ];
         
-        if (!response.ok) {
-            throw new Error('Wikidata search failed');
+        // Collect all results from multiple searches
+        const allResults = [];
+        const seenIds = new Set();
+        
+        for (const searchQuery of searches) {
+            const response = await fetch(
+                `https://www.wikidata.org/w/api.php?` +
+                `action=wbsearchentities&` +
+                `search=${encodeURIComponent(searchQuery)}&` +
+                `language=en&` +
+                `limit=10&` +
+                `format=json&` +
+                `origin=*`
+            );
+            
+            if (response.ok) {
+                const data = await response.json();
+                const searchResults = data.search || [];
+                
+                // Add unique results
+                for (const result of searchResults) {
+                    if (!seenIds.has(result.id)) {
+                        seenIds.add(result.id);
+                        allResults.push(result);
+                    }
+                }
+            }
         }
         
-        const data = await response.json();
-        const results = data.search || [];
+        // Score and sort results based on software relevance
+        const results = scoreAndSortResults(allResults, query);
         
         if (results.length === 0) {
             resultsDiv.innerHTML = '<div class="wikidata-no-results">No results found</div>';
             return;
         }
         
-        // Display results
+        // Display results (limit to top 10)
         resultsDiv.innerHTML = '';
-        results.forEach(result => {
+        results.slice(0, 10).forEach(result => {
             const resultItem = document.createElement('div');
             resultItem.className = 'wikidata-result-item';
+            
+            // Add relevance badge if highly relevant
+            const relevanceBadge = result.relevanceScore > 50 ? 
+                '<span class="wikidata-relevance-badge">🎯 Software-related</span>' : '';
+            
             resultItem.innerHTML = `
-                <div class="wikidata-result-title">${result.label}</div>
+                <div class="wikidata-result-title">${result.label} ${relevanceBadge}</div>
                 <div class="wikidata-result-description">${result.description || 'No description'}</div>
                 <div class="wikidata-result-id">${result.id}</div>
             `;
