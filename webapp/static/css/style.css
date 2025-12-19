@@ -403,42 +403,20 @@ header p {
     border-color: #dc2626;
 }
 
-/* Undo Notification */
-.undo-notification {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    display: none;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-    background-color: var(--text-primary);
-    color: white;
-    border-radius: 8px;
-    box-shadow: var(--shadow-lg);
-    z-index: 1000;
-    animation: slideIn 0.3s ease-out;
+/* Undo Container */
+.undo-container {
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: #fef3c7;
+    border: 1px solid #fbbf24;
+    border-radius: 6px;
+    text-align: center;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.undo-notification span {
-    font-weight: 500;
-}
-
-.btn-undo {
+.btn-undo-persistent {
     padding: 0.5rem 1rem;
-    background-color: white;
-    color: var(--text-primary);
+    background-color: #f59e0b;
+    color: white;
     border: none;
     border-radius: 6px;
     font-size: 0.875rem;
@@ -447,19 +425,14 @@ header p {
     transition: all 0.2s;
 }
 
-.btn-undo:hover {
-    background-color: var(--bg-color);
+.btn-undo-persistent:hover {
+    background-color: #d97706;
 }
 
 /* Array Item */
 .array-item {
     position: relative;
     transition: opacity 0.3s, transform 0.3s;
-}
-
-.array-item.removing {
-    opacity: 0;
-    transform: translateX(-20px);
 }
 
 /* Footer */

@@ -259,6 +259,21 @@ function buildArrayField(key, array, container, fieldPath) {
     
     // Check if array contains objects or primitives
     if (array.length > 0 && typeof array[0] === 'object' && array[0] !== null) {
+        // Add undo button container at the top of the array section
+        const undoContainer = document.createElement('div');
+        undoContainer.className = 'undo-container';
+        undoContainer.style.display = 'none';
+        undoContainer.dataset.arrayPath = fieldPath;
+        
+        const undoBtn = document.createElement('button');
+        undoBtn.type = 'button';
+        undoBtn.className = 'btn-undo-persistent';
+        undoBtn.innerHTML = '↶ Undo last removal';
+        undoBtn.onclick = () => undoForArray(fieldPath);
+        
+        undoContainer.appendChild(undoBtn);
+        arrayContainer.appendChild(undoContainer);
+        
         // Array of objects - create nested fields for each
         array.forEach((item, index) => {
             const itemContainer = document.createElement('div');
@@ -330,10 +345,10 @@ function formatLabel(key) {
 }
 
 function removeArrayItem(itemContainer, arrayPath, index) {
-    // Save current state to undo stack
-    saveToUndoStack();
+    // Save current state to undo stack for this specific array
+    saveToUndoStack(arrayPath);
     
-    // Remove the item from the DOM
+    // Remove the item from the DOM with animation
     itemContainer.style.opacity = '0.5';
     itemContainer.style.transition = 'opacity 0.3s';
     
@@ -343,14 +358,19 @@ function removeArrayItem(itemContainer, arrayPath, index) {
         // Update the data and rebuild JSON
         updateCurrentDataAndJson();
         
-        // Show undo notification
-        showUndoNotification();
+        // Show undo button for this array
+        showUndoButton(arrayPath);
     }, 300);
 }
 
-function saveToUndoStack() {
-    // Save a deep copy of the current state
-    undoStack.push(JSON.parse(JSON.stringify(currentCodemetaData)));
+function saveToUndoStack(arrayPath) {
+    // Save a deep copy of the current state with the array path
+    const undoEntry = {
+        arrayPath: arrayPath,
+        state: JSON.parse(JSON.stringify(currentCodemetaData))
+    };
+    
+    undoStack.push(undoEntry);
     
     // Limit undo stack to 10 items
     if (undoStack.length > 10) {
@@ -358,55 +378,54 @@ function saveToUndoStack() {
     }
 }
 
-function undo() {
-    if (undoStack.length === 0) {
-        alert('Nothing to undo');
+function undoForArray(arrayPath) {
+    // Find the most recent undo entry for this array path
+    let undoIndex = -1;
+    for (let i = undoStack.length - 1; i >= 0; i--) {
+        if (undoStack[i].arrayPath === arrayPath) {
+            undoIndex = i;
+            break;
+        }
+    }
+    
+    if (undoIndex === -1) {
+        alert('Nothing to undo for this section');
         return;
     }
     
     // Restore previous state
-    const previousState = undoStack.pop();
-    currentCodemetaData = previousState;
+    const undoEntry = undoStack[undoIndex];
+    currentCodemetaData = undoEntry.state;
+    
+    // Remove this entry from undo stack
+    undoStack.splice(undoIndex, 1);
     
     // Rebuild the form and JSON display
     buildEditForm(currentCodemetaData);
     displayJsonResult(currentCodemetaData);
     
-    // Hide undo notification
-    hideUndoNotification();
-}
-
-function showUndoNotification() {
-    let notification = document.getElementById('undo-notification');
-    
-    if (!notification) {
-        notification = document.createElement('div');
-        notification.id = 'undo-notification';
-        notification.className = 'undo-notification';
-        notification.innerHTML = `
-            <span>Item removed</span>
-            <button onclick="undo()" class="btn-undo">↶ Undo</button>
-        `;
-        document.body.appendChild(notification);
-    }
-    
-    notification.style.display = 'flex';
-    
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-        hideUndoNotification();
-    }, 5000);
-}
-
-function hideUndoNotification() {
-    const notification = document.getElementById('undo-notification');
-    if (notification) {
-        notification.style.display = 'none';
+    // Check if there are more undo entries for this array
+    const hasMoreUndos = undoStack.some(entry => entry.arrayPath === arrayPath);
+    if (!hasMoreUndos) {
+        hideUndoButton(arrayPath);
     }
 }
 
-// Make undo function globally accessible
-window.undo = undo;
+function showUndoButton(arrayPath) {
+    // Find the undo container for this array path
+    const undoContainer = document.querySelector(`.undo-container[data-array-path="${arrayPath}"]`);
+    if (undoContainer) {
+        undoContainer.style.display = 'block';
+    }
+}
+
+function hideUndoButton(arrayPath) {
+    // Find the undo container for this array path
+    const undoContainer = document.querySelector(`.undo-container[data-array-path="${arrayPath}"]`);
+    if (undoContainer) {
+        undoContainer.style.display = 'none';
+    }
+}
 
 function updateCurrentDataAndJson() {
     // Collect form data and update current codemeta
@@ -509,15 +528,20 @@ document.getElementById('download-json').addEventListener('click', () => {
 document.getElementById('save-edits').addEventListener('click', () => {
     if (!currentCodemetaData) return;
     
-    // Save current state to undo stack
-    saveToUndoStack();
-    
     // Collect form data and reconstruct the object
     const updatedCodemeta = collectFormData();
     
     // Update current data and JSON display
     currentCodemetaData = updatedCodemeta;
     displayJsonResult(updatedCodemeta);
+    
+    // Clear undo stack since we're saving
+    undoStack = [];
+    
+    // Hide all undo buttons
+    document.querySelectorAll('.undo-container').forEach(container => {
+        container.style.display = 'none';
+    });
     
     alert('Changes saved! You can now download the updated JSON.');
     switchTab('json');
