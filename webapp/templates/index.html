@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codemeta Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 Codemeta Generator</h1>
+            <p>Generate and edit codemeta.json metadata for GitHub repositories</p>
+        </header>
+
+        <main>
+            <!-- Input Panel -->
+            <section class="input-panel">
+                <div class="input-group">
+                    <label for="github-url">GitHub Repository URL</label>
+                    <input 
+                        type="url" 
+                        id="github-url" 
+                        placeholder="https://github.com/owner/repository"
+                        autocomplete="off"
+                    >
+                </div>
+                <button id="generate-btn" class="btn-primary">
+                    <span class="btn-text">Generate Codemeta</span>
+                    <span class="btn-spinner" style="display: none;">
+                        <span class="spinner"></span> Generating...
+                    </span>
+                </button>
+                <div id="error-message" class="error-message" style="display: none;"></div>
+            </section>
+
+            <!-- Tabs -->
+            <section class="tabs-container" id="tabs-container" style="display: none;">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="terminal">Terminal Output</button>
+                    <button class="tab-btn" data-tab="json">JSON Result</button>
+                    <button class="tab-btn" data-tab="edit">Edit Metadata</button>
+                </div>
+
+                <!-- Terminal Panel -->
+                <div class="tab-content active" id="terminal-tab">
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span>Terminal Output</span>
+                            <button id="clear-terminal" class="btn-small">Clear</button>
+                        </div>
+                        <div class="terminal-body" id="terminal-output"></div>
+                    </div>
+                </div>
+
+                <!-- JSON Panel -->
+                <div class="tab-content" id="json-tab">
+                    <div class="json-viewer">
+                        <div class="json-header">
+                            <span>Generated Codemeta JSON</span>
+                            <button id="copy-json" class="btn-small">Copy</button>
+                            <button id="download-json" class="btn-small">Download</button>
+                        </div>
+                        <pre id="json-output" class="json-content"></pre>
+                    </div>
+                </div>
+
+                <!-- Edit Panel -->
+                <div class="tab-content" id="edit-tab">
+                    <div class="edit-panel">
+                        <div class="edit-header">
+                            <span>Edit Metadata</span>
+                            <button id="save-edits" class="btn-small">Save Changes</button>
+                        </div>
+                        <form id="edit-form" class="edit-form"></form>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>
+                Powered by <a href="https://github.com/rsiebes/sshoc-nl-codemeta-generator" target="_blank">sshoc-nl-codemeta-generator</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
