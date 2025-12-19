@@ -1,92 +1,180 @@
 {
   "@context": "https://w3id.org/codemeta/3.1",
   "@type": "SoftwareSourceCode",
-  "name": "amalgame",
-  "description": "Amalgame: a SKOS vocabulary alignment tool",
-  "url": "https://github.com/jrvosse/amalgame",
-  "version": "V1.0.0",
-  "codeRepository": "https://github.com/jrvosse/amalgame",
+  "name": "OnlySwitch",
+  "description": "⚙️ All-in-One menu bar app, hide 💻MacBook Pro's notch, dark mode, AirPods, Shortcuts",
+  "url": "https://github.com/jacklandrin/OnlySwitch",
+  "version": "beta_2_2.6.3",
+  "codeRepository": "https://github.com/jacklandrin/OnlySwitch",
   "license": {
-    "@id": "https://spdx.org/licenses/BSD-2-Clause",
-    "name": "BSD-2-Clause"
+    "@id": "https://spdx.org/licenses/MIT",
+    "name": "MIT"
   },
   "keywords": [
-    "amalgame",
-    "skos vocabulary",
-    "skos",
-    "vocabulary",
-    "alignment tool",
-    "alignment",
-    "tool",
-    "vocabulary alignment",
-    "amalgame skos"
+    "macos",
+    "wallpaper",
+    "ai",
+    "statusbar",
+    "widgets",
+    "pomodoro-timer",
+    "shortcuts",
+    "sonoma",
+    "dark-mode",
+    "widgetkit",
+    "notch",
+    "audioplayer",
+    "ai-agents",
+    "swiftui",
+    "swift5"
   ],
   "programmingLanguage": [
-    "Prolog",
-    "JavaScript",
-    "CSS"
+    "Swift",
+    "Objective-C",
+    "Shell"
   ],
   "author": [
     {
       "@type": "Person",
-      "name": "Jacco van Ossenbruggen",
-      "givenName": "Jacco",
-      "familyName": "van Ossenbruggen",
-      "@id": "https://orcid.org/0000-0002-7748-4715",
+      "name": "Bo Liu",
+      "givenName": "Bo",
+      "familyName": "Liu",
+      "email": "jacklandrin@hotmail.com",
+      "@id": "https://orcid.org/0000-0003-0203-3183",
       "affiliation": {
         "@type": "Organization",
-        "name": "VU"
+        "name": "Axel Springer"
       }
     }
   ],
   "contributor": [
     {
       "@type": "Person",
-      "name": "Jacco van Ossenbruggen",
-      "givenName": "Jacco",
-      "familyName": "van Ossenbruggen",
-      "@id": "https://orcid.org/0000-0002-7748-4715",
+      "name": "Bo Liu",
+      "givenName": "Bo",
+      "familyName": "Liu",
+      "email": "jacklandrin@hotmail.com",
+      "@id": "https://orcid.org/0000-0003-0203-3183",
       "affiliation": {
         "@type": "Organization",
-        "name": "VU"
+        "name": "Axel Springer"
       }
+    },
+    {
+      "@type": "Person",
+      "name": "Andriy Kupyna",
+      "givenName": "Andriy",
+      "familyName": "Kupyna"
+    },
+    {
+      "@type": "Person",
+      "name": "Darío Hereñú",
+      "givenName": "Darío",
+      "familyName": "Hereñú"
+    },
+    {
+      "@type": "Person",
+      "name": "Marvin",
+      "email": "Marvin.Jaeckisch1@web.de",
+      "@id": "https://orcid.org/0000-0002-5878-7948",
+      "givenName": "Marvin",
+      "familyName": "Albarrán Araujo"
+    },
+    {
+      "@type": "Person",
+      "name": "Everton Cardoso Acchetta",
+      "givenName": "Everton",
+      "familyName": "Cardoso Acchetta",
+      "@id": "https://orcid.org/0000-0002-9733-5186",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Avenue"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Sunggweon Hyeong",
+      "givenName": "Sunggweon",
+      "familyName": "Hyeong",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "@happn-app"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Milo Ivir",
+      "givenName": "Milo",
+      "familyName": "Ivir"
+    },
+    {
+      "@type": "Person",
+      "name": "Abdirizak Abdalla ",
+      "givenName": "Abdirizak",
+      "familyName": "Abdalla ",
+      "email": "cabdirizaaqyare12@gmail.com",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Safarifone Inc."
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Krzysztof Pacholak",
+      "givenName": "Krzysztof",
+      "familyName": "Pacholak",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "@Keto-Mojo"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Zabriskije"
     }
   ],
   "maintainer": {
     "@type": "Person",
-    "name": "Jacco van Ossenbruggen",
-    "@id": "https://orcid.org/0000-0002-7748-4715",
+    "name": "Bo Liu",
+    "email": "jacklandrin@hotmail.com",
+    "@id": "https://orcid.org/0000-0003-0203-3183",
     "affiliation": {
       "@type": "Organization",
-      "name": "VU"
+      "name": "Axel Springer"
     }
   },
-  "dateCreated": "2014-05-10T12:10:52+00:00",
-  "dateModified": "2023-05-16T17:10:22+00:00",
-  "readme": "https://github.com/jrvosse/amalgame#readme",
-  "buildInstructions": "https://github.com/jrvosse/amalgame#installation",
-  "issueTracker": "https://github.com/jrvosse/amalgame/issues",
-  "downloadUrl": "https://github.com/jrvosse/amalgame/archive/refs/tags/V1.0.0.zip",
-  "datePublished": "2018-04-25",
-  "developmentStatus": "https://www.repostatus.org/#unsupported",
+  "dateCreated": "2021-11-30T23:33:09+00:00",
+  "dateModified": "2021-11-30T23:33:09+00:00",
+  "readme": "https://github.com/jacklandrin/OnlySwitch#readme",
+  "issueTracker": "https://github.com/jacklandrin/OnlySwitch/issues",
+  "downloadUrl": "https://github.com/jacklandrin/OnlySwitch/archive/refs/tags/beta_2_2.6.3.zip",
+  "datePublished": "2025-06-29",
+  "developmentStatus": "https://www.repostatus.org/#abandoned",
   "softwareRequirements": [
     {
       "@type": "SoftwareSourceCode",
-      "name": "Prolog",
-      "description": "Prolog runtime environment",
-      "language": "Prolog"
-    },
-    {
-      "@type": "SoftwareSourceCode",
-      "name": "Node.js",
-      "version": ">= 14.0",
-      "description": "Node.js runtime environment",
-      "language": "JavaScript"
+      "name": "Swift",
+      "version": ">= 5.0",
+      "description": "Swift compiler and runtime",
+      "language": "Swift"
     }
   ],
   "applicationCategory": {
-    "@id": "https://www.wikidata.org/wiki/Q1234572",
-    "name": "Tool"
+    "@id": "https://www.wikidata.org/wiki/Q1234575",
+    "name": "Integrated Development Environment"
   },
-  "applicationSubCategory": "tool, amalgame, interactive, typically, entities"
+  "applicationSubCategory": "macos, wallpaper, statusbar, widgets, pomodoro-timer",
+  "operatingSystem": [
+    {
+      "@id": "https://www.wikidata.org/wiki/Q14116",
+      "name": "macOS"
+    },
+    {
+      "@id": "https://www.wikidata.org/wiki/Q16",
+      "name": "iOS"
+    },
+    {
+      "@id": "https://www.wikidata.org/wiki/Q1406",
+      "name": "Windows"
+    }
+  ]
 }

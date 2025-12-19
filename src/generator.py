@@ -32,6 +32,7 @@ from src.properties.development_status import DevelopmentStatusMetadata
 from src.properties.software_requirements import SoftwareRequirementsMetadata
 from src.properties.application_category import ApplicationCategoryMetadata
 from src.properties.application_sub_category import ApplicationSubCategoryMetadata
+from src.properties.operating_system import OperatingSystemMetadata
 
 
 class CodemetaGenerator:
@@ -67,6 +68,7 @@ class CodemetaGenerator:
             SoftwareRequirementsMetadata,
             ApplicationCategoryMetadata,
             ApplicationSubCategoryMetadata,
+            OperatingSystemMetadata,
         ]
 
     def generate(self, repo_url: str) -> Dict[str, Any]:
