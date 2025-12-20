@@ -8,6 +8,7 @@ The license specifies the terms under which the software is distributed.
 from typing import Dict, Any, Optional, Union, List
 from src.base_metadata import BaseMetadata
 from src.utils import normalize_license, get_spdx_license, get_spdx_license_url
+from src.execution_profiler import profile
 
 
 class LicenseMetadata(BaseMetadata):

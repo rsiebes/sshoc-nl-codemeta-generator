@@ -8,6 +8,7 @@ Supports both GitHub and non-GitHub repositories.
 import re
 from typing import Dict, Optional, List
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class IdentifierMetadata(BaseMetadata):

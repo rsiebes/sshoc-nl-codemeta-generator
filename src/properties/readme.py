@@ -7,6 +7,7 @@ which provides a URL to the README documentation file.
 
 from typing import Dict, Any, Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class ReadmeMetadata(BaseMetadata):

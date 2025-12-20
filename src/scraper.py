@@ -13,6 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urljoin
 from src.github_contributors_scraper import GitHubContributorsScraper
+from src.execution_profiler import get_profiler, profile
 
 
 class GitHubScraper:
@@ -593,6 +594,7 @@ class GitHubScraper:
         
         return None
 
+    @profile("Fetch Contributors", "scraper")
     def _fetch_contributors(self, owner: str, repo_name: str) -> List[Dict]:
         """
         Fetch contributors from GitHub repository using multiple scraping strategies.

@@ -27,6 +27,7 @@ from typing import Dict, Any, Optional, List, Union
 from src.base_metadata import BaseMetadata
 from src.nlp_utils import KeywordExtractor
 from src.wikidata_keyword_resolver import WikidataKeywordResolver
+from src.execution_profiler import profile
 
 
 class KeywordsMetadata(BaseMetadata):

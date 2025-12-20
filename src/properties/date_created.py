@@ -8,6 +8,7 @@ The dateCreated specifies when the software was created (first commit date).
 from datetime import datetime
 from typing import Dict, Any, Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class DateCreatedMetadata(BaseMetadata):

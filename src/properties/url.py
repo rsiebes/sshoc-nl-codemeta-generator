@@ -8,6 +8,7 @@ The URL points to the software's website or homepage.
 from typing import Dict, Any, Optional
 import re
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class UrlMetadata(BaseMetadata):

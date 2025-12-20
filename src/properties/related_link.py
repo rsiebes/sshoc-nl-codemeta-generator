@@ -7,6 +7,7 @@ Related link(s)
 
 from typing import Dict, Any, Optional, Union, List
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class RelatedLinkMetadata(BaseMetadata):

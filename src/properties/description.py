@@ -7,6 +7,7 @@ The description provides a detailed explanation of what the software does.
 
 from typing import Dict, Any, Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class DescriptionMetadata(BaseMetadata):

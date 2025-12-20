@@ -8,6 +8,7 @@ to create meaningful applicationSubCategory values.
 import re
 from typing import Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class ApplicationSubCategoryMetadata(BaseMetadata):

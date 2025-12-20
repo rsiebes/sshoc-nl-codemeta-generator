@@ -8,6 +8,7 @@ Supports GitHub, GitLab, Bitbucket, and package registries.
 import re
 from typing import Dict, Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class DownloadUrlMetadata(BaseMetadata):

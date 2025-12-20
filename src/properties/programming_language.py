@@ -24,6 +24,7 @@ from typing import Dict, Any, Optional, List, Union
 import re
 from src.base_metadata import BaseMetadata
 from src.wikidata_keyword_resolver import WikidataKeywordResolver
+from src.execution_profiler import profile
 
 
 class ProgrammingLanguageMetadata(BaseMetadata):

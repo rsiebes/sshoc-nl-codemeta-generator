@@ -8,6 +8,7 @@ This is the URL of the version control repository where the source code is hoste
 from typing import Dict, Any, Optional
 import re
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class CodeRepositoryMetadata(BaseMetadata):

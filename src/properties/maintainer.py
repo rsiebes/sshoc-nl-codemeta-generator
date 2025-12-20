@@ -9,6 +9,7 @@ from typing import Dict, List, Any, Optional
 from src.base_metadata import BaseMetadata
 from src.orcid_utils import ORCIDLookup
 from src.organization_url_resolver import OrganizationURLResolver
+from src.execution_profiler import profile
 
 
 class MaintainerMetadata(BaseMetadata):

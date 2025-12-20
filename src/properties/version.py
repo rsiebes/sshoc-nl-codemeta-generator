@@ -8,6 +8,7 @@ The version identifies the current release of the software.
 from typing import Dict, Any, Optional
 import re
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class VersionMetadata(BaseMetadata):

@@ -8,6 +8,7 @@ The dateModified specifies when the software was last modified (last commit date
 from datetime import datetime
 from typing import Dict, Any, Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class DateModifiedMetadata(BaseMetadata):

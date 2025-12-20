@@ -7,6 +7,7 @@ The name is a required field that identifies the software.
 
 from typing import Dict, Any, Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class NameMetadata(BaseMetadata):

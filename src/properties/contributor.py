@@ -10,6 +10,7 @@ from typing import Dict, Any, Optional, List, Union
 from src.base_metadata import BaseMetadata
 from src.orcid_utils import ORCIDLookup
 from src.organization_url_resolver import OrganizationURLResolver
+from src.execution_profiler import profile
 
 
 class ContributorMetadata(BaseMetadata):

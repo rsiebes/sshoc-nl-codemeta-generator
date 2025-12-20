@@ -6,6 +6,7 @@ This module extracts the issue tracker URL from GitHub repositories.
 
 from typing import Dict, Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class IssueTrackerMetadata(BaseMetadata):

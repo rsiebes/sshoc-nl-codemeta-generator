@@ -7,6 +7,7 @@ Links to installation/build documentation for the software.
 
 from typing import Dict, Any, Optional
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 import re
 
 

@@ -34,6 +34,8 @@ from src.properties.software_requirements import SoftwareRequirementsMetadata
 from src.properties.application_category import ApplicationCategoryMetadata
 from src.properties.application_sub_category import ApplicationSubCategoryMetadata
 from src.properties.operating_system import OperatingSystemMetadata
+from src.execution_profiler import get_profiler, profile
+from src.wikidata_keyword_resolver import WikidataKeywordResolver
 
 
 class CodemetaGenerator:
@@ -72,6 +74,7 @@ class CodemetaGenerator:
             OperatingSystemMetadata,
         ]
 
+    @profile("Generate Codemeta", "main")
     def generate(self, repo_url: str) -> Dict[str, Any]:
         """
         Generate Codemeta metadata for a GitHub repository.

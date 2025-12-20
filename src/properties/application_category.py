@@ -15,6 +15,7 @@ from typing import Optional, Dict, List, Tuple
 from src.base_metadata import BaseMetadata
 from src.vocabulary_cache import get_vocabulary_cache
 from src.wikidata_vocabulary_builder import WikidataVocabularyBuilder
+from src.execution_profiler import profile
 
 
 class ApplicationCategoryMetadata(BaseMetadata):

@@ -7,6 +7,7 @@ Runtime platform(s) required
 
 from typing import Dict, Any, Optional, Union, List
 from src.base_metadata import BaseMetadata
+from src.execution_profiler import profile
 
 
 class RuntimePlatformMetadata(BaseMetadata):
