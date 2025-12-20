@@ -142,6 +142,7 @@ def check_and_install_dependencies():
         print()
 
 
+from src.execution_profiler import get_profiler
 from src.generator import CodemetaGenerator
 
 
@@ -213,11 +214,16 @@ For more information, visit: https://codemeta.github.io/
     print()
     
     try:
+        profiler = get_profiler(verbose=True)
+        profiler.start()
+        
         # Create generator
         generator = CodemetaGenerator()
         
         # Generate Codemeta
         generator.generate_to_file(args.repo_url, args.output)
+        
+        profiler.end_with_detailed_summary()
         
         print()
         print("=" * 70)

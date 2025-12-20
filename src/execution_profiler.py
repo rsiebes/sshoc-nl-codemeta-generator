@@ -246,3 +246,118 @@ def profile(func_name: str = "", category: str = ""):
         profiler = get_profiler()
         return profiler.profile_function(name, category)(func)
     return decorator
+
+
+# Add detailed summary methods to ExecutionProfiler
+def _add_detailed_methods():
+    """Add detailed summary methods to ExecutionProfiler class."""
+    
+    def get_summary_by_category(self):
+        """Get execution summary grouped by category."""
+        by_category = {}
+        for func_name, stats in self.function_timings.items():
+            if '[' in func_name and ']' in func_name:
+                category = func_name.split('[')[1].split(']')[0]
+            else:
+                category = 'other'
+            
+            if category not in by_category:
+                by_category[category] = []
+            
+            by_category[category].append((func_name, stats))
+        
+        return by_category
+    
+    def print_detailed_summary(self):
+        """Print a detailed summary grouped by category."""
+        if self.start_time is None:
+            return
+        
+        total_time = time.time() - self.start_time
+        
+        if not self.verbose:
+            return
+        
+        print("\n" + "=" * 100)
+        print("📊 DETAILED EXECUTION SUMMARY BY CATEGORY")
+        print("=" * 100)
+        
+        by_category = self.get_summary_by_category()
+        
+        # Sort categories by total time
+        category_times = {}
+        for category, funcs in by_category.items():
+            category_times[category] = sum(f[1]['total_time'] for f in funcs)
+        
+        sorted_categories = sorted(category_times.items(), key=lambda x: x[1], reverse=True)
+        
+        for category, cat_total_time in sorted_categories:
+            funcs = by_category[category]
+            percent = (cat_total_time / total_time * 100) if total_time > 0 else 0
+            
+            print(f"\n🏷️  Category: {category.upper()}")
+            print(f"   Total Time: {cat_total_time:.3f}s ({percent:.1f}%)")
+            print("   " + "-" * 96)
+            
+            # Sort functions by time within category
+            sorted_funcs = sorted(funcs, key=lambda x: x[1]['total_time'], reverse=True)
+            
+            for func_name, stats in sorted_funcs:
+                # Clean up function name for display
+                display_name = func_name.replace(f'[{category}] ', '')
+                total = stats['total_time']
+                count = stats['call_count']
+                avg = total / count if count > 0 else 0
+                cat_percent = (total / cat_total_time * 100) if cat_total_time > 0 else 0
+                
+                print(f"   {display_name:50} {total:8.3f}s ({cat_percent:5.1f}%) [{count:3} calls, avg {avg:.3f}s]")
+            
+            print("   " + "-" * 96)
+        
+        print("\n" + "=" * 100)
+    
+    def end_with_detailed_summary(self):
+        """End profiler and print detailed summary."""
+        if self.start_time is None:
+            return
+        
+        total_time = time.time() - self.start_time
+        
+        if self.verbose:
+            print("\n" + "=" * 100)
+            print(f"✅ Execution completed in {total_time:.2f}s")
+            print("=" * 100)
+            
+            if self.function_timings:
+                # Print detailed summary by category
+                self.print_detailed_summary()
+                
+                # Print overall summary
+                print("\n" + "=" * 100)
+                print("📈 OVERALL EXECUTION SUMMARY")
+                print("=" * 100)
+                
+                sorted_funcs = sorted(
+                    self.function_timings.items(),
+                    key=lambda x: x[1]['total_time'],
+                    reverse=True
+                )
+                
+                for func_name, stats in sorted_funcs[:20]:  # Top 20
+                    total = stats['total_time']
+                    count = stats['call_count']
+                    avg = total / count if count > 0 else 0
+                    percent = (total / total_time * 100) if total_time > 0 else 0
+                    
+                    print(f"  {func_name:60} {total:8.3f}s ({percent:5.1f}%) [{count:3} calls, avg {avg:.3f}s]")
+                
+                print("=" * 100)
+            print()
+    
+    # Add methods to ExecutionProfiler class
+    ExecutionProfiler.get_summary_by_category = get_summary_by_category
+    ExecutionProfiler.print_detailed_summary = print_detailed_summary
+    ExecutionProfiler.end_with_detailed_summary = end_with_detailed_summary
+
+# Add the methods when module is loaded
+_add_detailed_methods()
