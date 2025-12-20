@@ -44,9 +44,9 @@ class CodemetaGenerator:
     CODEMETA_VERSION = "3.1"
     CODEMETA_CONTEXT = "https://w3id.org/codemeta/3.1"
     
-    def __init__(self):
+    def __init__(self, use_api: bool = True):
         """Initialize the generator."""
-        self.scraper = GitHubScraper()
+        self.scraper = GitHubScraper(use_api=use_api)
         self.property_modules = [
             NameMetadata,
             DescriptionMetadata,

@@ -185,6 +185,12 @@ For more information, visit: https://codemeta.github.io/
     )
     
     parser.add_argument(
+        '--scrape-only',
+        action='store_true',
+        help='Use web scraping instead of GitHub API (default: use API)'
+    )
+    
+    parser.add_argument(
         '--no-install',
         action='store_true',
         help='Skip automatic dependency installation'
@@ -218,7 +224,7 @@ For more information, visit: https://codemeta.github.io/
         profiler.start()
         
         # Create generator
-        generator = CodemetaGenerator()
+        generator = CodemetaGenerator(use_api=not args.scrape_only)
         
         # Generate Codemeta
         generator.generate_to_file(args.repo_url, args.output)

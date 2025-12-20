@@ -7,26 +7,30 @@ It uses requests and BeautifulSoup to parse GitHub pages without using the API.
 
 import re
 import sys
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Any
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urljoin
 from src.github_contributors_scraper import GitHubContributorsScraper
+from src.github_api_client import GitHubAPIClient
 from src.execution_profiler import get_profiler, profile
 
 
 class GitHubScraper:
     """Scrapes GitHub repository metadata from web pages."""
 
-    def __init__(self, timeout: int = 10):
+    def __init__(self, timeout: int = 10, use_api: bool = True):
         """
         Initialize the GitHub scraper.
 
         Args:
             timeout: Request timeout in seconds
+            use_api: Whether to use GitHub API (default: True)
         """
         self.timeout = timeout
+        self.use_api = use_api
+        self.api_client = GitHubAPIClient() if use_api else None
         self.session = requests.Session()
         self.session.headers.update({
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
@@ -595,6 +599,44 @@ class GitHubScraper:
         return None
 
     @profile("Fetch Contributors", "scraper")
+    def _fetch_contributors_from_api(self, owner: str, repo: str) -> List[Dict[str, Any]]:
+        """Fetch contributors using GitHub API."""
+        if not self.api_client:
+            return []
+        
+        try:
+            contributors_data = self.api_client.get_contributors(owner, repo)
+            contributors = []
+            
+            for contrib in contributors_data:
+                username = contrib.get('login', '')
+                if not username:
+                    continue
+                
+                # Get full user details
+                try:
+                    user_data = self.api_client.get_user(username)
+                except Exception:
+                    user_data = {}
+                
+                contributor = {
+                    'username': username,
+                    'display_name': user_data.get('name', username),
+                    'email': user_data.get('email'),
+                    'url': user_data.get('html_url'),
+                    'company': user_data.get('company'),
+                    'location': user_data.get('location'),
+                    'bio': user_data.get('bio'),
+                    'contributions': contrib.get('contributions', 0)
+                }
+                
+                contributors.append(contributor)
+            
+            return contributors
+        except Exception as e:
+            self.profiler.log_warning(f"Failed to fetch contributors from API: {e}")
+            return []
+    
     def _fetch_contributors(self, owner: str, repo_name: str) -> List[Dict]:
         """
         Fetch contributors from GitHub repository using multiple scraping strategies.
