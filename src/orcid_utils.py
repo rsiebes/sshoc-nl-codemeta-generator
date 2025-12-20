@@ -169,7 +169,7 @@ class ORCIDLookup:
     @staticmethod
     def get_orcid_details(orcid_id: str) -> Optional[Dict[str, Any]]:
         """
-        Get detailed ORCID information.
+        Get detailed ORCID information including affiliations with URLs.
         
         Args:
             orcid_id: ORCID identifier
@@ -196,16 +196,50 @@ class ORCIDLookup:
                 given_names = name_data.get('given-names', {}).get('value', '')
                 family_name = name_data.get('family-name', {}).get('value', '')
                 
-                # Extract affiliation
+                # Extract affiliations with detailed information
                 affiliations = []
+                affiliations_detailed = []
                 employments = data.get('employments', {}).get('affiliation-group', [])
                 for emp_group in employments:
                     summaries = emp_group.get('summaries', [])
                     for summary in summaries:
                         emp_summary = summary.get('employment-summary', {})
-                        org_name = emp_summary.get('organization', {}).get('name')
+                        org_data = emp_summary.get('organization', {})
+                        org_name = org_data.get('name')
+                        
                         if org_name:
                             affiliations.append(org_name)
+                            
+                            # Extract detailed affiliation information
+                            affiliation_detail = {
+                                'name': org_name,
+                                'url': None
+                            }
+                            
+                            # Try to get organization URL
+                            org_url = org_data.get('url')
+                            if org_url:
+                                affiliation_detail['url'] = org_url
+                            
+                            # Try to get organization ROR ID
+                            org_ror = org_data.get('disambiguated-organization', {}).get('disambiguated-organization-identifier')
+                            if org_ror:
+                                affiliation_detail['ror_id'] = org_ror
+                            
+                            # Get employment dates
+                            start_date = emp_summary.get('start-date')
+                            end_date = emp_summary.get('end-date')
+                            if start_date:
+                                affiliation_detail['start_date'] = ORCIDLookup._format_date(start_date)
+                            if end_date:
+                                affiliation_detail['end_date'] = ORCIDLookup._format_date(end_date)
+                            
+                            # Get role title
+                            role_title = emp_summary.get('role-title')
+                            if role_title:
+                                affiliation_detail['role'] = role_title
+                            
+                            affiliations_detailed.append(affiliation_detail)
                 
                 return {
                     'orcid': orcid_id,
@@ -213,11 +247,61 @@ class ORCIDLookup:
                     'givenName': given_names,
                     'familyName': family_name,
                     'affiliation': affiliations[0] if affiliations else None,
-                    'affiliations': affiliations
+                    'affiliations': affiliations,
+                    'affiliations_detailed': affiliations_detailed
                 }
             
             return None
             
+        except Exception as e:
+            return None
+    
+    @staticmethod
+    def _format_date(date_obj: Dict[str, Any]) -> str:
+        """
+        Format ORCID date object to string.
+        
+        Args:
+            date_obj: Date object from ORCID API
+        
+        Returns:
+            Formatted date string
+        """
+        try:
+            year = date_obj.get('year', {}).get('value', '')
+            month = date_obj.get('month', {}).get('value', '')
+            day = date_obj.get('day', {}).get('value', '')
+            
+            if year and month and day:
+                return f"{year}-{month:0>2}-{day:0>2}"
+            elif year and month:
+                return f"{year}-{month:0>2}"
+            elif year:
+                return year
+            return ''
+        except:
+            return ''
+    
+    @staticmethod
+    def get_orcid_affiliations(orcid_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Get ORCID affiliations with detailed information including URLs.
+        
+        Args:
+            orcid_id: ORCID identifier
+        
+        Returns:
+            Dictionary with affiliations or None
+        """
+        try:
+            orcid_details = ORCIDLookup.get_orcid_details(orcid_id)
+            if orcid_details:
+                return {
+                    'orcid': orcid_id,
+                    'orcid_url': orcid_details.get('orcid_url'),
+                    'affiliations': orcid_details.get('affiliations_detailed', [])
+                }
+            return None
         except Exception as e:
             return None
     

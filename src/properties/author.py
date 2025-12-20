@@ -251,17 +251,20 @@ class AuthorMetadata(BaseMetadata):
         if email and self._is_valid_email(email):
             person["email"] = email.strip()
         
+        # Store ORCID ID for later use
+        orcid_id = None
+        orcid_affiliations_detailed = None
+        
         # Validate and add ORCID
         if orcid:
             orcid_url = self.orcid_lookup.to_orcid_url(orcid)
             if orcid_url:
                 person["@id"] = orcid_url
+                orcid_id = self.orcid_lookup.extract_orcid_id(orcid)
                 # Verify ORCID exists
                 if self.orcid_lookup.verify_orcid_exists(orcid):
                     # Try to get additional info from ORCID
-                    orcid_details = self.orcid_lookup.get_orcid_details(
-                        self.orcid_lookup.extract_orcid_id(orcid)
-                    )
+                    orcid_details = self.orcid_lookup.get_orcid_details(orcid_id)
                     if orcid_details:
                         # Update with ORCID data if not already set
                         if not given_name and orcid_details.get('givenName'):
@@ -270,6 +273,8 @@ class AuthorMetadata(BaseMetadata):
                             person["familyName"] = orcid_details['familyName']
                         if not affiliation and orcid_details.get('affiliation'):
                             affiliation = orcid_details['affiliation']
+                        # Store detailed affiliations from ORCID
+                        orcid_affiliations_detailed = orcid_details.get('affiliations_detailed', [])
         else:
             # Try to lookup ORCID if we have name and/or email
             if name or (given_name and family_name):
@@ -277,6 +282,7 @@ class AuthorMetadata(BaseMetadata):
                 orcid_info = self.orcid_lookup.lookup_orcid(lookup_name, email)
                 if orcid_info:
                     person["@id"] = orcid_info['orcid_url']
+                    orcid_id = orcid_info.get('orcid')
                     # Update with ORCID data if not already set
                     if not given_name and orcid_info.get('givenName'):
                         person["givenName"] = orcid_info['givenName']
@@ -284,9 +290,40 @@ class AuthorMetadata(BaseMetadata):
                         person["familyName"] = orcid_info['familyName']
                     if not affiliation and orcid_info.get('affiliation'):
                         affiliation = orcid_info['affiliation']
+                    # Store detailed affiliations from ORCID
+                    orcid_affiliations_detailed = orcid_info.get('affiliations_detailed', [])
         
         # Add affiliation as Organization object
-        if affiliation:
+        # Priority: ORCID affiliation with URL > existing affiliation
+        if orcid_affiliations_detailed and len(orcid_affiliations_detailed) > 0:
+            # Use the first (most recent) affiliation from ORCID
+            orcid_aff = orcid_affiliations_detailed[0]
+            org_obj = {
+                "@type": "Organization",
+                "name": orcid_aff.get('name', '')
+            }
+            
+            # Add URL from ORCID if available
+            if orcid_aff.get('url'):
+                org_obj["url"] = orcid_aff['url']
+            else:
+                # Try to resolve organization URL with author context
+                author_name = person.get("name", None)
+                author_email = person.get("email", None)
+                org_url = self.org_url_resolver.resolve_organization_url(
+                    orcid_aff.get('name', ''),
+                    author_name=author_name,
+                    author_email=author_email
+                )
+                if org_url:
+                    org_obj["url"] = org_url
+            
+            # Add role if available
+            if orcid_aff.get('role'):
+                org_obj["role"] = orcid_aff['role']
+            
+            person["affiliation"] = org_obj
+        elif affiliation:
             org_obj = {
                 "@type": "Organization",
                 "name": affiliation.strip()
