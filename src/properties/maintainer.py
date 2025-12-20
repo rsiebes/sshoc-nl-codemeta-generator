@@ -38,6 +38,32 @@ class MaintainerMetadata(BaseMetadata):
     
     def extract(self) -> Dict[str, Any]:
         """
+        # Check if we have enriched maintainer data from contributors
+        enriched_contributors = self._get_value('contributors_enriched')
+        if enriched_contributors and isinstance(enriched_contributors, list):
+            for contrib in enriched_contributors:
+                # Check if this contributor is the maintainer
+                username = contrib.get('username')
+                if username and maintainers:
+                    # Check if any maintainer matches this username
+                    for m in maintainers:
+                        if m.get('name') == username or m.get('name') == contrib.get('display_name'):
+                            # Enrich the maintainer with profile data
+                            if contrib.get('display_name'):
+                                m['name'] = contrib.get('display_name')
+                            if contrib.get('email'):
+                                m['email'] = contrib.get('email')
+                            if contrib.get('orcid'):
+                                m['@id'] = f"https://orcid.org/{contrib.get('orcid')}"
+                            if contrib.get('company'):
+                                m['affiliation'] = {
+                                    "@type": "Organization",
+                                    "name": contrib.get('company')
+                                }
+                            if contrib.get('website'):
+                                m['url'] = contrib.get('website')
+                            break
+        
         Extract maintainer from raw data.
         
         Maintainer can come from:

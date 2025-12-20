@@ -1,11 +1,10 @@
 {
   "@context": "https://w3id.org/codemeta/3.1",
   "@type": "SoftwareSourceCode",
-  "name": "OnlySwitch",
-  "description": "⚙️ All-in-One menu bar app, hide 💻MacBook Pro's notch, dark mode, AirPods, Shortcuts",
-  "url": "https://github.com/jacklandrin/OnlySwitch",
-  "version": "beta_2_2.6.3",
-  "codeRepository": "https://github.com/jacklandrin/OnlySwitch",
+  "name": "engage_model",
+  "description": "Exploring different models for analyzing a study on engagement with online therapy",
+  "url": "https://github.com/sodascience/engage_model",
+  "codeRepository": "https://github.com/sodascience/engage_model",
   "license": {
     "@id": "https://spdx.org/licenses/MIT",
     "name": "MIT"
@@ -13,235 +12,116 @@
   "keywords": [
     {
       "@type": "DefinedTerm",
-      "name": "macos",
-      "url": "https://www.wikidata.org/wiki/Q14116",
-      "description": "operating system for Apple computers"
+      "name": "statistics",
+      "url": "https://www.wikidata.org/wiki/Q107380658",
+      "description": "Python library"
     },
     {
       "@type": "DefinedTerm",
-      "name": "wallpaper",
-      "url": "https://www.wikidata.org/wiki/Q3031192",
-      "description": "magazine"
+      "name": "models",
+      "url": "https://www.wikidata.org/wiki/Q111166420",
+      "description": "episode of New Girl"
     },
     {
       "@type": "DefinedTerm",
-      "name": "ai",
-      "url": "https://www.wikidata.org/wiki/Q11660",
-      "description": "field of computer science that develops and studies software enabling machines to exhibit intelligent behavior"
+      "name": "psychology",
+      "url": "https://www.wikidata.org/wiki/Q9418",
+      "description": "study of mental functions and behaviours"
     },
     {
       "@type": "DefinedTerm",
-      "name": "statusbar"
+      "name": "therapy",
+      "url": "https://www.wikidata.org/wiki/Q114463285",
+      "description": "episode of Ed (S4 E8)"
     },
     {
       "@type": "DefinedTerm",
-      "name": "widgets",
-      "url": "https://www.wikidata.org/wiki/Q21679156",
-      "description": "MediaWiki extension that allows adding free-type widgets to the wiki by editing pages in Widget namespace"
+      "name": "model",
+      "url": "https://www.wikidata.org/wiki/Q1979154",
+      "description": "simplified representation of an entity, either physical or conceptual"
     },
     {
       "@type": "DefinedTerm",
-      "name": "pomodoro-timer"
+      "name": "engage",
+      "url": "https://www.wikidata.org/wiki/Q11291297",
+      "description": "1993 single by Naoko Kawai"
     },
     {
       "@type": "DefinedTerm",
-      "name": "shortcuts",
-      "url": "https://www.wikidata.org/wiki/Q30602204",
-      "description": "iOS scripting application"
+      "name": "exploring",
+      "url": "https://www.wikidata.org/wiki/Q125818482",
+      "description": "episode of Hi-5 (S10 E14)"
     },
     {
       "@type": "DefinedTerm",
-      "name": "sonoma",
-      "url": "https://www.wikidata.org/wiki/Q83593353",
-      "description": "ship built in 2001"
+      "name": "different",
+      "url": "https://www.wikidata.org/wiki/Q3707375",
+      "description": "single by Robbie Williams"
     },
     {
       "@type": "DefinedTerm",
-      "name": "dark-mode",
-      "url": "https://www.wikidata.org/wiki/Q6545942",
-      "description": "color scheme that uses light-colored text and icons on a dark background"
+      "name": "analyzing",
+      "url": "https://www.wikidata.org/wiki/Q114813896",
+      "description": "International Space Station experiment"
     },
     {
       "@type": "DefinedTerm",
-      "name": "widgetkit"
+      "name": "study",
+      "url": "https://www.wikidata.org/wiki/Q1759167",
+      "description": "room in a house dedicated for work, like paperwork, computer work, or reading"
     },
     {
       "@type": "DefinedTerm",
-      "name": "notch",
-      "url": "https://www.wikidata.org/wiki/Q20820497",
-      "description": "deliberately introduced defect in a planar material whereby stress is concentrated"
+      "name": "engagement",
+      "url": "https://www.wikidata.org/wiki/Q131520051",
+      "description": "the engagement with and without exchanging rings represents a marriage promise in German culture"
     },
     {
       "@type": "DefinedTerm",
-      "name": "audioplayer",
-      "url": "https://www.wikidata.org/wiki/Q758895",
-      "description": "software which could play audio files or audio data"
-    },
-    {
-      "@type": "DefinedTerm",
-      "name": "ai-agents",
-      "url": "https://www.wikidata.org/wiki/Q1142726",
-      "description": "agent that perceives its environment, takes actions autonomously in order to achieve goals, and may improve its performance with learning or acquiring knowledge"
-    },
-    {
-      "@type": "DefinedTerm",
-      "name": "swiftui",
-      "url": "https://www.wikidata.org/wiki/Q97455771",
-      "description": "software framework developed by Apple"
-    },
-    {
-      "@type": "DefinedTerm",
-      "name": "swift5"
+      "name": "online therapy",
+      "url": "https://www.wikidata.org/wiki/Q116255793",
+      "description": "therapy delivered over the Internet"
     }
   ],
   "programmingLanguage": [
-    "Swift",
-    "Objective-C",
-    "Shell"
+    {
+      "@type": "ComputerLanguage",
+      "name": "R"
+    }
   ],
   "author": [
     {
       "@type": "Person",
-      "name": "Bo Liu",
-      "givenName": "Bo",
-      "familyName": "Liu",
-      "email": "jacklandrin@hotmail.com",
-      "@id": "https://orcid.org/0000-0003-0203-3183",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Axel Springer"
-      }
+      "name": "vankesteren"
     }
   ],
   "contributor": [
     {
       "@type": "Person",
-      "name": "Bo Liu",
-      "givenName": "Bo",
-      "familyName": "Liu",
-      "email": "jacklandrin@hotmail.com",
-      "@id": "https://orcid.org/0000-0003-0203-3183",
+      "name": "Erik-Jan van Kesteren",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
       "affiliation": {
         "@type": "Organization",
-        "name": "Axel Springer"
+        "name": "Assistant professor@UtrechtUniversity"
       }
-    },
-    {
-      "@type": "Person",
-      "name": "Andriy Kupyna",
-      "givenName": "Andriy",
-      "familyName": "Kupyna"
-    },
-    {
-      "@type": "Person",
-      "name": "Darío Hereñú",
-      "givenName": "Darío",
-      "familyName": "Hereñú"
-    },
-    {
-      "@type": "Person",
-      "name": "Marvin",
-      "email": "Marvin.Jaeckisch1@web.de",
-      "@id": "https://orcid.org/0000-0002-5878-7948",
-      "givenName": "Marvin",
-      "familyName": "Albarrán Araujo"
-    },
-    {
-      "@type": "Person",
-      "name": "Everton Cardoso Acchetta",
-      "givenName": "Everton",
-      "familyName": "Cardoso Acchetta",
-      "@id": "https://orcid.org/0000-0002-9733-5186",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Avenue"
-      }
-    },
-    {
-      "@type": "Person",
-      "name": "Sunggweon Hyeong",
-      "givenName": "Sunggweon",
-      "familyName": "Hyeong",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "@happn-app"
-      }
-    },
-    {
-      "@type": "Person",
-      "name": "Milo Ivir",
-      "givenName": "Milo",
-      "familyName": "Ivir"
-    },
-    {
-      "@type": "Person",
-      "name": "Abdirizak Abdalla ",
-      "givenName": "Abdirizak",
-      "familyName": "Abdalla ",
-      "email": "cabdirizaaqyare12@gmail.com",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "Safarifone Inc."
-      }
-    },
-    {
-      "@type": "Person",
-      "name": "Krzysztof Pacholak",
-      "givenName": "Krzysztof",
-      "familyName": "Pacholak",
-      "affiliation": {
-        "@type": "Organization",
-        "name": "@Keto-Mojo"
-      }
-    },
-    {
-      "@type": "Person",
-      "name": "Zabriskije"
     }
   ],
   "maintainer": {
     "@type": "Person",
-    "name": "Bo Liu",
-    "email": "jacklandrin@hotmail.com",
-    "@id": "https://orcid.org/0000-0003-0203-3183",
-    "affiliation": {
-      "@type": "Organization",
-      "name": "Axel Springer"
-    }
+    "name": "vankesteren",
+    "url": "https://github.com/vankesteren"
   },
-  "dateCreated": "2021-11-30T23:33:09+00:00",
-  "dateModified": "2021-11-30T23:33:09+00:00",
-  "readme": "https://github.com/jacklandrin/OnlySwitch#readme",
-  "issueTracker": "https://github.com/jacklandrin/OnlySwitch/issues",
-  "downloadUrl": "https://github.com/jacklandrin/OnlySwitch/archive/refs/tags/beta_2_2.6.3.zip",
-  "datePublished": "2025-06-29",
-  "developmentStatus": "https://www.repostatus.org/#abandoned",
-  "softwareRequirements": [
-    {
-      "@type": "SoftwareSourceCode",
-      "name": "Swift",
-      "version": ">= 5.0",
-      "description": "Swift compiler and runtime",
-      "language": "Swift"
-    }
-  ],
+  "dateCreated": "2024-08-26T11:12:45+00:00",
+  "dateModified": "2024-08-26T11:12:45+00:00",
+  "readme": "https://github.com/sodascience/engage_model#readme",
+  "issueTracker": "https://github.com/sodascience/engage_model/issues",
+  "downloadUrl": "https://github.com/sodascience/engage_model/archive/refs/heads/main.zip",
+  "developmentStatus": "https://www.repostatus.org/#concept",
   "applicationCategory": {
     "@id": "https://www.wikidata.org/wiki/Q1234575",
     "name": "Integrated Development Environment"
   },
-  "applicationSubCategory": "macos, wallpaper, statusbar, widgets, pomodoro-timer",
-  "operatingSystem": [
-    {
-      "@id": "https://www.wikidata.org/wiki/Q14116",
-      "name": "macOS"
-    },
-    {
-      "@id": "https://www.wikidata.org/wiki/Q16",
-      "name": "iOS"
-    },
-    {
-      "@id": "https://www.wikidata.org/wiki/Q1406",
-      "name": "Windows"
-    }
-  ]
+  "applicationSubCategory": "statistics, models, psychology, therapy, ring"
 }

@@ -9,6 +9,7 @@ import os
 import requests
 from typing import Dict, List, Any, Optional
 from datetime import datetime
+from src.github_profile_scraper import GitHubProfileScraper
 
 
 class GitHubAPIClient:
@@ -36,6 +37,7 @@ class GitHubAPIClient:
             self.session.headers.update({
                 'Accept': 'application/vnd.github.v3+json'
             })
+        self.profile_scraper = GitHubProfileScraper()
     
     def _make_request(self, endpoint: str, params: Optional[Dict] = None) -> Dict[str, Any]:
         """
@@ -290,6 +292,45 @@ class GitHubAPIClient:
         except Exception:
             return {}
     
+
+    def get_enriched_user(self, username: str) -> Dict[str, Any]:
+        """
+        Get user information enriched with profile scraping data.
+        
+        Args:
+            username: GitHub username
+        
+        Returns:
+            User data with additional profile information
+        """
+        # Get API data
+        api_data = self.get_user(username)
+        
+        # Get profile scraping data
+        profile_data = self.profile_scraper.scrape_profile(username)
+        
+        # Merge data, preferring profile scraper data for ORCID and other details
+        enriched = {
+            'username': username,
+            'name': profile_data.get('name') or api_data.get('name'),
+            'email': profile_data.get('email') or api_data.get('email'),
+            'company': profile_data.get('company') or api_data.get('company'),
+            'location': profile_data.get('location') or api_data.get('location'),
+            'bio': profile_data.get('bio') or api_data.get('bio'),
+            'website': profile_data.get('website') or api_data.get('blog'),
+            'orcid': profile_data.get('orcid'),
+            'twitter': profile_data.get('twitter'),
+            'linkedin': profile_data.get('linkedin'),
+            'mastodon': profile_data.get('mastodon'),
+            'avatar_url': api_data.get('avatar_url'),
+            'html_url': api_data.get('html_url'),
+            'public_repos': api_data.get('public_repos'),
+            'followers': api_data.get('followers'),
+            'following': api_data.get('following')
+        }
+        
+        return enriched
+
     def get_rate_limit(self) -> Dict[str, Any]:
         """
         Get current rate limit status.

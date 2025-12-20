@@ -600,7 +600,7 @@ class GitHubScraper:
 
     @profile("Fetch Contributors", "scraper")
     def _fetch_contributors_from_api(self, owner: str, repo: str) -> List[Dict[str, Any]]:
-        """Fetch contributors using GitHub API."""
+        """Fetch contributors using GitHub API with profile enrichment."""
         if not self.api_client:
             return []
         
@@ -613,9 +613,9 @@ class GitHubScraper:
                 if not username:
                     continue
                 
-                # Get full user details
+                # Get enriched user details (API + profile scraping)
                 try:
-                    user_data = self.api_client.get_user(username)
+                    user_data = self.api_client.get_enriched_user(username)
                 except Exception:
                     user_data = {}
                 
@@ -627,6 +627,11 @@ class GitHubScraper:
                     'company': user_data.get('company'),
                     'location': user_data.get('location'),
                     'bio': user_data.get('bio'),
+                    'website': user_data.get('website'),
+                    'orcid': user_data.get('orcid'),
+                    'twitter': user_data.get('twitter'),
+                    'linkedin': user_data.get('linkedin'),
+                    'mastodon': user_data.get('mastodon'),
                     'contributions': contrib.get('contributions', 0)
                 }
                 
@@ -639,12 +644,9 @@ class GitHubScraper:
     
     def _fetch_contributors(self, owner: str, repo_name: str) -> List[Dict]:
         """
-        Fetch contributors from GitHub repository using multiple scraping strategies.
+        Fetch contributors from GitHub repository using API or scraping.
         
-        Uses the dedicated GitHubContributorsScraper to extract contributors from:
-        1. Main repository page sidebar
-        2. Contributors graph page
-        3. Commit history
+        Uses GitHub API if available and enabled, otherwise falls back to scraping.
         
         Args:
             owner: Repository owner
@@ -653,8 +655,14 @@ class GitHubScraper:
         Returns:
             List of contributor dictionaries with enriched profile data
         """
+        # Try API first if enabled
+        if self.use_api and self.api_client:
+            api_contributors = self._fetch_contributors_from_api(owner, repo_name)
+            if api_contributors:
+                return api_contributors
+        
         try:
-            # Use the dedicated contributors scraper
+            # Fall back to scraping
             contributors_data = self.contributors_scraper.scrape_contributors(owner, repo_name)
             
             # Enrich with profile information
