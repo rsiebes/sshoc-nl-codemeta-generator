@@ -194,8 +194,14 @@ class ContributorMetadata(BaseMetadata):
                 "name": affiliation
             }
             
-            # Try to resolve organization URL
-            org_url = self.org_url_resolver.resolve_organization_url(affiliation)
+            # Try to resolve organization URL with contributor context
+            contributor_name = person.get("name", None)
+            contributor_email = person.get("email", None)
+            org_url = self.org_url_resolver.resolve_organization_url(
+                affiliation, 
+                author_name=contributor_name,
+                author_email=contributor_email
+            )
             if org_url:
                 org_obj["url"] = org_url
             
