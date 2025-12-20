@@ -38,32 +38,6 @@ class MaintainerMetadata(BaseMetadata):
     
     def extract(self) -> Dict[str, Any]:
         """
-        # Check if we have enriched maintainer data from contributors
-        enriched_contributors = self._get_value('contributors_enriched')
-        if enriched_contributors and isinstance(enriched_contributors, list):
-            for contrib in enriched_contributors:
-                # Check if this contributor is the maintainer
-                username = contrib.get('username')
-                if username and maintainers:
-                    # Check if any maintainer matches this username
-                    for m in maintainers:
-                        if m.get('name') == username or m.get('name') == contrib.get('display_name'):
-                            # Enrich the maintainer with profile data
-                            if contrib.get('display_name'):
-                                m['name'] = contrib.get('display_name')
-                            if contrib.get('email'):
-                                m['email'] = contrib.get('email')
-                            if contrib.get('orcid'):
-                                m['@id'] = f"https://orcid.org/{contrib.get('orcid')}"
-                            if contrib.get('company'):
-                                m['affiliation'] = {
-                                    "@type": "Organization",
-                                    "name": contrib.get('company')
-                                }
-                            if contrib.get('website'):
-                                m['url'] = contrib.get('website')
-                            break
-        
         Extract maintainer from raw data.
         
         Maintainer can come from:
@@ -161,8 +135,10 @@ class MaintainerMetadata(BaseMetadata):
         maintainer = {"@type": self.SCHEMA_ORG_TYPE}
         
         if isinstance(raw_maintainer, dict):
-            # Extract name
+            # Extract name - check display_name first (enriched data)
             name = (raw_maintainer.get('name') or 
+                   raw_maintainer.get('display_name') or 
+                   raw_maintainer.get('full_name') or
                    raw_maintainer.get('username') or
                    raw_maintainer.get('login'))
             
@@ -194,8 +170,10 @@ class MaintainerMetadata(BaseMetadata):
                     if orcid_info.get('family_name') and not family_name:
                         maintainer['familyName'] = orcid_info['family_name']
             
-            # Extract affiliation
-            affiliation = raw_maintainer.get('affiliation') or raw_maintainer.get('organization')
+            # Extract affiliation - check company field (enriched data)
+            affiliation = (raw_maintainer.get('affiliation') or 
+                          raw_maintainer.get('organization') or
+                          raw_maintainer.get('company'))
             if affiliation:
                 org_obj = {
                     "@type": "Organization",
@@ -209,7 +187,7 @@ class MaintainerMetadata(BaseMetadata):
                 
                 maintainer['affiliation'] = org_obj
             
-            # Extract URL
+            # Extract URL - check website field (enriched data)
             url = raw_maintainer.get('url') or raw_maintainer.get('website')
             if url:
                 maintainer['url'] = url

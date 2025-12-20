@@ -36,6 +36,7 @@ class GitHubScraper:
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         })
         self.contributors_scraper = GitHubContributorsScraper(timeout=timeout)
+        self.profiler = get_profiler()
 
     def parse_repo_url(self, url: str) -> Tuple[str, str]:
         """
@@ -639,7 +640,10 @@ class GitHubScraper:
             
             return contributors
         except Exception as e:
-            self.profiler.log_warning(f"Failed to fetch contributors from API: {e}")
+            if self.profiler:
+                self.profiler.log_warning(f"Failed to fetch contributors from API: {e}")
+            else:
+                print(f"Warning: Failed to fetch contributors from API: {e}")
             return []
     
     def _fetch_contributors(self, owner: str, repo_name: str) -> List[Dict]:

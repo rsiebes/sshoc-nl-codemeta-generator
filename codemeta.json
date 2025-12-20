@@ -92,7 +92,14 @@
   "author": [
     {
       "@type": "Person",
-      "name": "vankesteren"
+      "name": "Erik-Jan van Kesteren",
+      "givenName": "Erik-Jan",
+      "familyName": "van Kesteren",
+      "@id": "https://orcid.org/0000-0003-1548-1663",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Assistant professor@UtrechtUniversity"
+      }
     }
   ],
   "contributor": [
@@ -110,7 +117,12 @@
   ],
   "maintainer": {
     "@type": "Person",
-    "name": "vankesteren",
+    "name": "Erik-Jan van Kesteren",
+    "@id": "https://orcid.org/0000-0003-1548-1663",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Assistant professor@UtrechtUniversity"
+    },
     "url": "https://github.com/vankesteren"
   },
   "dateCreated": "2024-08-26T11:12:45+00:00",
@@ -123,5 +135,5 @@
     "@id": "https://www.wikidata.org/wiki/Q1234575",
     "name": "Integrated Development Environment"
   },
-  "applicationSubCategory": "statistics, models, psychology, therapy, ring"
+  "applicationSubCategory": "statistics, models, psychology, therapy, mode"
 }

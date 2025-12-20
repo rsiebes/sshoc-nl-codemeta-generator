@@ -169,10 +169,10 @@ class AuthorMetadata(BaseMetadata):
         
         elif isinstance(author_data, dict):
             # Author as dictionary (may include enhanced profile data)
-            name = author_data.get('name') or author_data.get('login') or author_data.get('username')
+            name = author_data.get('name') or author_data.get('display_name') or author_data.get('full_name') or author_data.get('login') or author_data.get('username')
             email = author_data.get('email')
             orcid = author_data.get('orcid') or author_data.get('orcid_id')
-            affiliation = author_data.get('affiliation') or author_data.get('organization')
+            affiliation = author_data.get('affiliation') or author_data.get('organization') or author_data.get('company')
             given_name = author_data.get('givenName') or author_data.get('given_name')
             family_name = author_data.get('familyName') or author_data.get('family_name')
             
