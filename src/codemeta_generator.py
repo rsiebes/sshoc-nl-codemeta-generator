@@ -12,6 +12,7 @@ from .core import (
     OutputError,
     get_logger,
 )
+from .submodules.manager import SubmoduleManager
 
 logger = get_logger(__name__)
 
@@ -73,27 +74,31 @@ class CodemetaGenerator:
 
     def _create_codemeta_structure(self) -> Dict[str, Any]:
         """
-        Create the basic Codemeta JSON-LD structure.
+        Create the Codemeta JSON-LD structure using submodules.
 
         Returns:
-            Dictionary with basic Codemeta structure
+            Dictionary with Codemeta structure
         """
-        # Handle both cached data (dict) and API response (dict with 'data' key)
-        if isinstance(self.repo_info, dict) and "data" in self.repo_info:
-            repo_data = self.repo_info["data"]
-        else:
-            repo_data = self.repo_info
+        # Initialize submodule manager
+        manager = SubmoduleManager()
+        manager.register_core_metadata_submodules(self.repo_info)
 
+        # Execute all submodules
+        extracted_data = manager.execute_all()
+
+        # Log submodule status
+        manager.log_status()
+
+        # Create Codemeta structure with extracted data
         codemeta = {
             "@context": "https://w3id.org/codemeta/3.1",
             "@type": "SoftwareSourceCode",
-            "name": repo_data.get("name", ""),
-            "description": repo_data.get("description", ""),
-            "url": repo_data.get("html_url", ""),
-            "codeRepository": repo_data.get("clone_url", ""),
         }
 
-        logger.debug(f"Created basic Codemeta structure: {json.dumps(codemeta, indent=2)}")
+        # Add extracted properties
+        codemeta.update(extracted_data)
+
+        logger.debug(f"Created Codemeta structure: {json.dumps(codemeta, indent=2)}")
         return codemeta
 
     def save_to_file(self, codemeta: Dict[str, Any]) -> None:

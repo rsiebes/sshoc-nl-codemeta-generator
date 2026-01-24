@@ -1,3 +1,19 @@
 """Submodules for handling specific Codemeta schema elements."""
 
-# This directory will contain individual modules for each Codemeta property
+from .core_metadata import (
+    NameSubmodule,
+    DescriptionSubmodule,
+    UrlSubmodule,
+    CodeRepositorySubmodule,
+    VersionSubmodule,
+    IdentifierSubmodule,
+)
+
+__all__ = [
+    "NameSubmodule",
+    "DescriptionSubmodule",
+    "UrlSubmodule",
+    "CodeRepositorySubmodule",
+    "VersionSubmodule",
+    "IdentifierSubmodule",
+]
