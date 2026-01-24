@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict, Any
 
 from .core import (
+    Cache,
     Config,
     GitHubAPI,
     CodemetaGenerationError,
@@ -26,7 +27,8 @@ class CodemetaGenerator:
             config: Configuration object
         """
         self.config = config
-        self.github_api = GitHubAPI()
+        self.github_api = GitHubAPI(wait_on_rate_limit=config.wait_on_rate_limit)
+        self.cache = Cache(use_cache=config.use_cache, ttl=config.cache_ttl)
         self.repo_info = None
 
     def generate(self) -> Dict[str, Any]:
@@ -42,9 +44,22 @@ class CodemetaGenerator:
         logger.info("Starting Codemeta generation")
 
         try:
-            # Fetch repository information
-            logger.debug(f"Fetching repository information from {self.config.repo_url}")
-            self.repo_info = self.github_api.get_repository_info(self.config.repo_url)
+            # Parse repository URL to get owner and repo
+            owner, repo = self.github_api.parse_repo_url(self.config.repo_url)
+
+            # Try to get cached data
+            cached_data = self.cache.get(owner, repo)
+            if cached_data:
+                logger.info(f"Using cached data for {owner}/{repo}")
+                self.repo_info = cached_data
+            else:
+                # Fetch repository information from GitHub API
+                logger.debug(f"Fetching repository information from {self.config.repo_url}")
+                repo_info = self.github_api.get_repository_info(self.config.repo_url)
+                self.repo_info = repo_info
+
+                # Cache the data
+                self.cache.set(owner, repo, repo_info)
 
             # Generate minimal Codemeta structure
             codemeta = self._create_codemeta_structure()
@@ -63,7 +78,11 @@ class CodemetaGenerator:
         Returns:
             Dictionary with basic Codemeta structure
         """
-        repo_data = self.repo_info["data"]
+        # Handle both cached data (dict) and API response (dict with 'data' key)
+        if isinstance(self.repo_info, dict) and "data" in self.repo_info:
+            repo_data = self.repo_info["data"]
+        else:
+            repo_data = self.repo_info
 
         codemeta = {
             "@context": "https://w3id.org/codemeta/3.1",

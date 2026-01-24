@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 
 from .errors import InvalidRepositoryError, RepositoryNotFoundError, GitHubAPIError
 from .logger import get_logger
+from .rate_limiter import RateLimiter
 
 logger = get_logger(__name__)
 
@@ -16,8 +17,12 @@ class GitHubAPI:
     BASE_URL = "https://api.github.com"
     REPO_URL_PATTERN = r"https://github\.com/([^/]+)/([^/]+)(?:\.git)?/?$"
 
-    def __init__(self):
-        """Initialize GitHub API client."""
+    def __init__(self, wait_on_rate_limit: bool = True):
+        """Initialize GitHub API client.
+        
+        Args:
+            wait_on_rate_limit: If True, wait when rate limit is hit; if False, raise error
+        """
         try:
             import requests
             self.requests = requests
@@ -25,6 +30,11 @@ class GitHubAPI:
             raise GitHubAPIError(
                 "requests library is required. Install it with: pip install requests"
             )
+        
+        self.rate_limiter = RateLimiter(
+            api_name="github",
+            wait_on_limit=wait_on_rate_limit
+        )
 
     def parse_repo_url(self, url: str) -> tuple[str, str]:
         """
@@ -65,11 +75,18 @@ class GitHubAPI:
             GitHubAPIError: If there is an API error
         """
         url = f"{self.BASE_URL}/repos/{owner}/{repo}"
+        endpoint = f"repos/{owner}/{repo}"
 
         logger.debug(f"Fetching repository data from: {url}")
 
         try:
+            # Check rate limit before making request
+            self.rate_limiter.wait_if_needed(endpoint)
+            
             response = self.requests.get(url, timeout=10)
+            
+            # Record rate limit info from response headers
+            self.rate_limiter.record_request(endpoint, dict(response.headers))
 
             if response.status_code == 404:
                 raise RepositoryNotFoundError(
@@ -83,6 +100,12 @@ class GitHubAPI:
 
             data = response.json()
             logger.debug(f"Successfully fetched repository data for {owner}/{repo}")
+            
+            # Log rate limit status
+            status = self.rate_limiter.get_status(endpoint)
+            if "rate_limit_info" in status:
+                logger.debug(f"GitHub rate limit status: {status['rate_limit_info']}")
+            
             return data
 
         except self.requests.exceptions.Timeout:

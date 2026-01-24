@@ -18,7 +18,10 @@ class Config:
         self,
         repo_url: str,
         output_path: Optional[str] = None,
-        verbose: bool = False
+        verbose: bool = False,
+        use_cache: bool = False,
+        cache_ttl: int = 3600,
+        wait_on_rate_limit: bool = True
     ):
         """
         Initialize configuration.
@@ -27,12 +30,18 @@ class Config:
             repo_url: GitHub repository URL
             output_path: Path where to save the codemeta.jsonld file (default: repository root)
             verbose: Enable verbose logging
+            use_cache: Enable caching of API responses (default: False)
+            cache_ttl: Cache time-to-live in seconds (default: 3600)
+            wait_on_rate_limit: Wait when rate limit is hit instead of failing (default: True)
 
         Raises:
             ConfigError: If configuration is invalid
         """
         self.repo_url = repo_url
         self.verbose = verbose
+        self.use_cache = use_cache
+        self.cache_ttl = cache_ttl
+        self.wait_on_rate_limit = wait_on_rate_limit
 
         # Set output path
         if output_path:
@@ -55,12 +64,20 @@ class Config:
                 "URL must start with 'https://github.com/'"
             )
 
+        if self.cache_ttl <= 0:
+            raise ConfigError(
+                f"Cache TTL must be positive, got: {self.cache_ttl}"
+            )
+
     def __repr__(self) -> str:
         """String representation of configuration."""
         return (
             f"Config(repo_url={self.repo_url}, "
             f"output_path={self.output_path}, "
-            f"verbose={self.verbose})"
+            f"verbose={self.verbose}, "
+            f"use_cache={self.use_cache}, "
+            f"cache_ttl={self.cache_ttl}, "
+            f"wait_on_rate_limit={self.wait_on_rate_limit})"
         )
 
 
@@ -106,12 +123,36 @@ Examples:
         help="Enable verbose logging"
     )
 
+    parser.add_argument(
+        "--use-cache",
+        action="store_true",
+        help="Enable caching of API responses (default: disabled)"
+    )
+
+    parser.add_argument(
+        "--cache-ttl",
+        type=int,
+        default=3600,
+        help="Cache time-to-live in seconds (default: 3600 = 1 hour)"
+    )
+
+    parser.add_argument(
+        "--no-wait-on-rate-limit",
+        dest="wait_on_rate_limit",
+        action="store_false",
+        default=True,
+        help="Fail immediately when rate limit is hit instead of waiting"
+    )
+
     try:
         parsed_args = parser.parse_args(args)
         config = Config(
             repo_url=parsed_args.repo_url,
             output_path=parsed_args.output_path,
-            verbose=parsed_args.verbose
+            verbose=parsed_args.verbose,
+            use_cache=parsed_args.use_cache,
+            cache_ttl=parsed_args.cache_ttl,
+            wait_on_rate_limit=parsed_args.wait_on_rate_limit
         )
         return config
     except ConfigError as e:

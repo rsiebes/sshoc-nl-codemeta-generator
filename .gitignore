@@ -130,3 +130,6 @@ dmypy.json
 
 # Output files
 codemeta.jsonld
+
+# Cache files
+.cache/
