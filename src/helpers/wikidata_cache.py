@@ -1,5 +1,6 @@
 """Persistent cache for keyword-to-Wikidata mappings."""
 
+import hashlib
 import json
 import os
 from datetime import datetime, timedelta
@@ -47,6 +48,26 @@ class WikidataCache:
             f"WikidataCache initialized at {self.cache_file} with TTL of {ttl_days} days"
         )
 
+    @staticmethod
+    def _create_cache_key(keyword: str, repo_url: str = "") -> str:
+        """
+        Create a cache key from keyword and optional repository URL.
+
+        Args:
+            keyword: The keyword
+            repo_url: Optional repository URL for context-specific caching
+
+        Returns:
+            Cache key (lowercase keyword if no repo_url, otherwise hash of keyword+repo_url)
+        """
+        if not repo_url:
+            # Simple keyword-only cache key
+            return keyword.lower()
+        else:
+            # Context-aware cache key: hash of keyword + repo_url
+            combined = f"{keyword.lower()}:{repo_url.lower()}"
+            return hashlib.md5(combined.encode()).hexdigest()
+
     def _load_cache(self) -> Dict:
         """Load cache from disk."""
         if not self.cache_file.exists():
@@ -81,20 +102,21 @@ class WikidataCache:
         current_time = datetime.now().timestamp()
         return (current_time - timestamp) > self.ttl_seconds
 
-    def get(self, keyword: str) -> Optional[Dict]:
+    def get(self, keyword: str, repo_url: str = "") -> Optional[Dict]:
         """
         Get a cached concept match for a keyword.
 
         Args:
             keyword: The keyword to look up
+            repo_url: Optional repository URL for context-specific lookup
 
         Returns:
             Cached concept match dictionary, or None if not found or expired
         """
-        cache_key = keyword.lower()
+        cache_key = self._create_cache_key(keyword, repo_url)
 
         if cache_key not in self._cache:
-            logger.debug(f"Cache miss for keyword: {keyword}")
+            logger.debug(f"Cache miss for keyword: {keyword}" + (f" (repo: {repo_url})" if repo_url else ""))
             return None
 
         entry = self._cache[cache_key]
@@ -106,58 +128,62 @@ class WikidataCache:
             self._save_cache()
             return None
 
-        logger.debug(f"Cache hit for keyword: {keyword}")
+        logger.debug(f"Cache hit for keyword: {keyword}" + (f" (repo: {repo_url})" if repo_url else ""))
         return entry.get("data")
 
-    def set(self, keyword: str, concept_match: Dict) -> bool:
+    def set(self, keyword: str, concept_match: Dict, repo_url: str = "") -> bool:
         """
         Cache a concept match for a keyword.
 
         Args:
             keyword: The keyword to cache
             concept_match: The concept match data to cache
+            repo_url: Optional repository URL for context-specific caching
 
         Returns:
             True if successfully cached, False otherwise
         """
-        cache_key = keyword.lower()
+        cache_key = self._create_cache_key(keyword, repo_url)
 
         self._cache[cache_key] = {
             "data": concept_match,
             "timestamp": datetime.now().timestamp(),
             "keyword": keyword,  # Store original case
+            "repo_url": repo_url,  # Store repo URL for reference
         }
 
-        logger.debug(f"Cached concept match for keyword: {keyword}")
+        logger.debug(f"Cached concept match for keyword: {keyword}" + (f" (repo: {repo_url})" if repo_url else ""))
         return self._save_cache()
 
-    def get_batch(self, keywords: list) -> Dict[str, Optional[Dict]]:
+    def get_batch(self, keywords: list, repo_url: str = "") -> Dict[str, Optional[Dict]]:
         """
         Get cached concept matches for multiple keywords.
 
         Args:
             keywords: List of keywords to look up
+            repo_url: Optional repository URL for context-specific lookup
 
         Returns:
             Dictionary mapping keywords to their cached matches (None if not cached)
         """
         results = {}
         for keyword in keywords:
-            results[keyword] = self.get(keyword)
+            results[keyword] = self.get(keyword, repo_url)
         return results
 
-    def set_batch(self, keyword_matches: Dict[str, Dict]) -> bool:
+    def set_batch(self, keyword_matches: Dict[str, Dict], repo_url: str = "") -> bool:
         """
         Cache multiple keyword-to-concept matches.
 
         Args:
             keyword_matches: Dictionary mapping keywords to concept matches
+            repo_url: Optional repository URL for context-specific caching
 
         Returns:
             True if all entries were cached successfully
         """
         for keyword, concept_match in keyword_matches.items():
-            self.set(keyword, concept_match)
+            self.set(keyword, concept_match, repo_url)
         return True
 
     def clear(self) -> bool:
@@ -238,24 +264,24 @@ def get_cache() -> WikidataCache:
     return _cache_instance
 
 
-def cache_get(keyword: str) -> Optional[Dict]:
+def cache_get(keyword: str, repo_url: str = "") -> Optional[Dict]:
     """Get a cached concept match (convenience function)."""
-    return get_cache().get(keyword)
+    return get_cache().get(keyword, repo_url)
 
 
-def cache_set(keyword: str, concept_match: Dict) -> bool:
+def cache_set(keyword: str, concept_match: Dict, repo_url: str = "") -> bool:
     """Cache a concept match (convenience function)."""
-    return get_cache().set(keyword, concept_match)
+    return get_cache().set(keyword, concept_match, repo_url)
 
 
-def cache_get_batch(keywords: list) -> Dict[str, Optional[Dict]]:
+def cache_get_batch(keywords: list, repo_url: str = "") -> Dict[str, Optional[Dict]]:
     """Get cached matches for multiple keywords (convenience function)."""
-    return get_cache().get_batch(keywords)
+    return get_cache().get_batch(keywords, repo_url)
 
 
-def cache_set_batch(keyword_matches: Dict[str, Dict]) -> bool:
+def cache_set_batch(keyword_matches: Dict[str, Dict], repo_url: str = "") -> bool:
     """Cache multiple matches (convenience function)."""
-    return get_cache().set_batch(keyword_matches)
+    return get_cache().set_batch(keyword_matches, repo_url)
 
 
 def cache_clear() -> bool:

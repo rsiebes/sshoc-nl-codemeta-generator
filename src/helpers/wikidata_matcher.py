@@ -28,7 +28,7 @@ def match_keyword_to_wikidata_concept(
 
     This function analyzes the keyword, repository context, and available Wikidata
     results to select the single best matching concept URI. Results are cached
-    to avoid redundant API calls.
+    to avoid redundant API calls. Cache is context-aware using repository URL.
 
     Args:
         keyword: The keyword to match
@@ -40,10 +40,10 @@ def match_keyword_to_wikidata_concept(
         ConceptMatch object with the best matching Wikidata concept, or None if matching fails
     """
     try:
-        # Check cache first
-        cached_match = cache_get(keyword)
+        # Check cache first (with repository context)
+        cached_match = cache_get(keyword, repo_url)
         if cached_match:
-            logger.debug(f"Using cached match for keyword: {keyword}")
+            logger.debug(f"Using cached match for keyword: {keyword} (repo: {repo_url})")
             return ConceptMatch(**cached_match)
 
         # Parse Wikidata results
@@ -104,7 +104,7 @@ Return a JSON object with the structure:
     }}
 }}"""
 
-        logger.debug(f"Matching keyword '{keyword}' to Wikidata concept using Gemini")
+        logger.debug(f"Matching keyword '{keyword}' to Wikidata concept using Gemini (repo: {repo_url})")
 
         # Call Gemini API with structured output
         response = client.models.generate_content(
@@ -120,10 +120,10 @@ Return a JSON object with the structure:
         if response and response.parsed:
             match = response.parsed.match
             logger.info(
-                f"Successfully matched keyword '{keyword}' to Wikidata concept: {match.concept_uri}"
+                f"Successfully matched keyword '{keyword}' to Wikidata concept: {match.concept_uri} (repo: {repo_url})"
             )
 
-            # Cache the result
+            # Cache the result (with repository context)
             match_dict = {
                 "keyword": match.keyword,
                 "concept_uri": match.concept_uri,
@@ -132,8 +132,8 @@ Return a JSON object with the structure:
                 "confidence": match.confidence,
                 "reasoning": match.reasoning,
             }
-            cache_set(keyword, match_dict)
-            logger.debug(f"Cached match for keyword: {keyword}")
+            cache_set(keyword, match_dict, repo_url)
+            logger.debug(f"Cached match for keyword: {keyword} (repo: {repo_url})")
 
             return match
         else:
