@@ -4,7 +4,6 @@ import json
 import os
 from typing import Optional, Dict, Any
 
-import requests
 from dotenv import load_dotenv
 from google import genai
 
@@ -16,77 +15,11 @@ logger = get_logger(__name__)
 load_dotenv()
 
 
-def _fetch_readme_content(repo_url: str) -> Optional[str]:
-    """
-    Fetch README.md content from a GitHub repository.
-
-    Args:
-        repo_url: The GitHub repository URL
-
-    Returns:
-        README content as string, or None if not found
-    """
-    try:
-        # Parse repo URL to get owner and repo
-        parts = repo_url.rstrip("/").split("/")
-        owner = parts[-2]
-        repo = parts[-1]
-
-        # GitHub API endpoint for README
-        api_url = f"https://api.github.com/repos/{owner}/{repo}/readme"
-        headers = {"Accept": "application/vnd.github.v3.raw"}
-
-        response = requests.get(api_url, headers=headers, timeout=10)
-        if response.status_code == 200:
-            logger.debug(f"Successfully fetched README for {owner}/{repo}")
-            return response.text
-        else:
-            logger.warning(f"README not found for {owner}/{repo} (status: {response.status_code})")
-            return None
-    except Exception as e:
-        logger.warning(f"Error fetching README: {str(e)}")
-        return None
-
-
-def _fetch_contributors(repo_url: str) -> Optional[list]:
-    """
-    Fetch contributor information from a GitHub repository.
-
-    Args:
-        repo_url: The GitHub repository URL
-
-    Returns:
-        List of contributors with their information, or None if error
-    """
-    try:
-        # Parse repo URL to get owner and repo
-        parts = repo_url.rstrip("/").split("/")
-        owner = parts[-2]
-        repo = parts[-1]
-
-        # GitHub API endpoint for contributors
-        api_url = f"https://api.github.com/repos/{owner}/{repo}/contributors"
-        headers = {"Accept": "application/vnd.github.v3+json"}
-
-        response = requests.get(api_url, headers=headers, timeout=10)
-        if response.status_code == 200:
-            contributors = response.json()
-            logger.debug(f"Successfully fetched {len(contributors)} contributors for {owner}/{repo}")
-            return contributors
-        else:
-            logger.warning(f"Contributors not found for {owner}/{repo} (status: {response.status_code})")
-            return None
-    except Exception as e:
-        logger.warning(f"Error fetching contributors: {str(e)}")
-        return None
-
-
 def extract_authors(repo_url: str) -> Optional[Dict[str, Any]]:
     """
     Extract author metadata from a GitHub repository using Google Gemini API.
 
-    Fetches README content and contributor information from GitHub API,
-    then uses Gemini to identify and enrich author information.
+    Uses CodeMeta 3.1 standard with structured output schema.
 
     Args:
         repo_url: The GitHub repository URL
@@ -109,51 +42,48 @@ def extract_authors(repo_url: str) -> Optional[Dict[str, Any]]:
 
         logger.info(f"GEMINI AUTHOR EXTRACTION: Processing repository URL: {repo_url}")
 
-        # Fetch README content
-        readme_content = _fetch_readme_content(repo_url)
-        if not readme_content:
-            logger.warning(f"Could not fetch README for {repo_url}")
-            readme_content = "README not available"
+        # Define the response schema for structured output
+        response_schema = {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string"},
+                "author": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "givenName": {"type": "string"},
+                            "familyName": {"type": "string"},
+                            "@id": {"type": "string"},  # For ORCID
+                            "email": {"type": "string"},
+                            "affiliation": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {"type": "string"},
+                                    "@id": {"type": "string"}  # For DBpedia
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-        # Fetch contributors information
-        contributors = _fetch_contributors(repo_url)
-        if not contributors:
-            logger.warning(f"Could not fetch contributors for {repo_url}")
-            contributors = []
-
-        # Format contributors information
-        contributors_info = "GitHub Contributors:\n"
-        for contributor in contributors[:20]:  # Limit to top 20
-            contributors_info += f"- {contributor.get('login', 'Unknown')}: {contributor.get('contributions', 0)} commits\n"
-
-        # Prepare the user prompt with README content and contributor information
-        user_prompt = f"""Extract author information from this GitHub repository: {repo_url}
-
-README.md Content:
-```markdown
-{readme_content}
-```
-
-{contributors_info}
-
-Instructions:
-1. Look for an 'Authors' section in the README.md content above
-2. Extract ALL author names listed in that section
-3. Also consider the top GitHub contributors listed above
-4. For each author name found, search for their ORCID identifier
-5. Find their institutional affiliation and the corresponding DBpedia URI
-6. Return the complete author information in CodeMeta 3.1 JSON-LD format
-
-Important: Include all authors from the README Authors section, not just commit history."""
-
-        # Call Gemini API with README content and contributor information
+        # Call Gemini API with system instruction and structured output
         response = client.models.generate_content(
             model="gemini-2.0-flash",
+            contents=f"Extract metadata for: {repo_url}",
             config=genai.types.GenerateContentConfig(
-                system_instruction="You are a CodeMeta 3.1 expert. Extract author information from GitHub repositories. Always prioritize the 'Authors' section in README.md - this is the most reliable source. For each author name found, lookup their ORCID identifier and affiliation information including DBpedia URIs. Return valid JSON-LD in CodeMeta 3.1 schema format.",
+                system_instruction="""You are a Metadata Librarian specialized in the CodeMeta 3.1 standard. Your goal is to extract author information from a provided GitHub repository.
+Instructions:
+Data Sources: Scan the README, CITATION.cff, codemeta.json, and any root-level metadata files to identify contributors.
+Author Enrichment: For each author, use your training data to find their ORCID iD and official institutional email.
+Semantic Affiliation: You MUST provide the official name of the institution and its corresponding DBpedia URI (e.g., http://dbpedia.org/resource/University_Name) as the @id of the affiliation.
+Standard Compliance: Format the entire output as a valid JSON-LD object following the CodeMeta 3.1 schema.
+Omission Rule: If a specific piece of information (ORCID, Email, or DBpedia URI) cannot be found with high confidence, do not guess; omit that specific field.""",
                 response_mime_type="application/json",
+                response_schema=response_schema,
             ),
-            contents=user_prompt,
         )
 
         # Parse the response
