@@ -5,7 +5,7 @@ from typing import Any, Dict, Optional
 
 from src.core import get_logger
 from src.submodules.base import BaseSubmodule
-from src.helpers import extract_unique_authors, enrich_authors_with_gemini
+from src.helpers import extract_unique_authors, enrich_authors_with_github
 
 logger = get_logger(__name__)
 
@@ -66,17 +66,17 @@ class AuthorSubmodule(BaseSubmodule):
             num_authors = authors_data.get('total_unique_authors', 0)
             logger.info(f"Found {num_authors} unique authors from GitHub commits")
 
-            # Step 2: Enrich with ORCID and affiliations using Gemini
-            logger.debug("Step 2: Enriching authors with ORCID and affiliations")
-            enriched_json = enrich_authors_with_gemini(authors_json, repo_url)
+            # Step 2: Enrich with affiliations using GitHub profiles
+            logger.debug("Step 2: Enriching authors with GitHub affiliations")
+            enriched_json = enrich_authors_with_github(authors_json)
 
             if not enriched_json:
-                logger.warning(f"Failed to enrich authors with Gemini for {repo_url}")
+                logger.warning(f"Failed to enrich authors with GitHub for {repo_url}")
                 # Return raw authors without enrichment
                 return authors_data.get('authors', [])
 
             enriched_data = json.loads(enriched_json)
-            logger.info(f"Successfully enriched {num_authors} authors with ORCID and affiliations")
+            logger.info(f"Successfully enriched {num_authors} authors with GitHub affiliations")
 
             # Return the enriched author data (extract 'author' list from the response)
             return enriched_data.get('author', [])

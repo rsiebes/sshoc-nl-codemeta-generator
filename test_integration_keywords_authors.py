@@ -4,11 +4,12 @@
 import sys
 import json
 import os
+from dotenv import load_dotenv
 
 sys.path.insert(0, '.')
 
-# Set up environment
-os.environ['GOOGLE_API_KEY'] = os.environ.get('GOOGLE_API_KEY', '')
+# Load environment variables from .env file
+load_dotenv()
 
 from src.submodules.manager import SubmoduleManager
 

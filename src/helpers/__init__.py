@@ -18,6 +18,12 @@ from src.helpers.wikidata_cache import (
 )
 from src.helpers.github_author_extractor import extract_unique_authors
 from src.helpers.gemini_author_enricher import enrich_authors_with_gemini
+from src.helpers.github_affiliation_extractor import (
+    extract_affiliation_from_github,
+    extract_affiliations_from_authors,
+)
+from src.helpers.github_author_enricher import enrich_authors_with_github
+from src.helpers.dbpedia_mapper import map_organization_to_dbpedia, map_organizations_to_dbpedia
 
 __all__ = [
     "extract_keywords",
@@ -40,4 +46,9 @@ __all__ = [
     "cache_cleanup_expired",
     "extract_unique_authors",
     "enrich_authors_with_gemini",
+    "extract_affiliation_from_github",
+    "extract_affiliations_from_authors",
+    "enrich_authors_with_github",
+    "map_organization_to_dbpedia",
+    "map_organizations_to_dbpedia",
 ]
