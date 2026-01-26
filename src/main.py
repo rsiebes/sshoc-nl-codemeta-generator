@@ -1,7 +1,48 @@
 """Command-line interface entry point for the Codemeta generator."""
 
 import sys
+import subprocess
 
+
+def ensure_dependencies():
+    """
+    Automatically install missing dependencies.
+    
+    This function checks for required packages and installs them if missing.
+    It runs before any other imports to ensure all dependencies are available.
+    """
+    required_packages = [
+        ("google.genai", "google-genai>=0.3.0"),
+        ("pydantic", "pydantic>=2.0.0"),
+        ("dotenv", "python-dotenv>=1.0.0"),
+        ("requests", "requests>=2.28.0"),
+    ]
+
+    missing = []
+
+    for import_name, package_spec in required_packages:
+        try:
+            __import__(import_name)
+        except ImportError:
+            missing.append(package_spec)
+
+    if missing:
+        print("Installing missing dependencies:", ", ".join(missing))
+        try:
+            subprocess.check_call(
+                [sys.executable, "-m", "pip", "install", "-q"] + missing
+            )
+            print("✓ Dependencies installed successfully!\n")
+        except subprocess.CalledProcessError as e:
+            print(f"✗ Failed to install dependencies: {e}")
+            print("Please run manually: pip install -r requirements.txt")
+            sys.exit(1)
+
+
+# Ensure dependencies are installed before importing anything else
+ensure_dependencies()
+
+# Now import the rest of the modules
 from .core import (
     parse_arguments,
     setup_logger,
