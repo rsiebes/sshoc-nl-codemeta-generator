@@ -71,7 +71,7 @@ def extract_authors(repo_url: str) -> Optional[Dict[str, Any]]:
 
         # Call Gemini API with system instruction and structured output
         response = client.models.generate_content(
-            model="gemini-2.0-pro",
+            model="gemini-2.5-pro",
             contents=f"Extract metadata for: {repo_url}",
             config=genai.types.GenerateContentConfig(
                 system_instruction="""You are a Metadata Librarian specialized in the CodeMeta 3.1 standard. Your goal is to extract author information from a provided GitHub repository.
