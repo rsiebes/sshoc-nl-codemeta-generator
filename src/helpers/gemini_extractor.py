@@ -1,6 +1,7 @@
 """Gemini API integration for keyword extraction."""
 
 import os
+import time
 from typing import List, Optional
 
 from dotenv import load_dotenv
@@ -38,12 +39,19 @@ def extract_keywords(repo_url: str) -> Optional[List[Keyword]]:
         # Initialize Gemini client
         client = genai.Client(api_key=api_key)
 
-        # Prepare the prompt for Gemini
+        # Create a unique request ID to bypass Gemini's caching
+        request_id = int(time.time() * 1000)
+
+        # Prepare the prompt for Gemini with cache-bypass measures
         logger.info(f"GEMINI EXTRACTION: Processing repository URL: {repo_url}")
-        prompt = f"""Analyze the GitHub repository at {repo_url} and extract exactly 10 meaningful keywords that describe the project.
+        prompt = f"""[Request ID: {request_id}]
+
+Please analyze the GitHub repository at {repo_url} and extract exactly 10 meaningful keywords that describe the project.
+
+Important: This is a fresh analysis request. Please visit the repository and analyze its current content to provide accurate keywords specific to this project.
 
 For each keyword, provide:
-1. The keyword itself (e.g., 'OpenStreetMap', 'Python', 'Data Analysis')
+1. The keyword itself (e.g., 'Python', 'Machine Learning', 'Data Analysis', 'Ontology Alignment', 'Semantic Web')
 2. Context clues explaining why it's relevant to this repository
 
 Return the results as a JSON object with the structure:
@@ -62,7 +70,7 @@ Focus on:
 - Technologies and tools
 - Key concepts and methodologies
 
-Ensure all 10 keywords are relevant and non-redundant."""
+Ensure all 10 keywords are relevant and non-redundant. Each keyword should be specific to this particular repository."""
 
         # Call Gemini API with structured output
         response = client.models.generate_content(
