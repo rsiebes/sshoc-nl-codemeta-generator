@@ -97,7 +97,15 @@ class CodemetaGenerator:
         }
 
         # Add extracted properties
-        codemeta.update(extracted_data)
+        for key, value in extracted_data.items():
+            if key == "author" and isinstance(value, dict):
+                # If author data is a dict (from Gemini), extract the author array
+                if "author" in value:
+                    codemeta["author"] = value["author"]
+                else:
+                    codemeta["author"] = value
+            else:
+                codemeta[key] = value
 
         logger.debug(f"Created Codemeta structure: {json.dumps(codemeta, indent=2)}")
         return codemeta
