@@ -2,7 +2,6 @@
 
 import json
 import os
-import time
 from typing import Optional, Dict, Any
 
 from dotenv import load_dotenv
@@ -20,7 +19,7 @@ def extract_authors(repo_url: str) -> Optional[Dict[str, Any]]:
     """
     Extract author metadata from a GitHub repository using Google Gemini API.
 
-    Uses CodeMeta 3.1 standard for output format.
+    Uses CodeMeta 3.1 standard for output format with system instructions.
 
     Args:
         repo_url: The GitHub repository URL
@@ -41,23 +40,16 @@ def extract_authors(repo_url: str) -> Optional[Dict[str, Any]]:
         # Initialize Gemini client
         client = genai.Client(api_key=api_key)
 
-        # Create a unique request ID to bypass Gemini's caching
-        request_id = int(time.time() * 1000)
-
-        # Prepare the prompt
-        prompt = f"""Enlist the authors and find the ORCID ids, institution, email, if available for this github repository: {repo_url}. The output should be in codemeta 3.1. Also try to find the affiliation name and the dbpedia uri as an id for the affiliation"""
-
         logger.info(f"GEMINI AUTHOR EXTRACTION: Processing repository URL: {repo_url}")
-        logger.debug(f"Request ID: {request_id}")
-        logger.debug(f"Prompt: {prompt}")
 
-        # Call Gemini API
+        # Call Gemini API with system instruction in GenerateContentConfig
         response = client.models.generate_content(
             model="gemini-2.0-flash",
-            contents=prompt,
             config=genai.types.GenerateContentConfig(
+                system_instruction="Extract author metadata from GitHub. Output CodeMeta 3.1 JSON-LD. Include ORCIDs and DBpedia URIs for affiliations.",
                 response_mime_type="application/json",
             ),
+            contents=f"Process this repository: {repo_url}",
         )
 
         # Parse the response
