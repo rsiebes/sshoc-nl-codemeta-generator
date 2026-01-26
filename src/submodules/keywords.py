@@ -55,23 +55,38 @@ class KeywordsSubmodule(BaseSubmodule):
             logger.debug(f"Extracting keywords for repository: {repo_url}")
 
             # Step 1: Extract keywords using Gemini
-            keyword_objects = extract_keywords(repo_url)
+            keywords_json = extract_keywords(repo_url)
 
-            if not keyword_objects:
+            if not keywords_json:
                 logger.warning(f"No keywords extracted for {repo_url}")
                 return None
 
-            keyword_names = [keyword.name for keyword in keyword_objects]
+            # Parse JSON string to get keywords
+            import json
+            keywords_data = json.loads(keywords_json)
+            keyword_names = [kw.get('name') for kw in keywords_data.get('keywords', [])]
             logger.info(f"Extracted {len(keyword_names)} keywords from Gemini")
 
             # Step 2: Enrich keywords with Wikidata
             logger.debug("Enriching keywords with Wikidata data...")
             keywords_with_wikidata = enrich_keywords_with_wikidata(keyword_names)
+            
+            # Convert to JSON string if it's a dict
+            if isinstance(keywords_with_wikidata, dict):
+                keywords_with_wikidata_json = json.dumps(keywords_with_wikidata)
+            else:
+                keywords_with_wikidata_json = keywords_with_wikidata
 
             # Step 3: Match keywords to Wikidata concepts using Gemini
             logger.debug("Matching keywords to Wikidata concepts...")
+            # Parse keywords_with_wikidata_json if it's a string
+            if isinstance(keywords_with_wikidata_json, str):
+                keywords_with_wikidata_dict = json.loads(keywords_with_wikidata_json)
+            else:
+                keywords_with_wikidata_dict = keywords_with_wikidata_json
+            
             concept_matches = match_keywords_to_wikidata_concepts(
-                keywords_with_wikidata, repo_url, repo_description
+                keywords_with_wikidata_dict, repo_url, repo_description
             )
 
             # Step 4: Build DefinedTerm objects for Codemeta

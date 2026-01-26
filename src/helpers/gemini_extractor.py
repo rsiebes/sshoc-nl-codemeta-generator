@@ -16,7 +16,7 @@ logger = get_logger(__name__)
 load_dotenv()
 
 
-def extract_keywords(repo_url: str) -> Optional[List[Keyword]]:
+def extract_keywords(repo_url: str) -> Optional[str]:
     """
     Extract keywords from a GitHub repository using Google Gemini API.
 
@@ -24,7 +24,7 @@ def extract_keywords(repo_url: str) -> Optional[List[Keyword]]:
         repo_url: The GitHub repository URL
 
     Returns:
-        List of Keyword objects with name and context_clues, or None if extraction fails
+        JSON string with keywords, or None if extraction fails
     """
     try:
         # Get API key from environment
@@ -88,7 +88,9 @@ Ensure all 10 keywords are relevant and non-redundant. Each keyword should be sp
             logger.info(
                 f"Successfully extracted {len(keywords)} keywords from {repo_url}"
             )
-            return keywords
+            # Return as JSON string
+            import json
+            return json.dumps({"keywords": [kw.model_dump() for kw in keywords]})
         else:
             logger.warning(f"No keywords extracted from {repo_url}")
             return None
