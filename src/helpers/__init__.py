@@ -16,6 +16,7 @@ from src.helpers.wikidata_cache import (
     cache_stats,
     cache_cleanup_expired,
 )
+from src.helpers.gemini_author_extractor import extract_authors
 
 __all__ = [
     "extract_keywords",
@@ -36,4 +37,5 @@ __all__ = [
     "cache_clear",
     "cache_stats",
     "cache_cleanup_expired",
+    "extract_authors",
 ]
