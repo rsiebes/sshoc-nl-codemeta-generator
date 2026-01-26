@@ -111,6 +111,7 @@ Only include fields where you have high confidence in the information."""
             config=genai.types.GenerateContentConfig(
                 system_instruction=system_instruction,
                 response_mime_type="application/json",
+                temperature=0,
             ),
             contents=user_prompt,
         )
