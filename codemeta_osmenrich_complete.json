@@ -1,0 +1,94 @@
+{
+  "@context": "https://w3id.org/codemeta/3.1",
+  "@type": "SoftwareSourceCode",
+  "name": "osmenrich",
+  "description": "osmenrich",
+  "url": "https://github.com/sodascience/osmenrich",
+  "keywords": [
+    {
+      "@type": "DefinedTerm",
+      "name": "OpenStreetMap",
+      "url": "https://www.wikidata.org/wiki/Q936"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Data Enrichment",
+      "url": "https://www.wikidata.org/wiki/Q113171088"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Python",
+      "url": "https://www.wikidata.org/wiki/Q28865"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Knowledge Graph",
+      "url": "https://www.wikidata.org/wiki/Q33002955"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "SPARQL",
+      "url": "https://www.wikidata.org/wiki/Q54871"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q2013"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Ontology",
+      "url": "https://www.wikidata.org/wiki/Q324254"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Geospatial Data",
+      "url": "https://www.wikidata.org/wiki/Q121810372"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Semantic Web",
+      "url": "https://www.wikidata.org/wiki/Q54837"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Data Integration",
+      "url": "https://www.wikidata.org/wiki/Q386824"
+    }
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Leonardo Vida",
+      "email": "lleonardovida@gmail.com",
+      "@id": "https://orcid.org/0000-0002-7443-583X",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "University of Twente",
+        "@id": "http://dbpedia.org/resource/University_of_Twente"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Jonathan de Bruin",
+      "email": "jonathandebruinos@gmail.com",
+      "@id": "https://orcid.org/0000-0002-8210-7555",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Delft University of Technology",
+        "@id": "http://dbpedia.org/resource/Delft_University_of_Technology"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Erik-Jan van Kesteren",
+      "email": "erikjanvankesteren@pm.me",
+      "@id": "https://orcid.org/0000-0002-4784-3485",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Netherlands eScience Center",
+        "@id": "http://dbpedia.org/resource/Netherlands_eScience_Center"
+      }
+    }
+  ]
+}

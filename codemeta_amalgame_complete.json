@@ -1,0 +1,88 @@
+{
+  "@context": "https://w3id.org/codemeta/3.1",
+  "@type": "SoftwareSourceCode",
+  "name": "amalgame",
+  "description": "Alignment tool for ontologies and vocabularies",
+  "url": "https://github.com/jrvosse/amalgame",
+  "keywords": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Ontology Alignment",
+      "url": "https://www.wikidata.org/wiki/Q1224764"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Semantic Web",
+      "url": "https://www.wikidata.org/wiki/Q54837"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Python",
+      "url": "https://www.wikidata.org/wiki/Q28865"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Knowledge Representation",
+      "url": "https://www.wikidata.org/wiki/Q109642276"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Graph Matching",
+      "url": "https://www.wikidata.org/wiki/Q39045684"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Data Integration",
+      "url": "https://www.wikidata.org/wiki/Q386824"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Reasoner",
+      "url": "https://www.wikidata.org/wiki/Q3929429"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Evaluation Metrics",
+      "url": "https://www.wikidata.org/wiki/Q11606385"
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Machine Learning",
+      "url": "https://www.wikidata.org/wiki/Q2539"
+    }
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Jacco van Ossenbruggen",
+      "email": "jacco.van.ossenbruggen@vu.nl",
+      "@id": "https://orcid.org/0000-0002-3036-7749",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Vrije Universiteit Amsterdam",
+        "@id": "http://dbpedia.org/resource/Vrije_Universiteit_Amsterdam"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Jakob Vo\u00df",
+      "@id": "https://orcid.org/0000-0002-4822-0852",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Verband der Bibliotheken des Landes Nordrhein-Westfalen",
+        "@id": "http://dbpedia.org/resource/North_Rhine-Westphalia_Library_Association"
+      }
+    },
+    {
+      "@type": "Person",
+      "name": "Jacco van Ossenbruggen",
+      "email": "Jacco.van.Ossenbruggen@cwi.nl",
+      "@id": "https://orcid.org/0000-0002-3036-7749",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Vrije Universiteit Amsterdam",
+        "@id": "http://dbpedia.org/resource/Vrije_Universiteit_Amsterdam"
+      }
+    }
+  ]
+}
