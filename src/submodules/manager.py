@@ -11,6 +11,7 @@ from src.submodules import (
     VersionSubmodule,
     IdentifierSubmodule,
     KeywordsSubmodule,
+    AuthorSubmodule,
 )
 
 logger = get_logger(__name__)
@@ -58,6 +59,7 @@ class SubmoduleManager:
             repo_data: Repository data to pass to submodules
         """
         self.register_submodule(KeywordsSubmodule, repo_data)
+        self.register_submodule(AuthorSubmodule, repo_data)
 
     def execute_all(self) -> Dict[str, Any]:
         """

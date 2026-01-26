@@ -7,6 +7,7 @@ from .code_repository import CodeRepositorySubmodule
 from .version import VersionSubmodule
 from .identifier import IdentifierSubmodule
 from .keywords import KeywordsSubmodule
+from .author import AuthorSubmodule
 
 __all__ = [
     "NameSubmodule",
@@ -16,4 +17,5 @@ __all__ = [
     "VersionSubmodule",
     "IdentifierSubmodule",
     "KeywordsSubmodule",
+    "AuthorSubmodule",
 ]
