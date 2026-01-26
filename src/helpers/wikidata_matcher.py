@@ -110,7 +110,7 @@ Return a JSON object with the structure:
 
         # Call Gemini API with structured output
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-3-flash",
             contents=prompt,
             config=genai.types.GenerateContentConfig(
                 response_mime_type="application/json",
