@@ -23,29 +23,27 @@ class AuthorSubmodule(BaseSubmodule):
     PROPERTY_NAME = "author"
     CATEGORY = "AI Extraction"
 
-    def extract(self) -> Optional[Dict[str, Any]]:
+    def extract(self) -> Optional[list]:
         """
         Extract and enrich author information.
 
         Returns:
-            Dictionary with 'author' key containing list of Person objects in CodeMeta format
+            List of Person objects in CodeMeta format
 
         Example:
-            {
-                "author": [
-                    {
-                        "@type": "Person",
-                        "name": "John Doe",
-                        "email": "john@example.com",
-                        "@id": "https://orcid.org/0000-0000-0000-0000",
-                        "affiliation": {
-                            "@type": "Organization",
-                            "name": "Example University",
-                            "@id": "http://dbpedia.org/resource/Example_University"
-                        }
+            [
+                {
+                    "@type": "Person",
+                    "name": "John Doe",
+                    "email": "john@example.com",
+                    "@id": "https://orcid.org/0000-0000-0000-0000",
+                    "affiliation": {
+                        "@type": "Organization",
+                        "name": "Example University",
+                        "@id": "http://dbpedia.org/resource/Example_University"
                     }
-                ]
-            }
+                }
+            ]
         """
         try:
             # Extract repository URL from repo_data
@@ -75,13 +73,13 @@ class AuthorSubmodule(BaseSubmodule):
             if not enriched_json:
                 logger.warning(f"Failed to enrich authors with Gemini for {repo_url}")
                 # Return raw authors without enrichment
-                return {"author": authors_data.get('authors', [])}
+                return authors_data.get('authors', [])
 
             enriched_data = json.loads(enriched_json)
             logger.info(f"Successfully enriched {num_authors} authors with ORCID and affiliations")
 
-            # Return the enriched author data
-            return enriched_data
+            # Return the enriched author data (extract 'author' list from the response)
+            return enriched_data.get('author', [])
 
         except json.JSONDecodeError as e:
             logger.error(f"Error parsing JSON during author extraction: {str(e)}")
