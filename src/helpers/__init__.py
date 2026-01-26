@@ -17,6 +17,7 @@ from src.helpers.wikidata_cache import (
     cache_cleanup_expired,
 )
 from src.helpers.github_author_extractor import extract_unique_authors
+from src.helpers.gemini_author_enricher import enrich_authors_with_gemini
 
 __all__ = [
     "extract_keywords",
@@ -38,4 +39,5 @@ __all__ = [
     "cache_stats",
     "cache_cleanup_expired",
     "extract_unique_authors",
+    "enrich_authors_with_gemini",
 ]
