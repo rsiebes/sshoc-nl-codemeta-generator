@@ -51,6 +51,7 @@ class KeywordsSubmodule(BaseSubmodule):
                 )
                 return None
 
+            logger.info(f"KEYWORDS SUBMODULE: repo_url = {repo_url}")
             logger.debug(f"Extracting keywords for repository: {repo_url}")
 
             # Step 1: Extract keywords using Gemini

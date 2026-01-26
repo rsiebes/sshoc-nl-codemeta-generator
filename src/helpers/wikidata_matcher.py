@@ -104,7 +104,9 @@ Return a JSON object with the structure:
     }}
 }}"""
 
+        logger.info(f"GEMINI MATCHING: Processing keyword '{keyword}' for repo: {repo_url}")
         logger.debug(f"Matching keyword '{keyword}' to Wikidata concept using Gemini (repo: {repo_url})")
+        logger.debug(f"GEMINI PROMPT:\n{prompt}")
 
         # Call Gemini API with structured output
         response = client.models.generate_content(
