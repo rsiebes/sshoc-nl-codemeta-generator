@@ -15,21 +15,12 @@ logger = get_logger(__name__)
 # Load environment variables from .env file
 load_dotenv()
 
-# System instructions for Gemini
-SYSTEM_INSTRUCTIONS = """You are a metadata extraction assistant specialized in the CodeMeta 3.1 standard. Your task is to analyze GitHub repository URLs and extract key software metadata.
-Guidelines:
-Use the repository's README, CITATION.cff, and package.json (if they exist) to identify authors.
-Search for ORCID iDs and official academic emails.
-For affiliations, find the official institution name and its corresponding DBpedia URI (e.g., http://dbpedia.org/resource/University_Name).
-If information is missing, do not hallucinate; omit the field or use a null value.
-Output must strictly follow the CodeMeta 3.1 JSON-LD format."""
-
 
 def extract_authors(repo_url: str) -> Optional[Dict[str, Any]]:
     """
     Extract author metadata from a GitHub repository using Google Gemini API.
 
-    Uses CodeMeta 3.1 standard with system instructions for consistent output.
+    Uses CodeMeta 3.1 standard for output format.
 
     Args:
         repo_url: The GitHub repository URL
@@ -53,16 +44,12 @@ def extract_authors(repo_url: str) -> Optional[Dict[str, Any]]:
         # Create a unique request ID to bypass Gemini's caching
         request_id = int(time.time() * 1000)
 
-        # Prepare the full prompt with system instructions included
-        prompt = f"""[Request ID: {request_id}]
-
-{SYSTEM_INSTRUCTIONS}
-
-Enlist the authors and find the ORCID ids, institution (with DBpedia URI), and email for this GitHub repository: {repo_url}.
-Return the result strictly in CodeMeta 3.1 JSON format. Ensure the '@id' for the affiliation is the DBpedia resource link."""
+        # Prepare the prompt
+        prompt = f"""Enlist the authors and find the ORCID ids, institution, email, if available for this github repository: {repo_url}. The output should be in codemeta 3.1. Also try to find the affiliation name and the dbpedia uri as an id for the affiliation"""
 
         logger.info(f"GEMINI AUTHOR EXTRACTION: Processing repository URL: {repo_url}")
         logger.debug(f"Request ID: {request_id}")
+        logger.debug(f"Prompt: {prompt}")
 
         # Call Gemini API
         response = client.models.generate_content(
