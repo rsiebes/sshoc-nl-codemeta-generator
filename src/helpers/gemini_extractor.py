@@ -39,6 +39,7 @@ def extract_keywords(repo_url: str) -> Optional[List[Keyword]]:
         client = genai.Client(api_key=api_key)
 
         # Prepare the prompt for Gemini
+        logger.info(f"GEMINI EXTRACTION: Processing repository URL: {repo_url}")
         prompt = f"""Analyze the GitHub repository at {repo_url} and extract exactly 10 meaningful keywords that describe the project.
 
 For each keyword, provide:
