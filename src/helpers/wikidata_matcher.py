@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from google import genai
 
 from src.core import get_logger
+from src.helpers.wikidata_cache import cache_get, cache_set
 from src.helpers.wikidata_matcher_schemas import ConceptMatch, ConceptMatchResult
 
 logger = get_logger(__name__)
@@ -26,7 +27,8 @@ def match_keyword_to_wikidata_concept(
     Use Gemini to match a keyword to the best Wikidata concept.
 
     This function analyzes the keyword, repository context, and available Wikidata
-    results to select the single best matching concept URI.
+    results to select the single best matching concept URI. Results are cached
+    to avoid redundant API calls.
 
     Args:
         keyword: The keyword to match
@@ -38,6 +40,12 @@ def match_keyword_to_wikidata_concept(
         ConceptMatch object with the best matching Wikidata concept, or None if matching fails
     """
     try:
+        # Check cache first
+        cached_match = cache_get(keyword)
+        if cached_match:
+            logger.debug(f"Using cached match for keyword: {keyword}")
+            return ConceptMatch(**cached_match)
+
         # Parse Wikidata results
         try:
             wikidata_data = json.loads(wikidata_results)
@@ -114,6 +122,19 @@ Return a JSON object with the structure:
             logger.info(
                 f"Successfully matched keyword '{keyword}' to Wikidata concept: {match.concept_uri}"
             )
+
+            # Cache the result
+            match_dict = {
+                "keyword": match.keyword,
+                "concept_uri": match.concept_uri,
+                "label": match.label,
+                "description": match.description,
+                "confidence": match.confidence,
+                "reasoning": match.reasoning,
+            }
+            cache_set(keyword, match_dict)
+            logger.debug(f"Cached match for keyword: {keyword}")
+
             return match
         else:
             logger.warning(f"No match returned from Gemini for keyword: {keyword}")
