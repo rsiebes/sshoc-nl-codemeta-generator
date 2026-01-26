@@ -74,7 +74,7 @@ Ensure all 10 keywords are relevant and non-redundant. Each keyword should be sp
 
         # Call Gemini API with structured output
         response = client.models.generate_content(
-            model="gemini-3-flash",
+            model="gemini-2.0-pro",
             contents=prompt,
             config=genai.types.GenerateContentConfig(
                 response_mime_type="application/json",

@@ -48,7 +48,7 @@ def get_author_names(repo_url: str) -> Optional[List[str]]:
 
         # Start a chat session for multi-turn conversation
         chat = client.chats.create(
-            model="gemini-3-flash",
+            model="gemini-2.0-pro",
         )
 
         # First prompt: Initial question about authors
