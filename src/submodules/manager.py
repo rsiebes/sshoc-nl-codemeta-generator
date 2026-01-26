@@ -10,6 +10,7 @@ from src.submodules import (
     CodeRepositorySubmodule,
     VersionSubmodule,
     IdentifierSubmodule,
+    KeywordsSubmodule,
 )
 
 logger = get_logger(__name__)
@@ -48,6 +49,15 @@ class SubmoduleManager:
         self.register_submodule(CodeRepositorySubmodule, repo_data)
         self.register_submodule(VersionSubmodule, repo_data)
         self.register_submodule(IdentifierSubmodule, repo_data)
+
+    def register_ai_extraction_submodules(self, repo_data: Dict[str, Any]) -> None:
+        """
+        Register all AI extraction submodules (e.g., Gemini-based).
+
+        Args:
+            repo_data: Repository data to pass to submodules
+        """
+        self.register_submodule(KeywordsSubmodule, repo_data)
 
     def execute_all(self) -> Dict[str, Any]:
         """
