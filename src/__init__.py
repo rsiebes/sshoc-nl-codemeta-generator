@@ -15,6 +15,14 @@ def _ensure_dependencies():
         ("pydantic", "pydantic>=2.0.0"),
         ("dotenv", "python-dotenv>=1.0.0"),
         ("requests", "requests>=2.28.0"),
+        ("typing_extensions", "typing-extensions>=4.0.0"),
+        ("anyio", "anyio>=3.0.0"),
+        ("distro", "distro>=1.5.0"),
+        ("google.auth", "google-auth>=2.0.0"),
+        ("httpx", "httpx>=0.23.0"),
+        ("sniffio", "sniffio>=1.2.0"),
+        ("tenacity", "tenacity>=8.0.0"),
+        ("websockets", "websockets>=10.0"),
     ]
 
     missing = []
