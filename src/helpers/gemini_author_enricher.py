@@ -21,7 +21,7 @@ def enrich_authors_with_gemini(authors_json: str, repo_url: str) -> Optional[str
 
     Takes author data extracted from GitHub commits and uses Gemini to:
     1. Find ORCID IDs for each author
-    2. Identify their institutional affiliations
+    2. Look up their ORCID profile to find current institutional affiliation
     3. Find DBpedia URIs for the institutions
     4. Return valid CodeMeta 3.1 JSON-LD representation
 
@@ -74,10 +74,11 @@ Your task is to enrich author information with ORCID IDs and institutional affil
 
 Guidelines:
 1. For each author, find their ORCID iD if available
-2. Identify their primary institutional affiliation
-3. Provide the official DBpedia URI for the institution (e.g., http://dbpedia.org/resource/University_Name)
-4. If information cannot be found with high confidence, omit that field rather than guessing
-5. Return valid JSON-LD following the CodeMeta 3.1 schema
+2. Look up the ORCID profile to find their current institutional affiliation
+3. Use the affiliation information from the ORCID profile, not just the email domain
+4. Provide the official DBpedia URI for the institution (e.g., http://dbpedia.org/resource/University_Name)
+5. If information cannot be found with high confidence, omit that field rather than guessing
+6. Return valid JSON-LD following the CodeMeta 3.1 schema
 
 Output format must be a valid JSON object with an "author" array containing Person objects."""
 
@@ -85,17 +86,20 @@ Output format must be a valid JSON object with an "author" array containing Pers
 
 {authors_json}
 
-Please enrich this data by finding:
-1. ORCID iDs for each author (use @id field with format: https://orcid.org/XXXX-XXXX-XXXX-XXXX)
-2. Their institutional affiliation with DBpedia URI
-3. Return the result as valid CodeMeta 3.1 JSON-LD
+Please enrich this data by:
+1. Finding ORCID iDs for each author (use @id field with format: https://orcid.org/XXXX-XXXX-XXXX-XXXX)
+2. Looking up each author's ORCID profile to find their current institutional affiliation
+3. Finding the official DBpedia URI for the institution based on the ORCID profile information
+4. Return the result as valid CodeMeta 3.1 JSON-LD
+
+IMPORTANT: The affiliation should be based on the ORCID profile information, not inferred from email domains.
 
 The output should be a JSON object with an "author" array where each author has:
 - @type: "Person"
 - name: (from input)
 - email: (from input, if available)
 - @id: (ORCID URL, if found)
-- affiliation: object with @type, name, and @id (DBpedia URI)
+- affiliation: object with @type, name, and @id (DBpedia URI) - determined from ORCID profile
 
 Only include fields where you have high confidence in the information."""
 
