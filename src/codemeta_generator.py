@@ -82,6 +82,7 @@ class CodemetaGenerator:
         # Initialize submodule manager
         manager = SubmoduleManager()
         manager.register_core_metadata_submodules(self.repo_info)
+        manager.register_ai_extraction_submodules(self.repo_info)
 
         # Execute all submodules
         extracted_data = manager.execute_all()
